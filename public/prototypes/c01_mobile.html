@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Agri-Chain 消费者查询</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-fixed": "#001a41",
+                    "inverse-primary": "#afc6ff",
+                    "surface-container": "#e5eeff",
+                    "secondary-fixed": "#d8e2ff",
+                    "background": "#f8f9ff",
+                    "secondary": "#3e5e98",
+                    "surface-bright": "#f8f9ff",
+                    "outline-variant": "#c2c6d7",
+                    "tertiary-fixed-dim": "#62df7d",
+                    "surface-variant": "#d3e4fe",
+                    "outline": "#727786",
+                    "on-primary": "#ffffff",
+                    "on-secondary-container": "#2b4c85",
+                    "on-primary-container": "#fdfbff",
+                    "tertiary-fixed": "#7ffc97",
+                    "on-primary-fixed-variant": "#00429a",
+                    "inverse-surface": "#213145",
+                    "surface": "#f8f9ff",
+                    "on-error": "#ffffff",
+                    "primary-container": "#1e6eeb",
+                    "tertiary-container": "#008639",
+                    "primary-fixed-dim": "#afc6ff",
+                    "on-tertiary-fixed-variant": "#005320",
+                    "on-background": "#0b1c30",
+                    "tertiary": "#006a2c",
+                    "on-tertiary-container": "#f2ffee",
+                    "surface-container-high": "#dce9ff",
+                    "on-secondary-fixed-variant": "#24467e",
+                    "surface-dim": "#cbdbf5",
+                    "primary": "#0056c3",
+                    "surface-container-low": "#eff4ff",
+                    "error": "#ba1a1a",
+                    "on-secondary": "#ffffff",
+                    "secondary-container": "#9fbeff",
+                    "on-tertiary-fixed": "#002109",
+                    "error-container": "#ffdad6",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed": "#d9e2ff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "surface-tint": "#0058c9",
+                    "on-tertiary": "#ffffff",
+                    "on-surface-variant": "#424654",
+                    "surface-container-highest": "#d3e4fe",
+                    "secondary-fixed-dim": "#adc7ff",
+                    "on-error-container": "#93000a",
+                    "on-surface": "#0b1c30",
+                    "on-primary-fixed": "#001944"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "gutter": "20px",
+                    "sm": "12px",
+                    "base": "4px",
+                    "xs": "8px",
+                    "md": "16px",
+                    "margin": "24px",
+                    "xl": "32px",
+                    "lg": "24px"
+            },
+            "fontFamily": {
+                    "headline-xl": [
+                            "Manrope"
+                    ],
+                    "data-mono": [
+                            "Inter"
+                    ],
+                    "body-lg": [
+                            "Inter"
+                    ],
+                    "label-sm": [
+                            "Inter"
+                    ],
+                    "body-md": [
+                            "Inter"
+                    ],
+                    "headline-md": [
+                            "Manrope"
+                    ]
+            },
+            "fontSize": {
+                    "headline-xl": [
+                            "24px",
+                            {
+                                    "lineHeight": "32px",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "data-mono": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-lg": [
+                            "16px",
+                            {
+                                    "lineHeight": "24px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "label-sm": [
+                            "12px",
+                            {
+                                    "lineHeight": "16px",
+                                    "letterSpacing": "0.02em",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "body-md": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-md": [
+                            "18px",
+                            {
+                                    "lineHeight": "26px",
+                                    "fontWeight": "600"
+                            }
+                    ]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        /* Safe area support for mobile devices */
+        @supports (padding-bottom: env(safe-area-inset-bottom)) {
+            .pb-safe {
+                padding-bottom: env(safe-area-inset-bottom);
+            }
+        }
+        .bg-pattern {
+            background-image: radial-gradient(var(--tw-colors-outline-variant) 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.15;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body-md text-body-md antialiased pb-safe min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<!-- JSON Specs injected exactly as requested -->
+<header class="fixed top-0 left-0 w-full flex justify-between items-center px-6 h-16 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md docked full-width top-0 border-b z-50 border-slate-200 dark:border-slate-800 flat no shadows">
+<div class="flex-1 flex items-center justify-center">
+<span class="text-lg font-bold text-blue-700 dark:text-blue-300 tracking-tighter font-manrope antialiased tracking-tight">Agri-Chain 溯源</span>
+</div>
+<div class="flex items-center gap-sm absolute right-6">
+<!-- Trailing Icons from JSON -->
+<button class="text-blue-600 dark:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors rounded-full p-1 flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 pt-[80px] pb-[100px] px-md flex flex-col gap-margin relative z-10">
+<!-- Background decorative pattern -->
+<div class="absolute inset-0 bg-pattern -z-10 pointer-events-none"></div>
+<!-- Hero Scanner Section -->
+<section class="bg-surface-container rounded-xl p-lg flex flex-col items-center justify-center text-center shadow-[0_4px_12px_rgba(0,0,0,0.02)] relative overflow-hidden">
+<!-- Decorative gradient blur -->
+<div class="absolute -top-10 -right-10 w-32 h-32 bg-primary-container rounded-full blur-[40px] opacity-20"></div>
+<div class="absolute -bottom-10 -left-10 w-32 h-32 bg-tertiary-container rounded-full blur-[40px] opacity-20"></div>
+<div class="w-[120px] h-[120px] bg-primary rounded-[32px] flex items-center justify-center mb-md shadow-[0_8px_24px_rgba(30,110,235,0.2)] relative z-10 group active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined text-[64px] text-on-primary">qr_code_scanner</span>
+<!-- Scanner corner brackets -->
+<div class="absolute inset-2 border-2 border-on-primary/30 rounded-[20px] pointer-events-none"></div>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface mb-xs relative z-10">Verify Authenticity</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mb-lg relative z-10 max-w-[280px]">Scan the QR code on the product packaging to access its immutable blockchain history.</p>
+<button class="bg-primary text-on-primary font-body-md text-body-md font-semibold px-xl py-md rounded-xl w-full flex items-center justify-center gap-xs shadow-[0_4px_12px_rgba(0,0,0,0.05)] active:opacity-80 transition-opacity">
+<span class="material-symbols-outlined text-[20px]" data-icon="camera">camera</span>
+                Tap to Scan
+            </button>
+</section>
+<!-- Manual Entry Card -->
+<section class="bg-surface-container-lowest rounded-xl p-md border border-outline-variant shadow-[0_2px_8px_rgba(0,0,0,0.02)]">
+<div class="flex items-center gap-xs mb-md">
+<span class="material-symbols-outlined text-secondary text-[20px]" data-icon="keyboard">keyboard</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Manual Entry</h2>
+</div>
+<div class="flex flex-col gap-sm">
+<label class="font-label-sm text-label-sm text-on-surface-variant" for="batch-id">Batch ID / Tracking Code</label>
+<div class="flex gap-xs">
+<input class="flex-1 bg-surface-bright border border-outline-variant rounded-lg px-md py-sm font-data-mono text-data-mono focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 outline-none transition-all placeholder:font-body-md placeholder:font-normal placeholder:text-outline" id="batch-id" placeholder="e.g. AC-2023-8921" type="text"/>
+<button class="bg-secondary-container text-on-secondary-container px-lg py-sm rounded-lg font-label-sm text-label-sm font-semibold flex items-center justify-center active:bg-secondary-fixed transition-colors">
+                        Search
+                    </button>
+</div>
+</div>
+</section>
+<!-- Blockchain Trust Info (Bento Grid) -->
+<section class="flex flex-col gap-sm mt-xs">
+<div class="flex items-center justify-between px-xs">
+<h3 class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">System Trust Anchors</h3>
+<span class="material-symbols-outlined text-tertiary-fixed-dim text-[16px]" data-icon="verified">verified</span>
+</div>
+<div class="grid grid-cols-2 gap-sm">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col gap-sm items-start relative overflow-hidden">
+<div class="w-8 h-8 rounded-full bg-tertiary-container/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary text-[18px]" data-icon="security">security</span>
+</div>
+<div>
+<div class="font-data-mono text-data-mono text-on-surface">Immutable</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant mt-0.5">Records secured via smart contract</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col gap-sm items-start">
+<div class="w-8 h-8 rounded-full bg-primary-container/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[18px]" data-icon="account_tree">account_tree</span>
+</div>
+<div>
+<div class="font-data-mono text-data-mono text-on-surface">End-to-End</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant mt-0.5">From farm node to consumer table</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<!-- JSON Specs injected exactly as requested for Mobile H5 Bottom Nav -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 pb-safe bg-white dark:bg-slate-900 fixed bottom-0 w-full border-t rounded-t-xl border-slate-200 dark:border-slate-800 shadow-[0_-4px_12px_rgba(0,0,0,0.05)]">
+<!-- Search (Active - Matches Intent) -->
+<button class="flex flex-col items-center justify-center text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 rounded-xl p-2 active:bg-slate-100 dark:active:bg-slate-800 Active: scale-90 transition-transform">
+<span class="material-symbols-outlined" data-icon="search" style="font-variation-settings: 'FILL' 1;">search</span>
+<span class="font-manrope text-[10px] uppercase tracking-widest font-bold mt-1">Search</span>
+</button>
+<!-- Timeline (Inactive) -->
+<button class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 p-2 active:bg-slate-100 dark:active:bg-slate-800">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-manrope text-[10px] uppercase tracking-widest font-bold mt-1">Timeline</span>
+</button>
+<!-- Verify (Inactive) -->
+<button class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 p-2 active:bg-slate-100 dark:active:bg-slate-800">
+<span class="material-symbols-outlined" data-icon="qr_code_scanner">qr_code_scanner</span>
+<span class="font-manrope text-[10px] uppercase tracking-widest font-bold mt-1">Verify</span>
+</button>
+<!-- Feedback (Inactive) -->
+<button class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 p-2 active:bg-slate-100 dark:active:bg-slate-800">
+<span class="material-symbols-outlined" data-icon="rate_review">rate_review</span>
+<span class="font-manrope text-[10px] uppercase tracking-widest font-bold mt-1">Feedback</span>
+</button>
+</nav>
+</body></html>

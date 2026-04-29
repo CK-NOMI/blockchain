@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>注册 - Agri-Chain 溯源</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed": "#001a41",
+                        "inverse-primary": "#afc6ff",
+                        "surface-container": "#e5eeff",
+                        "secondary-fixed": "#d8e2ff",
+                        "background": "#f8f9ff",
+                        "secondary": "#3e5e98",
+                        "surface-bright": "#f8f9ff",
+                        "outline-variant": "#c2c6d7",
+                        "tertiary-fixed-dim": "#62df7d",
+                        "surface-variant": "#d3e4fe",
+                        "outline": "#727786",
+                        "on-primary": "#ffffff",
+                        "on-secondary-container": "#2b4c85",
+                        "on-primary-container": "#fdfbff",
+                        "tertiary-fixed": "#7ffc97",
+                        "on-primary-fixed-variant": "#00429a",
+                        "inverse-surface": "#213145",
+                        "surface": "#f8f9ff",
+                        "on-error": "#ffffff",
+                        "primary-container": "#1e6eeb",
+                        "tertiary-container": "#008639",
+                        "primary-fixed-dim": "#afc6ff",
+                        "on-tertiary-fixed-variant": "#005320",
+                        "on-background": "#0b1c30",
+                        "tertiary": "#006a2c",
+                        "on-tertiary-container": "#f2ffee",
+                        "surface-container-high": "#dce9ff",
+                        "on-secondary-fixed-variant": "#24467e",
+                        "surface-dim": "#cbdbf5",
+                        "primary": "#0056c3",
+                        "surface-container-low": "#eff4ff",
+                        "error": "#ba1a1a",
+                        "on-secondary": "#ffffff",
+                        "secondary-container": "#9fbeff",
+                        "on-tertiary-fixed": "#002109",
+                        "error-container": "#ffdad6",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed": "#d9e2ff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-tint": "#0058c9",
+                        "on-tertiary": "#ffffff",
+                        "on-surface-variant": "#424654",
+                        "surface-container-highest": "#d3e4fe",
+                        "secondary-fixed-dim": "#adc7ff",
+                        "on-error-container": "#93000a",
+                        "on-surface": "#0b1c30",
+                        "on-primary-fixed": "#001944"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "20px",
+                        "sm": "12px",
+                        "base": "4px",
+                        "xs": "8px",
+                        "md": "16px",
+                        "margin": "24px",
+                        "xl": "32px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-xl": ["Manrope"],
+                        "data-mono": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "headline-xl": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "data-mono": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-md": ["18px", { "lineHeight": "26px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #c2c6d7; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #727786; }
+    </style>
+</head>
+<body class="bg-background min-h-screen flex flex-col font-body-md text-body-md text-on-background selection:bg-primary-container selection:text-on-primary-container">
+<!-- Simplified Brand Header for Transactional Page -->
+<header class="w-full py-md px-margin flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">lan</span>
+<span class="font-headline-md text-headline-md text-primary tracking-tighter">Agri-Chain 溯源</span>
+</header>
+<main class="flex-grow flex items-center justify-center p-margin">
+<div class="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
+<!-- Left Side: Primary Data Form (8 columns) -->
+<div class="lg:col-span-8 bg-surface-container-lowest rounded-xl border border-outline-variant shadow-[0_4px_12px_rgba(0,0,0,0.05)] overflow-hidden">
+<!-- Decorative Top Banner -->
+<div class="h-32 w-full bg-secondary-container bg-cover bg-center" data-alt="abstract view of modern agricultural data server room with blue lighting and subtle geometric overlays" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAFAAH8lhadFtoruhJWkSST_gigifoFTk_tFWVLnc9z0HfzxAtQBWnt34JT7JpfJqUjGEHvqrn0xjzHbKBdXzDPn1GLsNsswPbnaXtxNMrDpg1hSfe5Xo8Sz2mVLPpou4hgJKPYVmodVDg071hiLjy-8TVon1Hq-uJstwQTL_42B-Dkn2AdnRrryN-t6dnbC6uQq208Ho5arq7qNuIVUfOsg7RqyZldYafLyTGIsPBv7pJ8vvwbr94zW3Vkrmmpb-EmZsFCfKdLtPo6');">
+</div>
+<div class="p-xl">
+<div class="mb-lg">
+<h1 class="font-headline-xl text-headline-xl text-on-surface mb-xs">Create Verification Account</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Step 1 of 3: Initialize your secure organizational credentials.</p>
+</div>
+<form class="space-y-lg">
+<!-- Input Group: Email -->
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface mb-xs">Administrator Email</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 flex items-center pl-sm text-outline">
+<span class="material-symbols-outlined text-[20px]">mail</span>
+</span>
+<input class="w-full bg-surface border border-outline-variant rounded-lg pl-xl pr-sm py-sm font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/50 transition-shadow placeholder:text-outline-variant" placeholder="admin@organization.com" required="" type="email"/>
+</div>
+</div>
+<!-- Split Input Group: Passwords -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface mb-xs">Master Password</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 flex items-center pl-sm text-outline">
+<span class="material-symbols-outlined text-[20px]">lock</span>
+</span>
+<input class="w-full bg-surface border border-outline-variant rounded-lg pl-xl pr-sm py-sm font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/50 transition-shadow placeholder:text-outline-variant" placeholder="••••••••" required="" type="password"/>
+</div>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface mb-xs">确认密码</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 flex items-center pl-sm text-outline">
+<span class="material-symbols-outlined text-[20px]">lock_reset</span>
+</span>
+<input class="w-full bg-surface border border-outline-variant rounded-lg pl-xl pr-sm py-sm font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/50 transition-shadow placeholder:text-outline-variant" placeholder="••••••••" required="" type="password"/>
+</div>
+</div>
+</div>
+<!-- Password Requirements Hint -->
+<div class="bg-surface-container-low p-md rounded-lg border border-surface-variant flex items-start gap-sm">
+<span class="material-symbols-outlined text-secondary text-[20px] mt-0.5" style="font-variation-settings: 'FILL' 1;">info</span>
+<div class="font-label-sm text-label-sm text-on-surface-variant">
+                                Password must be at least 12 characters and include a combination of uppercase letters, numbers, and cryptographic symbols to ensure node security.
+                            </div>
+</div>
+<!-- Action Area -->
+<div class="pt-md border-t border-outline-variant flex items-center justify-between">
+<a class="font-label-sm text-label-sm text-primary hover:text-primary-fixed-dim transition-colors" href="#">返回登录</a>
+<button class="bg-primary hover:bg-surface-tint text-on-primary font-data-mono text-data-mono px-lg py-sm rounded-lg flex items-center gap-xs transition-colors shadow-sm" type="button">
+                                Continue to Entity Info
+                                <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</form>
+</div>
+</div>
+<!-- Right Side: Status/Timeline Card (4 columns) -->
+<div class="lg:col-span-4 bg-surface-container-lowest rounded-xl border border-outline-variant shadow-[0_4px_12px_rgba(0,0,0,0.05)] p-lg sticky top-lg">
+<div class="flex items-center gap-xs mb-lg pb-md border-b border-outline-variant">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Registration Status</h2>
+</div>
+<!-- Vertical Timeline -->
+<div class="relative border-l-2 border-surface-variant ml-xs space-y-xl pb-sm">
+<!-- Step 1: Active -->
+<div class="relative pl-lg">
+<div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-primary ring-4 ring-surface-container-lowest z-10 flex items-center justify-center">
+<div class="w-2 h-2 rounded-full bg-on-primary"></div>
+</div>
+<h3 class="font-data-mono text-data-mono text-primary leading-none mb-base">Account Information</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant">In Progress</p>
+</div>
+<!-- Step 2: 待处理 -->
+<div class="relative pl-lg">
+<div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-surface-variant ring-4 ring-surface-container-lowest z-10"></div>
+<h3 class="font-data-mono text-data-mono text-on-surface-variant leading-none mb-base">Entity Information</h3>
+<p class="font-label-sm text-label-sm text-outline">Business details &amp; taxonomy</p>
+</div>
+<!-- Step 3: 待处理 -->
+<div class="relative pl-lg">
+<div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-surface-variant ring-4 ring-surface-container-lowest z-10"></div>
+<h3 class="font-data-mono text-data-mono text-on-surface-variant leading-none mb-base">Supporting Materials</h3>
+<p class="font-label-sm text-label-sm text-outline">Licenses &amp; certifications</p>
+</div>
+</div>
+<!-- Security Badge -->
+<div class="mt-xl pt-md border-t border-outline-variant flex items-center gap-sm">
+<span class="material-symbols-outlined text-tertiary-container text-[24px]">shield_lock</span>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface font-semibold">End-to-End Encrypted</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant text-[10px]">Data is hashed prior to submission</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

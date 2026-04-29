@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AgriTrace - Product Status Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed-variant": "#005320",
+                        "on-surface": "#0b1c30",
+                        "surface-container": "#e5eeff",
+                        "surface-container-highest": "#d3e4fe",
+                        "secondary-fixed": "#d8e2ff",
+                        "on-background": "#0b1c30",
+                        "surface-variant": "#d3e4fe",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#eff4ff",
+                        "surface": "#f8f9ff",
+                        "primary-fixed": "#d9e2ff",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed": "#002109",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed-dim": "#adc7ff",
+                        "on-secondary-fixed-variant": "#24467e",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-dim": "#cbdbf5",
+                        "on-primary-fixed": "#001944",
+                        "tertiary": "#006a2c",
+                        "tertiary-container": "#008639",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#fdfbff",
+                        "secondary": "#3e5e98",
+                        "inverse-primary": "#afc6ff",
+                        "on-primary-fixed-variant": "#00429a",
+                        "surface-container-high": "#dce9ff",
+                        "secondary-container": "#9fbeff",
+                        "surface-tint": "#0058c9",
+                        "inverse-surface": "#213145",
+                        "on-error": "#ffffff",
+                        "outline": "#727786",
+                        "background": "#f8f9ff",
+                        "outline-variant": "#c2c6d7",
+                        "error": "#ba1a1a",
+                        "primary-fixed-dim": "#afc6ff",
+                        "tertiary-fixed-dim": "#62df7d",
+                        "on-primary": "#ffffff",
+                        "surface-bright": "#f8f9ff",
+                        "tertiary-fixed": "#7ffc97",
+                        "on-tertiary-container": "#f2ffee",
+                        "on-secondary-fixed": "#001a41",
+                        "on-surface-variant": "#424654",
+                        "on-secondary-container": "#2b4c85",
+                        "primary-container": "#1e6eeb",
+                        "primary": "#0056c3",
+                        "on-error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin": "24px",
+                        "gutter": "20px",
+                        "xl": "32px",
+                        "sm": "12px",
+                        "lg": "24px",
+                        "md": "16px",
+                        "base": "4px",
+                        "xs": "8px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "data-mono": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-xl": ["Manrope"],
+                        "headline-md": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "data-mono": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-xl": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "headline-md": ["18px", { "lineHeight": "26px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .fill-icon {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex antialiased">
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 flex flex-col h-full z-40 docked left-0 h-screen w-64 border-r bg-slate-50 dark:bg-slate-950 border-slate-200 dark:border-slate-800 flat no shadows hidden md:flex">
+<!-- Header -->
+<div class="p-lg border-b border-slate-200 dark:border-slate-800 flex items-center gap-sm">
+<div class="w-10 h-10 rounded-lg bg-primary-container text-on-primary-container flex items-center justify-center font-headline-md text-headline-md">A</div>
+<div>
+<h1 class="font-headline-md text-headline-md text-blue-800 dark:text-blue-200">AgriTrace Global</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Industrial Supply Chain</p>
+</div>
+</div>
+<!-- Main Nav -->
+<div class="flex-1 py-md overflow-y-auto font-manrope text-sm tracking-tight">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                工作台
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">hub</span>
+                溯源节点
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">verified_user</span>
+                Quality Audits
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">gavel</span>
+                Compliance Panel
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-900/20 border-r-4 border-blue-600 dark:border-blue-400 font-semibold Active: translate-x-1" href="#">
+<span class="material-symbols-outlined fill-icon">inventory_2</span>
+                库存
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">local_shipping</span>
+                Logistics
+            </a>
+</div>
+<!-- CTA & Footer -->
+<div class="p-md border-t border-slate-200 dark:border-slate-800">
+<button class="w-full mb-md bg-primary text-on-primary py-sm px-md rounded-DEFAULT font-label-sm text-label-sm font-semibold hover:bg-primary-fixed-variant transition-colors flex items-center justify-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+                Verify Block
+            </button>
+<div class="space-y-1 font-manrope text-sm tracking-tight">
+<a class="flex items-center gap-3 px-4 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200 rounded-DEFAULT" href="#">
+<span class="material-symbols-outlined text-[20px]">help</span>
+                    Support
+                </a>
+<a class="flex items-center gap-3 px-4 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200 rounded-DEFAULT" href="#">
+<span class="material-symbols-outlined text-[20px]">logout</span>
+                    Sign Out
+                </a>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col md:pl-64 min-w-0">
+<!-- TopNavBar (Web) -->
+<header class="hidden md:flex justify-between items-center px-6 h-16 w-full sticky top-0 z-50 docked full-width top-0 border-b bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 flat no shadows">
+<div class="flex items-center gap-md">
+<span class="text-xl font-black text-blue-700 dark:text-blue-400">AgriTrace</span>
+</div>
+<div class="flex items-center gap-lg font-manrope text-sm font-medium">
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-lowest border border-outline-variant rounded-full text-body-md focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary w-64 transition-shadow" placeholder="Search batch ID, product..." type="text"/>
+</div>
+<button class="text-blue-600 dark:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors px-3 py-1.5 rounded-DEFAULT">Switch Role</button>
+<div class="flex items-center gap-sm">
+<button class="text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-secondary-container overflow-hidden ml-2 cursor-pointer border border-outline-variant">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="professional headshot of an agricultural manager in a blue shirt on a light background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8BB7g87Wr1b_0aPwMEQNen7LGNXYS-JQPL0jM47vewlCGOdpawjih8-EaQjTpoIFsMtf_q6iuB-M5zRNrCeOC4Sg2cHFeFswoga_vPEU3H0ulusfpmtMX-5yRPS6iZDMzBlxoKztqr3ExFdWTEh2pXRzJvjT6dqlA6bxb93GSd2pmbOvV9sQdhw0G4LdJxxrrrJ4CSFgZrn56vju9M6jlr7-uVO2KwrtiMdPJHNGQLFqeCuToAi-0PYqkMDAorHddoISIlpcip0X_"/>
+</div>
+</div>
+</div>
+</header>
+<!-- TopNavBar (Mobile) -->
+<header class="md:hidden flex justify-between items-center px-4 h-14 w-full sticky top-0 z-50 bg-white border-b border-slate-200 backdrop-blur-sm bg-white/90">
+<span class="text-lg font-black text-blue-700">AgriTrace</span>
+<button class="p-2 text-slate-600">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</header>
+<!-- Page Content -->
+<main class="flex-1 p-4 md:p-xl overflow-y-auto">
+<!-- Breadcrumbs & Header -->
+<div class="mb-lg flex flex-col gap-sm">
+<div class="flex items-center gap-xs font-label-sm text-label-sm text-on-surface-variant">
+<span class="cursor-pointer hover:text-primary transition-colors">库存</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="cursor-pointer hover:text-primary transition-colors">Retail Management</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="font-semibold text-on-surface">Product Status</span>
+</div>
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-md">
+<div>
+<h2 class="font-headline-xl text-headline-xl text-on-surface">Manage Status: Batch #ORG-2023-A49</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Update shelf status, view expiry alerts, and log events to the traceability chain.</p>
+</div>
+<button class="bg-primary-container text-on-primary shadow-sm hover:bg-primary-fixed-variant transition-colors py-2 px-4 rounded-DEFAULT font-label-sm text-label-sm flex items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">qr_code_scanner</span>
+                        Scan Next Item
+                    </button>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-lg">
+<!-- Left Column: Product Summary & Form -->
+<div class="lg:col-span-8 flex flex-col gap-lg">
+<!-- Product Identity Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-[0px_4px_12px_rgba(0,0,0,0.02)]">
+<div class="flex flex-col sm:flex-row gap-lg">
+<div class="w-full sm:w-32 h-32 bg-surface-container rounded-lg overflow-hidden shrink-0 border border-outline-variant relative group">
+<img alt="Organic Hass Avocados" class="w-full h-full object-cover" data-alt="close up of fresh green organic hass avocados in a modern sustainable cardboard retail punnet with a clean white background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDiwd3MQAa4MG6K5_md9c81BBDtf_ysuomORqdi6-E1biVAyqnp-tQR0-v6mW5gjoJmetmQ-ckUEvyORvVqqfq5n_BIzTEUQei0tXBIAgANT3OHO2D-W2oDlYdycsSMPXq4s6UV1GrAUyk5q7YZOxYxeN8I7_Dmnmshk0o-AMj_LoWbewhVpJJFVYmQV3EOv7aiifh8eQMTNfDKDrn3PuQqPwcAEgQPatpqWZ8VsUexjsBnRlXXgXtzPKKW9p0_dzejoRK8E9a6C9Cf"/>
+<div class="absolute inset-0 bg-black/40 hidden group-hover:flex items-center justify-center transition-all cursor-pointer">
+<span class="material-symbols-outlined text-white">zoom_in</span>
+</div>
+</div>
+<div class="flex-1 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Organic Hass Avocados (Premium)</h3>
+<p class="font-data-mono text-data-mono text-primary mt-1">GTIN: 00012345678905</p>
+</div>
+<div class="flex items-center gap-xs bg-tertiary-container/10 px-2 py-1 rounded-DEFAULT border border-tertiary-container/20">
+<span class="material-symbols-outlined text-[16px] text-tertiary">eco</span>
+<span class="font-label-sm text-label-sm text-tertiary font-semibold">Certified Organic</span>
+</div>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-md">
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Farm Origin</p>
+<p class="font-body-md text-body-md text-on-surface font-medium">Verde Valley, CA</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Harvest Date</p>
+<p class="font-body-md text-body-md text-on-surface font-medium">Oct 12, 2023</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Arrival Temp</p>
+<p class="font-body-md text-body-md text-on-surface font-medium">4.2°C <span class="text-tertiary font-bold">✓</span></p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Stock Count</p>
+<p class="font-body-md text-body-md text-on-surface font-medium">142 Units</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Status Management Control Board -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-[0px_4px_12px_rgba(0,0,0,0.02)]">
+<div class="flex justify-between items-center mb-md border-b border-outline-variant pb-sm">
+<h3 class="font-headline-md text-headline-md text-on-surface">Status Control</h3>
+<div class="flex items-center gap-xs text-error font-label-sm text-label-sm bg-error-container/50 px-2 py-1 rounded-DEFAULT">
+<span class="material-symbols-outlined text-[16px]">warning</span>
+<span>Expires in 3 Days</span>
+</div>
+</div>
+<!-- Current Status Display -->
+<div class="bg-surface rounded-lg p-md mb-lg border border-outline-variant flex items-center justify-between">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-primary-fixed-variant">
+<span class="material-symbols-outlined text-[24px]">storefront</span>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Current Retail Status</p>
+<p class="font-headline-md text-headline-md text-on-surface" id="current-status-text">On Sale (Active)</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-label-sm text-label-sm text-on-surface-variant">Last updated</p>
+<p class="font-data-mono text-data-mono text-on-surface">Oct 15, 08:30 AM</p>
+</div>
+</div>
+<!-- Status Action Buttons -->
+<h4 class="font-label-sm text-label-sm text-on-surface-variant mb-sm font-semibold uppercase tracking-wider">Change Status</h4>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-md mb-lg" id="status-options">
+<button class="status-option flex flex-col items-center justify-center p-md rounded-lg border-2 border-primary bg-primary-fixed/20 transition-all hover:shadow-[0px_4px_12px_rgba(0,0,0,0.05)]" data-status="On Sale" data-intent="primary">
+<span class="material-symbols-outlined text-[28px] text-primary mb-xs">storefront</span>
+<span class="font-label-sm text-label-sm font-bold text-primary">On Sale</span>
+</button>
+<button class="status-option flex flex-col items-center justify-center p-md rounded-lg border border-outline-variant bg-surface-container-lowest text-on-surface-variant hover:border-secondary hover:text-secondary hover:bg-secondary-fixed/20 transition-all" data-status="Sold Out" data-intent="secondary">
+<span class="material-symbols-outlined text-[28px] mb-xs">shopping_cart_checkout</span>
+<span class="font-label-sm text-label-sm font-medium">Sold Out</span>
+</button>
+<button class="status-option flex flex-col items-center justify-center p-md rounded-lg border border-outline-variant bg-surface-container-lowest text-on-surface-variant hover:border-error hover:text-error hover:bg-error-container/20 transition-all" data-status="Expired" data-intent="error">
+<span class="material-symbols-outlined text-[28px] mb-xs">hourglass_disabled</span>
+<span class="font-label-sm text-label-sm font-medium">Expired</span>
+</button>
+<button class="status-option flex flex-col items-center justify-center p-md rounded-lg border border-outline-variant bg-surface-container-lowest text-on-surface-variant hover:border-on-surface hover:text-on-surface hover:bg-surface-variant transition-all" data-status="Removed" data-intent="default">
+<span class="material-symbols-outlined text-[28px] mb-xs">remove_shopping_cart</span>
+<span class="font-label-sm text-label-sm font-medium">Removed</span>
+</button>
+</div>
+<!-- Update Form -->
+<div class="space-y-4 border-t border-outline-variant pt-md">
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-xs">Quantity Affected (Units)</label>
+<input class="w-full sm:w-1/3 bg-surface-container-lowest border border-outline-variant rounded-DEFAULT py-2 px-3 text-body-md font-data-mono focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-shadow" type="number" value="142"/>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-xs">Reason / Remarks (Optional)</label>
+<textarea class="w-full bg-surface-container-lowest border border-outline-variant rounded-DEFAULT py-2 px-3 text-body-md focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-shadow" placeholder="Enter reason for status change..." rows="2"></textarea>
+</div>
+<div class="flex justify-end pt-sm">
+<button class="bg-primary text-on-primary py-2 px-lg rounded-DEFAULT font-label-sm text-label-sm font-semibold hover:bg-primary-fixed-variant transition-colors shadow-sm flex items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">publish</span>
+                                    提交上链
+                                </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Verification & Timeline -->
+<div class="lg:col-span-4 flex flex-col gap-lg">
+<!-- 溯源状态 Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-[0px_4px_12px_rgba(0,0,0,0.02)]">
+<div class="flex items-center justify-between mb-md">
+<h3 class="font-headline-md text-headline-md text-on-surface">Node Verification</h3>
+<span class="material-symbols-outlined text-tertiary">verified</span>
+</div>
+<div class="bg-surface rounded-lg p-md border border-outline-variant space-y-3">
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Current Node</span>
+<span class="font-body-md text-body-md font-semibold text-on-surface">Supermarket A (Retail)</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Block Time</span>
+<span class="font-data-mono text-data-mono text-on-surface text-[12px]">2023-10-15 08:30:12 UTC</span>
+</div>
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant block mb-1">Hash Value</span>
+<div class="bg-surface-container-highest px-2 py-1 rounded text-xs font-data-mono text-on-surface-variant truncate w-full border border-outline-variant/50" title="0x8fB2...c4D9">
+                                    0x8fB2734a9bC12eF5d884a4b2c4D9
+                                </div>
+</div>
+</div>
+</div>
+<!-- Consumer QR Preview Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-[0px_4px_12px_rgba(0,0,0,0.02)] flex flex-col items-center text-center">
+<h3 class="font-headline-md text-headline-md text-on-surface w-full text-left mb-sm">消费者标签预览</h3>
+<div class="w-32 h-32 bg-white border border-outline-variant p-2 rounded-lg mb-md shadow-sm">
+<!-- Placeholder for QR Code, using a pattern for aesthetic -->
+<div class="w-full h-full bg-[radial-gradient(#0056c3_2px,transparent_2px)] [background-size:8px_8px] rounded opacity-80 border border-primary-fixed"></div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4" id="consumer-status-text">Consumers scanning this QR will see the "On Sale" status and full provenance data.</p>
+<button class="text-primary font-label-sm text-label-sm font-semibold hover:underline flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+                            Preview H5 Page
+                        </button>
+</div>
+<!-- Status History Timeline -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-[0px_4px_12px_rgba(0,0,0,0.02)] flex-1">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-lg">Status History</h3>
+<div class="relative border-l-2 border-outline-variant/30 ml-3 space-y-6">
+<!-- Active Node -->
+<div class="relative pl-6">
+<div class="absolute w-3 h-3 bg-primary rounded-full -left-[7px] top-1.5 ring-4 ring-primary-fixed"></div>
+<p class="font-label-sm text-label-sm font-bold text-primary mb-0.5">Placed On Sale</p>
+<p class="font-body-md text-body-md text-on-surface text-[13px]">Stock updated to 142 units. Quality check passed.</p>
+<p class="font-data-mono text-data-mono text-on-surface-variant text-[11px] mt-1">Oct 15, 08:30 AM • System Admin</p>
+</div>
+<!-- Completed Node -->
+<div class="relative pl-6">
+<div class="absolute w-3 h-3 bg-tertiary rounded-full -left-[7px] top-1.5"></div>
+<p class="font-label-sm text-label-sm font-bold text-on-surface mb-0.5">Arrived at Retailer</p>
+<p class="font-body-md text-body-md text-on-surface text-[13px]">Received via Cold Chain Logistics. Temp: 4.2°C.</p>
+<p class="font-data-mono text-data-mono text-on-surface-variant text-[11px] mt-1">Oct 14, 14:15 PM • Receiving Dock</p>
+</div>
+<!-- Completed Node -->
+<div class="relative pl-6">
+<div class="absolute w-3 h-3 bg-tertiary rounded-full -left-[7px] top-1.5"></div>
+<p class="font-label-sm text-label-sm font-bold text-on-surface mb-0.5">Dispatched from Dist. Center</p>
+<p class="font-body-md text-body-md text-on-surface text-[13px]">Batch split into retail allocations.</p>
+<p class="font-data-mono text-data-mono text-on-surface-variant text-[11px] mt-1">Oct 13, 09:00 AM • DC Logistics</p>
+</div>
+<!-- Older Node (Faded) -->
+<div class="relative pl-6 opacity-60">
+<div class="absolute w-3 h-3 bg-outline rounded-full -left-[7px] top-1.5"></div>
+<p class="font-label-sm text-label-sm font-bold text-on-surface mb-0.5">Harvested</p>
+<p class="font-data-mono text-data-mono text-on-surface-variant text-[11px] mt-1">Oct 12, 06:30 AM • Verde Farm</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<script>
+  (() => {
+    const options = Array.from(document.querySelectorAll('.status-option'))
+    const statusText = document.getElementById('current-status-text')
+    const consumerText = document.getElementById('consumer-status-text')
+
+    if (!options.length || !statusText || !consumerText) return
+
+    const setActive = (target) => {
+      const status = target.dataset.status || 'On Sale'
+
+      options.forEach((btn) => {
+        btn.classList.remove('border-2', 'border-primary', 'bg-primary-fixed/20')
+        btn.classList.add('border', 'border-outline-variant', 'bg-surface-container-lowest', 'text-on-surface-variant')
+
+        const icon = btn.querySelector('.material-symbols-outlined')
+        const label = btn.querySelector('span:last-child')
+        if (icon) icon.classList.remove('text-primary', 'text-secondary', 'text-error', 'text-on-surface')
+        if (label) label.classList.remove('font-bold', 'font-medium', 'text-primary', 'text-secondary', 'text-error', 'text-on-surface')
+        if (label) label.classList.add('font-medium')
+      })
+
+      target.classList.remove('border', 'border-outline-variant', 'bg-surface-container-lowest', 'text-on-surface-variant')
+      target.classList.add('border-2')
+
+      const icon = target.querySelector('.material-symbols-outlined')
+      const label = target.querySelector('span:last-child')
+      const intent = target.dataset.intent || 'primary'
+
+      if (intent === 'secondary') {
+        target.classList.add('border-secondary', 'bg-secondary-fixed/20')
+        if (icon) icon.classList.add('text-secondary')
+        if (label) label.classList.add('font-bold', 'text-secondary')
+      } else if (intent === 'error') {
+        target.classList.add('border-error', 'bg-error-container/20')
+        if (icon) icon.classList.add('text-error')
+        if (label) label.classList.add('font-bold', 'text-error')
+      } else if (intent === 'default') {
+        target.classList.add('border-on-surface', 'bg-surface-variant')
+        if (icon) icon.classList.add('text-on-surface')
+        if (label) label.classList.add('font-bold', 'text-on-surface')
+      } else {
+        target.classList.add('border-primary', 'bg-primary-fixed/20')
+        if (icon) icon.classList.add('text-primary')
+        if (label) label.classList.add('font-bold', 'text-primary')
+      }
+
+      statusText.textContent = `${status} (Active)`
+      consumerText.textContent = `Consumers scanning this QR will see the "${status}" status and full provenance data.`
+    }
+
+    options.forEach((btn) => {
+      btn.addEventListener('click', () => setActive(btn))
+    })
+  })()
+</script>
+</body></html>

@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>G02 批次综合检索 (PC)</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#0b1c30",
+                        "surface": "#f8f9ff",
+                        "on-error": "#ffffff",
+                        "primary-container": "#1e6eeb",
+                        "tertiary-container": "#008639",
+                        "primary-fixed-dim": "#afc6ff",
+                        "on-tertiary-fixed-variant": "#005320",
+                        "tertiary": "#006a2c",
+                        "on-tertiary-container": "#f2ffee",
+                        "surface-container-high": "#dce9ff",
+                        "on-secondary-fixed-variant": "#24467e",
+                        "surface-bright": "#f8f9ff",
+                        "outline-variant": "#c2c6d7",
+                        "on-secondary-fixed": "#001a41",
+                        "inverse-primary": "#afc6ff",
+                        "surface-container": "#e5eeff",
+                        "secondary-fixed": "#d8e2ff",
+                        "background": "#f8f9ff",
+                        "secondary": "#3e5e98",
+                        "tertiary-fixed": "#7ffc97",
+                        "on-primary-fixed-variant": "#00429a",
+                        "inverse-surface": "#213145",
+                        "tertiary-fixed-dim": "#62df7d",
+                        "surface-variant": "#d3e4fe",
+                        "outline": "#727786",
+                        "on-primary": "#ffffff",
+                        "on-secondary-container": "#2b4c85",
+                        "on-primary-container": "#fdfbff",
+                        "primary-fixed": "#d9e2ff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-tint": "#0058c9",
+                        "on-tertiary": "#ffffff",
+                        "on-surface-variant": "#424654",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#0b1c30",
+                        "on-primary-fixed": "#001944",
+                        "surface-container-highest": "#d3e4fe",
+                        "secondary-fixed-dim": "#adc7ff",
+                        "on-error-container": "#93000a",
+                        "surface-container-low": "#eff4ff",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#cbdbf5",
+                        "primary": "#0056c3",
+                        "secondary-container": "#9fbeff",
+                        "on-tertiary-fixed": "#002109",
+                        "error-container": "#ffdad6",
+                        "on-secondary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "sm": "12px",
+                        "gutter": "20px",
+                        "xs": "8px",
+                        "base": "4px",
+                        "xl": "32px",
+                        "md": "16px",
+                        "margin": "24px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "data-mono": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Manrope"],
+                        "headline-xl": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "data-mono": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-md": ["18px", { "lineHeight": "26px", "fontWeight": "600" }],
+                        "headline-xl": ["24px", { "lineHeight": "32px", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background antialiased flex h-screen overflow-hidden">
+<!-- SideNavBar -->
+<nav class="h-screen w-64 border-r fixed left-0 top-0 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex flex-col h-full py-4 z-50">
+<div class="px-6 mb-8 flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-primary-container flex items-center justify-center text-on-primary-container shrink-0">
+<span class="material-symbols-outlined">agriculture</span>
+</div>
+<div>
+<h1 class="text-lg font-black text-blue-700 dark:text-blue-500 font-headline-md text-headline-md leading-tight">Agri-Chain Central</h1>
+<p class="font-label-sm text-label-sm text-slate-500">Verified Nodes</p>
+</div>
+</div>
+<div class="px-4 mb-6">
+<button class="w-full bg-primary-container text-on-primary-container hover:bg-primary-container/90 transition-colors py-2.5 rounded-lg flex items-center justify-center gap-2 font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-sm">add</span>
+                New 溯源 Batch
+            </button>
+</div>
+<ul class="flex-1 px-3 space-y-1 overflow-y-auto">
+<li>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-md font-manrope text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:pl-2 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                    Overview
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-md font-manrope text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:pl-2 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+                    库存管理
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-md font-manrope text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:pl-2 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">qr_code_2</span>
+                    QR Generation
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-md font-manrope text-sm bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 font-bold border-r-4 border-blue-600" href="#">
+<span class="material-symbols-outlined">verified_user</span>
+                    Audit Logs
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-md font-manrope text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:pl-2 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">gpp_maybe</span>
+                    Risk Assessment
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-md font-manrope text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:pl-2 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+                    系统设置
+                </a>
+</li>
+</ul>
+<div class="mt-auto px-3 border-t border-slate-200 dark:border-slate-800 pt-4">
+<ul class="space-y-1">
+<li>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-md font-manrope text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:pl-2 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">contact_support</span>
+                        Support
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-md font-manrope text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:pl-2 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">logout</span>
+                        Sign Out
+                    </a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-1 ml-64 flex flex-col h-full bg-background overflow-hidden relative">
+<!-- TopNavBar -->
+<header class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md font-manrope text-sm font-medium border-b border-slate-200 dark:border-slate-800 flex justify-between items-center w-full px-6 py-3 docked full-width top-0 sticky z-40">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold text-blue-700 dark:text-blue-400 tracking-tight font-headline-md text-headline-md">Agri-Chain 溯源</span>
+<nav class="hidden md:flex gap-6">
+<a class="text-slate-500 dark:text-slate-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors py-2" href="#">工作台</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors py-2" href="#">溯源</a>
+<a class="text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 pb-1 py-2" href="#">Audits</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors py-2" href="#">库存</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">search</span>
+<input class="pl-9 pr-4 py-1.5 rounded-full border border-slate-200 bg-surface text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary w-64" placeholder="Search..." type="text"/>
+</div>
+<button class="text-slate-500 hover:text-blue-700 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-slate-500 hover:text-blue-700 transition-colors">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-slate-200 overflow-hidden ml-2">
+<img alt="User profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgfg89tlrH1vw034QiSdxWppuDhRGc9LL9-WK0uZIWTvqTOAuvPpcMwovjayVGQlp29mUPab8eukvSszntCEwQ1wZ4yxsrkg5PLR40q_nz62rb57v0Kh6Mgj0dTNHuD__7kz8gZGheWjaBoy1PmHipcSpLO7ELuQZyi8ZJdyyfBHG0uKDiYr50RDRniANlBpQmsn49s8E2A_YaM4MmMmD9rYKhljRkHCNMuGw5-Kw8rAczbek7umtMiD6iBFxc1ZfJ2lf-_XgokL7K"/>
+</div>
+</div>
+</header>
+<div class="flex-1 overflow-y-auto p-margin">
+<div class="max-w-7xl mx-auto space-y-lg">
+<!-- Page Header -->
+<div>
+<h2 class="font-headline-xl text-headline-xl text-on-surface mb-2">Comprehensive Batch Search</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Global overview of all traceability batches across the supply chain network.</p>
+</div>
+<!-- Filter Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-lg shadow-[0_4px_12px_rgba(0,0,0,0.02)]">
+<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-md mb-md">
+<div class="space-y-xs">
+<label class="font-label-sm text-label-sm text-on-surface-variant block">Batch ID</label>
+<input class="w-full h-10 px-3 rounded-lg border border-outline-variant bg-surface font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-shadow" placeholder="e.g. BATCH-2023..." type="text"/>
+</div>
+<div class="space-y-xs">
+<label class="font-label-sm text-label-sm text-on-surface-variant block">Product Name</label>
+<div class="relative">
+<select class="w-full h-10 pl-3 pr-8 rounded-lg border border-outline-variant bg-surface font-body-md text-body-md appearance-none focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-shadow">
+<option value="">All Products</option>
+<option value="wheat">Organic Wheat</option>
+<option value="soy">Soybeans (Non-GMO)</option>
+<option value="corn">Sweet Corn</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-outline pointer-events-none text-sm">expand_more</span>
+</div>
+</div>
+<div class="space-y-xs">
+<label class="font-label-sm text-label-sm text-on-surface-variant block">Origin Node</label>
+<div class="relative">
+<select class="w-full h-10 pl-3 pr-8 rounded-lg border border-outline-variant bg-surface font-body-md text-body-md appearance-none focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-shadow">
+<option value="">All Regions</option>
+<option value="n1">Node Alpha (North)</option>
+<option value="n2">Node Beta (South)</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-outline pointer-events-none text-sm">expand_more</span>
+</div>
+</div>
+<div class="space-y-xs xl:col-span-2">
+<label class="font-label-sm text-label-sm text-on-surface-variant block">Time Range</label>
+<div class="flex items-center gap-2">
+<input class="flex-1 h-10 px-3 rounded-lg border border-outline-variant bg-surface font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-shadow text-on-surface" type="date"/>
+<span class="text-outline">-</span>
+<input class="flex-1 h-10 px-3 rounded-lg border border-outline-variant bg-surface font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-shadow text-on-surface" type="date"/>
+</div>
+</div>
+<div class="space-y-xs">
+<label class="font-label-sm text-label-sm text-on-surface-variant block">Status</label>
+<div class="relative">
+<select class="w-full h-10 pl-3 pr-8 rounded-lg border border-outline-variant bg-surface font-body-md text-body-md appearance-none focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-shadow">
+<option value="">All Statuses</option>
+<option value="verified">Verified On-Chain</option>
+<option value="pending">待验证</option>
+<option value="anomaly">Anomaly Detected</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-outline pointer-events-none text-sm">expand_more</span>
+</div>
+</div>
+</div>
+<div class="flex justify-between items-center pt-md border-t border-outline-variant/30">
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="rounded border-outline text-primary focus:ring-primary bg-surface w-4 h-4" type="checkbox"/>
+<span class="font-label-sm text-label-sm text-on-surface group-hover:text-primary transition-colors">Show only anomalies</span>
+</label>
+<div class="flex gap-sm">
+<button class="px-4 py-2 rounded-lg border border-primary text-primary font-label-sm text-label-sm hover:bg-surface-container transition-colors">Reset</button>
+<button class="px-4 py-2 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm hover:bg-primary/90 transition-colors shadow-[0_2px_4px_rgba(0,86,195,0.2)]">Apply Filters</button>
+</div>
+</div>
+</div>
+<!-- Results Data Table -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden shadow-[0_4px_12px_rgba(0,0,0,0.02)]">
+<div class="px-lg py-md border-b border-outline-variant flex justify-between items-center bg-surface-bright">
+<h3 class="font-headline-md text-headline-md text-on-surface">Batch Records <span class="font-body-md text-body-md text-outline ml-2 font-normal">(1,204 results)</span></h3>
+<button class="flex items-center gap-xs text-primary font-label-sm text-label-sm hover:bg-surface-container px-3 py-1.5 rounded-md transition-colors">
+<span class="material-symbols-outlined text-[18px]">download</span>
+                            导出CSV
+                        </button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant">
+<th class="px-6 py-3 font-label-sm text-label-sm text-on-surface-variant whitespace-nowrap">Batch ID</th>
+<th class="px-6 py-3 font-label-sm text-label-sm text-on-surface-variant whitespace-nowrap">Product</th>
+<th class="px-6 py-3 font-label-sm text-label-sm text-on-surface-variant whitespace-nowrap">Origin Node</th>
+<th class="px-6 py-3 font-label-sm text-label-sm text-on-surface-variant whitespace-nowrap">Timestamp</th>
+<th class="px-6 py-3 font-label-sm text-label-sm text-on-surface-variant whitespace-nowrap">Status</th>
+<th class="px-6 py-3 font-label-sm text-label-sm text-on-surface-variant whitespace-nowrap text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/50 font-body-md text-body-md text-on-surface">
+<!-- Row 1 (Normal) -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="px-6 py-4 font-data-mono text-data-mono text-secondary">BT-2309-8821</td>
+<td class="px-6 py-4">Organic Wheat (Grade A)</td>
+<td class="px-6 py-4">Alpha Farms (N1)</td>
+<td class="px-6 py-4 text-on-surface-variant">2023-10-24 14:32:01</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-tertiary-container/10 text-tertiary font-label-sm text-label-sm border border-tertiary/20">
+<span class="material-symbols-outlined text-[14px] fill-icon">check_circle</span>
+                                            Verified On-Chain
+                                        </span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="px-3 py-1.5 rounded text-primary hover:bg-primary-container/20 font-label-sm text-label-sm transition-colors border border-transparent hover:border-primary/30">Trace Evidence</button>
+<button class="px-3 py-1.5 rounded text-outline hover:text-on-surface hover:bg-surface-container font-label-sm text-label-sm transition-colors">Audit</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 (Anomaly) -->
+<tr class="bg-error-container/10 hover:bg-error-container/20 transition-colors group border-l-4 border-l-error">
+<td class="px-6 py-4 font-data-mono text-data-mono text-error">BT-2309-8822</td>
+<td class="px-6 py-4">Soybeans (Non-GMO)</td>
+<td class="px-6 py-4">Delta Logistics (L3)</td>
+<td class="px-6 py-4 text-on-surface-variant">2023-10-24 15:01:44</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm border border-error/20">
+<span class="material-symbols-outlined text-[14px] fill-icon">warning</span>
+                                            Temp Anomaly
+                                        </span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-2">
+<button class="px-3 py-1.5 rounded text-error hover:bg-error-container/50 font-label-sm text-label-sm transition-colors border border-error/30 font-semibold">Investigate</button>
+<button class="px-3 py-1.5 rounded text-outline hover:text-on-surface hover:bg-surface-container font-label-sm text-label-sm transition-colors">Trace Evidence</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 (待处理) -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="px-6 py-4 font-data-mono text-data-mono text-secondary">BT-2309-8823</td>
+<td class="px-6 py-4">Sweet Corn</td>
+<td class="px-6 py-4">Beta Processing (P1)</td>
+<td class="px-6 py-4 text-on-surface-variant">2023-10-24 16:15:20</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm border border-outline-variant">
+<span class="material-symbols-outlined text-[14px]">pending</span>
+                                            待验证
+                                        </span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="px-3 py-1.5 rounded text-primary hover:bg-primary-container/20 font-label-sm text-label-sm transition-colors border border-transparent hover:border-primary/30">Trace Evidence</button>
+<button class="px-3 py-1.5 rounded text-outline hover:text-on-surface hover:bg-surface-container font-label-sm text-label-sm transition-colors">Audit</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="px-6 py-4 font-data-mono text-data-mono text-secondary">BT-2309-8824</td>
+<td class="px-6 py-4">Organic Wheat (Grade A)</td>
+<td class="px-6 py-4">Gamma Storage (S2)</td>
+<td class="px-6 py-4 text-on-surface-variant">2023-10-23 09:12:05</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-tertiary-container/10 text-tertiary font-label-sm text-label-sm border border-tertiary/20">
+<span class="material-symbols-outlined text-[14px] fill-icon">check_circle</span>
+                                            Verified On-Chain
+                                        </span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="px-3 py-1.5 rounded text-primary hover:bg-primary-container/20 font-label-sm text-label-sm transition-colors border border-transparent hover:border-primary/30">Trace Evidence</button>
+<button class="px-3 py-1.5 rounded text-outline hover:text-on-surface hover:bg-surface-container font-label-sm text-label-sm transition-colors">Audit</button>
+</div>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="px-6 py-4 font-data-mono text-data-mono text-secondary">BT-2309-8825</td>
+<td class="px-6 py-4">Soybeans (Non-GMO)</td>
+<td class="px-6 py-4">Alpha Farms (N1)</td>
+<td class="px-6 py-4 text-on-surface-variant">2023-10-23 11:45:30</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-tertiary-container/10 text-tertiary font-label-sm text-label-sm border border-tertiary/20">
+<span class="material-symbols-outlined text-[14px] fill-icon">check_circle</span>
+                                            Verified On-Chain
+                                        </span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="px-3 py-1.5 rounded text-primary hover:bg-primary-container/20 font-label-sm text-label-sm transition-colors border border-transparent hover:border-primary/30">Trace Evidence</button>
+<button class="px-3 py-1.5 rounded text-outline hover:text-on-surface hover:bg-surface-container font-label-sm text-label-sm transition-colors">Audit</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="px-lg py-sm border-t border-outline-variant bg-surface-bright flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Showing 1 to 5 of 1,204</span>
+<div class="flex gap-1">
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant text-outline hover:bg-surface-container hover:text-on-surface transition-colors disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-primary bg-primary text-on-primary font-label-sm text-label-sm">1</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant text-on-surface hover:bg-surface-container transition-colors font-label-sm text-label-sm">2</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant text-on-surface hover:bg-surface-container transition-colors font-label-sm text-label-sm">3</button>
+<span class="w-8 h-8 flex items-center justify-center text-outline font-label-sm text-label-sm">...</span>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant text-on-surface hover:bg-surface-container transition-colors font-label-sm text-label-sm">241</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant text-outline hover:bg-surface-container hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

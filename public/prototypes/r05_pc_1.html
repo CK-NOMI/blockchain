@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>二维码生成 - Agri-Chain 溯源</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#f8f9ff",
+                        "surface-container-high": "#dce9ff",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#f2ffee",
+                        "primary-fixed-dim": "#afc6ff",
+                        "secondary": "#3e5e98",
+                        "inverse-surface": "#213145",
+                        "outline-variant": "#c2c6d7",
+                        "on-primary-container": "#fdfbff",
+                        "surface-tint": "#0058c9",
+                        "secondary-fixed-dim": "#adc7ff",
+                        "surface-container-low": "#eff4ff",
+                        "on-secondary-fixed": "#001a41",
+                        "on-surface": "#0b1c30",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-variant": "#d3e4fe",
+                        "tertiary-fixed-dim": "#62df7d",
+                        "on-surface-variant": "#424654",
+                        "on-error-container": "#93000a",
+                        "error-container": "#ffdad6",
+                        "tertiary": "#006a2c",
+                        "surface-dim": "#cbdbf5",
+                        "primary-fixed": "#d9e2ff",
+                        "on-secondary-fixed-variant": "#24467e",
+                        "on-error": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "inverse-primary": "#afc6ff",
+                        "surface-container": "#e5eeff",
+                        "primary-container": "#1e6eeb",
+                        "on-tertiary-fixed": "#002109",
+                        "on-primary-fixed": "#001944",
+                        "background": "#f8f9ff",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-container": "#008639",
+                        "outline": "#727786",
+                        "on-secondary-container": "#2b4c85",
+                        "surface-container-highest": "#d3e4fe",
+                        "primary": "#0056c3",
+                        "surface-bright": "#f8f9ff",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#9fbeff",
+                        "on-primary-fixed-variant": "#00429a",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed-variant": "#005320",
+                        "on-background": "#0b1c30",
+                        "secondary-fixed": "#d8e2ff",
+                        "tertiary-fixed": "#7ffc97"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "sm": "12px",
+                        "margin": "24px",
+                        "base": "4px",
+                        "gutter": "20px",
+                        "xs": "8px",
+                        "lg": "24px",
+                        "md": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-xl": ["Manrope"],
+                        "headline-md": ["Manrope"],
+                        "body-md": ["Inter"],
+                        "data-mono": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-xl": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "headline-md": ["18px", {"lineHeight": "26px", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "data-mono": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col md:flex-row font-body-md">
+<!-- SideNavBar (Desktop) -->
+<nav class="bg-slate-50 dark:bg-slate-950 font-manrope text-sm h-screen w-64 border-r border-r border-slate-200 dark:border-slate-800 hidden lg:flex flex-col h-screen sticky top-0 shrink-0">
+<div class="p-lg flex items-center gap-sm">
+<img alt="Agri-Chain Admin" class="w-10 h-10 rounded-full object-cover" data-alt="Professional headshot of a person wearing a smart casual blue shirt, looking approachable on a neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUulOS3cG3fuKyNqJUlxPngC1IHNUn651trfrAmDH-wPvBATK4Z7J1kqMaQaIc6K8EvbZlborhXJyz0xRHY-xdWemIkqWJhn_Obc5b54Q1vu5d5Z1be65tJ_mHMG4velr-veUqL4ijEwUf619fkHSqv_WG6A1AIx5J4LJHUtALbpzXIdLpDC8sIpdglrgvd5OcdOKUbI7kQzwMVz7yJdfVPE18HYv-5mpIIDi-aQlEYtTLLPvWVZxhyFKJ5Xjl0DNwDy-SGe94Y-0c"/>
+<div>
+<h1 class="font-extrabold text-blue-700 dark:text-blue-400 text-headline-md font-headline-md tracking-tight">溯源门户</h1>
+<p class="text-slate-500 font-label-sm text-label-sm">Verified Supply Chain</p>
+</div>
+</div>
+<div class="px-md py-sm">
+<button class="w-full bg-primary-container text-on-primary-container py-2 rounded-lg font-headline-md text-headline-md flex items-center justify-center gap-xs hover:bg-primary transition-colors shadow-sm">
+<span class="material-symbols-outlined text-sm">add</span> Generate New QR
+            </button>
+</div>
+<div class="flex-1 overflow-y-auto py-md flex flex-col gap-xs px-sm">
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 hover:text-blue-600 dark:hover:text-blue-300 transition-all scale-95 active:scale-100" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Overview</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 hover:text-blue-600 dark:hover:text-blue-300 transition-all scale-95 active:scale-100" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+<span>Batch Tracking</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 font-bold border-r-4 border-blue-600 scale-95 active:scale-100" href="#">
+<span class="material-symbols-outlined">qr_code_2</span>
+<span>二维码生成</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 hover:text-blue-600 dark:hover:text-blue-300 transition-all scale-95 active:scale-100" href="#">
+<span class="material-symbols-outlined">verified_user</span>
+<span>Quality Control</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 hover:text-blue-600 dark:hover:text-blue-300 transition-all scale-95 active:scale-100" href="#">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span>Blockchain Registry</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col min-w-0">
+<!-- TopNavBar (Mobile/Tablet & Desktop Header) -->
+<header class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md font-manrope text-sm font-semibold tracking-tight fixed top-0 w-full z-50 border-b border-b border-slate-200 dark:border-slate-800 shadow-sm flex justify-between items-center px-6 h-16 w-full lg:sticky lg:w-auto">
+<div class="flex items-center gap-sm">
+<span class="lg:hidden text-xl font-bold tracking-tighter text-blue-700 dark:text-blue-400">Agri-Chain 溯源</span>
+<div class="hidden lg:flex gap-lg ml-md">
+<a class="text-slate-600 dark:text-slate-400 hover:text-blue-600 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors active:opacity-80 transition-opacity py-1 px-2 rounded" href="#">工作台</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-blue-600 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors active:opacity-80 transition-opacity py-1 px-2 rounded" href="#">Evidence Chain</a>
+<a class="text-blue-700 dark:text-blue-400 border-b-2 border-blue-600 pb-1 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors active:opacity-80 transition-opacity py-1 px-2 rounded" href="#">QR Management</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-blue-600 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors active:opacity-80 transition-opacity py-1 px-2 rounded" href="#">Audit Logs</a>
+</div>
+</div>
+<div class="flex items-center gap-md text-blue-600 dark:text-blue-400">
+<button class="p-xs hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors rounded-full active:opacity-80 transition-opacity">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-xs hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors rounded-full active:opacity-80 transition-opacity">
+<img alt="User profile" class="w-8 h-8 rounded-full object-cover" data-alt="Professional headshot of a person wearing a smart casual blue shirt, looking approachable on a neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDq7c9CMscLaZqUzS-6t-vOAWw6jfaFdbC-oOX8hhXIjtdN_fnZNf3CNFU2v29mYf5TgT7WewYdToRawIdBylri88VXcWOP6dbQdCzQRwJhmjteIz3iWFM6D7kfQLjaOkt8QeeqMnU5ABUPr3l8964iSWNP9lPBOgSWwtPhyeizDJgf5G7Hr78R8DQ1in9dxze_Ax51brPENZ4qtKVYYpmz6WBWqP8cBmUFtZbobV-R0r95NC5JRMNexrnuPwXHpimynyvAQYXRu9DP"/>
+</button>
+</div>
+</header>
+<main class="flex-1 p-margin lg:p-xl mt-16 lg:mt-0 overflow-y-auto">
+<div class="max-w-7xl mx-auto space-y-margin">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-md">
+<div>
+<h2 class="font-headline-xl text-headline-xl text-on-surface">QR Code Generator</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-xs">Generate and manage consumer-facing traceability access points.</p>
+</div>
+<div class="flex gap-sm w-full md:w-auto">
+<button class="flex-1 md:flex-none px-md py-sm bg-surface-container border border-outline-variant text-primary font-headline-md text-headline-md rounded-lg flex items-center justify-center gap-xs hover:bg-surface-container-high transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">history</span>
+                            History
+                        </button>
+<button class="flex-1 md:flex-none px-md py-sm bg-primary-container text-on-primary-container font-headline-md text-headline-md rounded-lg flex items-center justify-center gap-xs hover:opacity-90 transition-opacity shadow-sm">
+<span class="material-symbols-outlined text-[18px]">qr_code_2</span>
+                            Generate QR
+                        </button>
+</div>
+</div>
+<!-- Main Content Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-margin">
+<!-- Left Column: Product Info & Configuration -->
+<div class="lg:col-span-7 xl:col-span-8 flex flex-col gap-margin">
+<!-- Product Selection Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm p-lg">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-md flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary">inventory_2</span>
+                                Target Product
+                            </h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md mb-md">
+<div class="flex flex-col gap-base">
+<label class="font-label-sm text-label-sm text-on-surface-variant">Product Batch ID</label>
+<div class="relative">
+<select class="w-full bg-surface border-outline-variant rounded-lg font-data-mono text-data-mono text-on-surface py-sm pl-md pr-xl focus:ring-2 focus:ring-primary focus:border-primary appearance-none">
+<option>BCH-2023-11-04-A9F2</option>
+<option>BCH-2023-11-03-B8E1</option>
+<option>BCH-2023-11-01-C7D0</option>
+</select>
+<span class="material-symbols-outlined absolute right-sm top-1/2 -translate-y-1/2 text-outline pointer-events-none">expand_more</span>
+</div>
+</div>
+<div class="flex flex-col gap-base">
+<label class="font-label-sm text-label-sm text-on-surface-variant">Product Line</label>
+<input class="w-full bg-surface-container-low border-outline-variant rounded-lg font-body-md text-body-md text-on-surface-variant py-sm px-md opacity-70" disabled="" type="text" value="Premium Organic Avocados"/>
+</div>
+</div>
+<div class="bg-surface-container rounded-lg p-md flex items-start gap-md">
+<img alt="Avocados" class="w-16 h-16 rounded-md object-cover border border-outline-variant" data-alt="Close up of fresh green organic avocados in a wooden crate with soft natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsH79qJpC5jQR7buDiW5vtLFDMZYQl_0MpKwJf1mdT8CfOl3X9UHzdADPJcqh31ts4iP35UZM5h5MzRb7O_xj0Ss9l9pbIEDbhURdXunhiaqxFvKKhZ47C3u4Gi4rRCPJ1m1qdk5-dUdwGWwLxSbb4E28mm-VnhxbiGTV7Fg083PUfvhUmVegrZljFn2rkTWQlpZ9EzSzGmzFZnQdbneZR93DIdWfvYEzvxHuWOr9svoA6CVyuJIi2szXTlUOw-L7-zOHwgTyY1Qzo"/>
+<div>
+<h4 class="font-data-mono text-data-mono text-on-surface">Harvest Date: Oct 28, 2023</h4>
+<p class="font-body-md text-body-md text-on-surface-variant mt-xs text-sm">Farm: Highland Estates, Sector 4. Blockchain verification confirmed across 4 nodes. Ready for retail distribution packaging.</p>
+</div>
+</div>
+</div>
+<!-- Label Configuration Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm p-lg">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-md flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary">settings_applications</span>
+                                Label Configuration
+                            </h3>
+<div class="space-y-md">
+<div class="flex flex-col gap-base">
+<label class="font-label-sm text-label-sm text-on-surface-variant">Landing Page Template</label>
+<div class="flex gap-md">
+<label class="flex-1 cursor-pointer">
+<input checked="" class="peer sr-only" name="template" type="radio"/>
+<div class="border border-outline-variant rounded-lg p-md text-center peer-checked:border-primary peer-checked:bg-surface-container-low peer-checked:ring-1 peer-checked:ring-primary transition-all">
+<span class="material-symbols-outlined text-[24px] text-on-surface mb-xs block">smartphone</span>
+<span class="font-body-md text-body-md text-on-surface">Standard Mobile</span>
+</div>
+</label>
+<label class="flex-1 cursor-pointer">
+<input class="peer sr-only" name="template" type="radio"/>
+<div class="border border-outline-variant rounded-lg p-md text-center peer-checked:border-primary peer-checked:bg-surface-container-low peer-checked:ring-1 peer-checked:ring-primary transition-all">
+<span class="material-symbols-outlined text-[24px] text-on-surface mb-xs block">verified</span>
+<span class="font-body-md text-body-md text-on-surface">Premium Story</span>
+</div>
+</label>
+</div>
+</div>
+<div class="flex items-center justify-between py-xs border-b border-outline-variant border-opacity-50">
+<span class="font-body-md text-body-md text-on-surface">Include Blockchain Hash string</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-outline-variant after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="flex items-center justify-between py-xs border-b border-outline-variant border-opacity-50">
+<span class="font-body-md text-body-md text-on-surface">Add Brand Logo to Center</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-outline-variant after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: The QR Code Display & Actions -->
+<div class="lg:col-span-5 xl:col-span-4 flex flex-col gap-margin">
+<!-- The QR Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-[0_4px_12px_rgba(0,0,0,0.05)] p-lg flex flex-col items-center relative overflow-hidden">
+<!-- Background accent -->
+<div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-primary to-tertiary"></div>
+<div class="w-full flex justify-between items-center mb-md mt-sm">
+<span class="bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm px-2 py-1 rounded-md flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> Active
+                                </span>
+<span class="font-data-mono text-data-mono text-on-surface-variant text-xs">V. 2.1.0</span>
+</div>
+<!-- The actual QR Image placeholder -->
+<div class="bg-white p-md rounded-xl border-2 border-surface-container-highest shadow-sm mb-lg relative group">
+<img alt="QR Code" class="w-48 h-48 object-contain mix-blend-multiply opacity-90 group-hover:opacity-100 transition-opacity" data-alt="Black and white square QR code pattern with sharp edges" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5ci2_aattgLub7FvzHNp0NiUn7nDpkAWG_ZcB46xRNO7e0PP9-LKq1A3cTPDv47-u5lU5nkH4szAUNFSCtCjHIeHOIfUFrs8e9LP4EzfkEmybVLqYYeXM3FGGGUDYP1bxEZZTL0NLlH5QkIfdH5NsKgv35vh-ry1bHAWDgmOeqwFeEHN3uZCSNNsKuVE0RPH5bLYU3U2brbNjOGQx6BKk_A6e4aF1FAVr9piHSMWysmBfOvzB1_iaXdJmS3-lhiHetye211geMwwk"/>
+<div class="absolute inset-0 bg-primary/5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded-xl">
+<span class="material-symbols-outlined text-primary text-xl drop-shadow-md">zoom_in</span>
+</div>
+</div>
+<div class="text-center mb-lg w-full">
+<p class="font-data-mono text-data-mono text-on-surface mb-xs break-all text-xs bg-surface-container-low p-sm rounded border border-outline-variant">
+                                    0x7F8C...9A2B
+                                </p>
+<p class="font-label-sm text-label-sm text-on-surface-variant flex items-center justify-center gap-xs mt-xs">
+<span class="material-symbols-outlined text-[14px]">visibility</span> 1,248 Scans to date
+                                </p>
+</div>
+<!-- Primary Actions -->
+<div class="w-full grid grid-cols-2 gap-sm mb-sm">
+<button class="w-full py-sm bg-surface-container border border-primary text-primary font-headline-md text-headline-md rounded-lg flex items-center justify-center gap-xs hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[18px]">download</span> PNG
+                                </button>
+<button class="w-full py-sm bg-primary-container text-on-primary-container font-headline-md text-headline-md rounded-lg flex items-center justify-center gap-xs hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-[18px]">print</span> Print Label
+                                </button>
+</div>
+</div>
+<!-- Public Link Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm p-md">
+<h4 class="font-label-sm text-label-sm text-on-surface-variant mb-xs">Public Query Link</h4>
+<div class="flex gap-sm">
+<input class="flex-1 bg-surface border-outline-variant rounded-md font-data-mono text-data-mono text-on-surface py-1 px-sm text-xs truncate" readonly="" type="text" value="https://trace.agri-chain.io/q/a9f2"/>
+<button class="px-sm py-1 bg-surface-container border border-outline-variant text-on-surface font-label-sm text-label-sm rounded-md hover:bg-surface-container-high transition-colors flex items-center justify-center" title="Copy Link">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+</button>
+</div>
+<button class="w-full mt-md py-1 border border-outline-variant text-on-surface font-label-sm text-label-sm rounded-md flex items-center justify-center gap-xs hover:bg-surface transition-colors">
+<span class="material-symbols-outlined text-[16px]">open_in_new</span> 预览消费者页面
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-lg font-manrope text-[10px] font-medium fixed bottom-0 w-full z-50 rounded-t-xl border-t border-t border-slate-100 dark:border-slate-800 shadow-[0_-4px_12px_rgba(0,0,0,0.05)] lg:hidden fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-3 pb-safe">
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 active:bg-slate-100 dark:active:bg-slate-800 tap-highlight-transparent transition-transform active:scale-90 p-1 rounded" href="#">
+<span class="material-symbols-outlined mb-1">history_edu</span>
+                Timeline
+            </a>
+<a class="flex flex-col items-center justify-center text-blue-700 dark:text-blue-400 bg-blue-50/50 dark:bg-blue-900/30 rounded-xl px-3 py-1 active:bg-slate-100 dark:active:bg-slate-800 tap-highlight-transparent transition-transform active:scale-90" href="#">
+<span class="material-symbols-outlined mb-1">qr_code_scanner</span>
+                Scan QR
+            </a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 active:bg-slate-100 dark:active:bg-slate-800 tap-highlight-transparent transition-transform active:scale-90 p-1 rounded" href="#">
+<span class="material-symbols-outlined mb-1">assignment</span>
+                Records
+            </a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 active:bg-slate-100 dark:active:bg-slate-800 tap-highlight-transparent transition-transform active:scale-90 p-1 rounded" href="#">
+<span class="material-symbols-outlined mb-1">person</span>
+                Profile
+            </a>
+</nav>
+</div>
+</body></html>

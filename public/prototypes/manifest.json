@@ -1,0 +1,450 @@
+﻿[
+    {
+        "slug":  "a01_pc",
+        "file":  "a01_pc.html",
+        "group":  "A01",
+        "route":  "/prototype/a01-pc",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/a01_pc.png"
+    },
+    {
+        "slug":  "a02_pc",
+        "file":  "a02_pc.html",
+        "group":  "A02",
+        "route":  "/prototype/a02-pc",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/a02_pc.png"
+    },
+    {
+        "slug":  "a03_pc",
+        "file":  "a03_pc.html",
+        "group":  "A03",
+        "route":  "/prototype/a03-pc",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/a03_pc.png"
+    },
+    {
+        "slug":  "a04_pc",
+        "file":  "a04_pc.html",
+        "group":  "A04",
+        "route":  "/prototype/a04-pc",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/a04_pc.png"
+    },
+    {
+        "slug":  "a05_pc",
+        "file":  "a05_pc.html",
+        "group":  "A05",
+        "route":  "/prototype/a05-pc",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/a05_pc.png"
+    },
+    {
+        "slug":  "a06_pc",
+        "file":  "a06_pc.html",
+        "group":  "A06",
+        "route":  "/prototype/a06-pc",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/a06_pc.png"
+    },
+    {
+        "slug":  "agrichain_traceability_system",
+        "file":  "agrichain_traceability_system.html",
+        "group":  "AGRICHAIN",
+        "route":  "/prototype/agrichain-traceability-system",
+        "screen":  false,
+        "screenPath":  "/prototypes/screens/agrichain_traceability_system.png"
+    },
+    {
+        "slug":  "c01_mobile",
+        "file":  "c01_mobile.html",
+        "group":  "C01",
+        "route":  "/prototype/c01-mobile",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/c01_mobile.png"
+    },
+    {
+        "slug":  "c02_mobile",
+        "file":  "c02_mobile.html",
+        "group":  "C02",
+        "route":  "/prototype/c02-mobile",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/c02_mobile.png"
+    },
+    {
+        "slug":  "c03_mobile",
+        "file":  "c03_mobile.html",
+        "group":  "C03",
+        "route":  "/prototype/c03-mobile",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/c03_mobile.png"
+    },
+    {
+        "slug":  "c03_mobile_h5",
+        "file":  "c03_mobile_h5.html",
+        "group":  "C03",
+        "route":  "/prototype/c03-mobile-h5",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/c03_mobile_h5.png"
+    },
+    {
+        "slug":  "c04_mobile_1",
+        "file":  "c04_mobile_1.html",
+        "group":  "C04",
+        "route":  "/prototype/c04-mobile-1",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/c04_mobile_1.png"
+    },
+    {
+        "slug":  "c04_mobile_2",
+        "file":  "c04_mobile_2.html",
+        "group":  "C04",
+        "route":  "/prototype/c04-mobile-2",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/c04_mobile_2.png"
+    },
+    {
+        "slug":  "c05_mobile",
+        "file":  "c05_mobile.html",
+        "group":  "C05",
+        "route":  "/prototype/c05-mobile",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/c05_mobile.png"
+    },
+    {
+        "slug":  "c06_mobile_1",
+        "file":  "c06_mobile_1.html",
+        "group":  "C06",
+        "route":  "/prototype/c06-mobile-1",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/c06_mobile_1.png"
+    },
+    {
+        "slug":  "c06_mobile_2",
+        "file":  "c06_mobile_2.html",
+        "group":  "C06",
+        "route":  "/prototype/c06-mobile-2",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/c06_mobile_2.png"
+    },
+    {
+        "slug":  "f01_pc",
+        "file":  "f01_pc.html",
+        "group":  "F01",
+        "route":  "/prototype/f01-pc",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/f01_pc.png"
+    },
+    {
+        "slug":  "f02_pc",
+        "file":  "f02_pc.html",
+        "group":  "F02",
+        "route":  "/prototype/f02-pc",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/f02_pc.png"
+    },
+    {
+        "slug":  "f03_pc",
+        "file":  "f03_pc.html",
+        "group":  "F03",
+        "route":  "/prototype/f03-pc",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/f03_pc.png"
+    },
+    {
+        "slug":  "f04_pc",
+        "file":  "f04_pc.html",
+        "group":  "F04",
+        "route":  "/prototype/f04-pc",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/f04_pc.png"
+    },
+    {
+        "slug":  "f05_pc",
+        "file":  "f05_pc.html",
+        "group":  "F05",
+        "route":  "/prototype/f05-pc",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/f05_pc.png"
+    },
+    {
+        "slug":  "g01_pc",
+        "file":  "g01_pc.html",
+        "group":  "G01",
+        "route":  "/prototype/g01-pc",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/g01_pc.png"
+    },
+    {
+        "slug":  "g02_pc",
+        "file":  "g02_pc.html",
+        "group":  "G02",
+        "route":  "/prototype/g02-pc",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/g02_pc.png"
+    },
+    {
+        "slug":  "g03_pc",
+        "file":  "g03_pc.html",
+        "group":  "G03",
+        "route":  "/prototype/g03-pc",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/g03_pc.png"
+    },
+    {
+        "slug":  "g04_pc",
+        "file":  "g04_pc.html",
+        "group":  "G04",
+        "route":  "/prototype/g04-pc",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/g04_pc.png"
+    },
+    {
+        "slug":  "g05_pc",
+        "file":  "g05_pc.html",
+        "group":  "G05",
+        "route":  "/prototype/g05-pc",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/g05_pc.png"
+    },
+    {
+        "slug":  "g06_pc_1",
+        "file":  "g06_pc_1.html",
+        "group":  "G06",
+        "route":  "/prototype/g06-pc-1",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/g06_pc_1.png"
+    },
+    {
+        "slug":  "g06_pc_2",
+        "file":  "g06_pc_2.html",
+        "group":  "G06",
+        "route":  "/prototype/g06-pc-2",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/g06_pc_2.png"
+    },
+    {
+        "slug":  "g07_pc",
+        "file":  "g07_pc.html",
+        "group":  "G07",
+        "route":  "/prototype/g07-pc",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/g07_pc.png"
+    },
+    {
+        "slug":  "g08_pc",
+        "file":  "g08_pc.html",
+        "group":  "G08",
+        "route":  "/prototype/g08-pc",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/g08_pc.png"
+    },
+    {
+        "slug":  "g09_pc",
+        "file":  "g09_pc.html",
+        "group":  "G09",
+        "route":  "/prototype/g09-pc",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/g09_pc.png"
+    },
+    {
+        "slug":  "l01_pc",
+        "file":  "l01_pc.html",
+        "group":  "L01",
+        "route":  "/prototype/l01-pc",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/l01_pc.png"
+    },
+    {
+        "slug":  "l02_pc",
+        "file":  "l02_pc.html",
+        "group":  "L02",
+        "route":  "/prototype/l02-pc",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/l02_pc.png"
+    },
+    {
+        "slug":  "l03_pc",
+        "file":  "l03_pc.html",
+        "group":  "L03",
+        "route":  "/prototype/l03-pc",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/l03_pc.png"
+    },
+    {
+        "slug":  "l04_pc",
+        "file":  "l04_pc.html",
+        "group":  "L04",
+        "route":  "/prototype/l04-pc",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/l04_pc.png"
+    },
+    {
+        "slug":  "l05_pc_1",
+        "file":  "l05_pc_1.html",
+        "group":  "L05",
+        "route":  "/prototype/l05-pc-1",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/l05_pc_1.png"
+    },
+    {
+        "slug":  "l05_pc_2",
+        "file":  "l05_pc_2.html",
+        "group":  "L05",
+        "route":  "/prototype/l05-pc-2",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/l05_pc_2.png"
+    },
+    {
+        "slug":  "m01_pc",
+        "file":  "m01_pc.html",
+        "group":  "M01",
+        "route":  "/prototype/m01-pc",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/m01_pc.png"
+    },
+    {
+        "slug":  "m02_pc",
+        "file":  "m02_pc.html",
+        "group":  "M02",
+        "route":  "/prototype/m02-pc",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/m02_pc.png"
+    },
+    {
+        "slug":  "m03_pc",
+        "file":  "m03_pc.html",
+        "group":  "M03",
+        "route":  "/prototype/m03-pc",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/m03_pc.png"
+    },
+    {
+        "slug":  "m04_pc",
+        "file":  "m04_pc.html",
+        "group":  "M04",
+        "route":  "/prototype/m04-pc",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/m04_pc.png"
+    },
+    {
+        "slug":  "m05_pc",
+        "file":  "m05_pc.html",
+        "group":  "M05",
+        "route":  "/prototype/m05-pc",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/m05_pc.png"
+    },
+    {
+        "slug":  "p01_pc",
+        "file":  "p01_pc.html",
+        "group":  "P01",
+        "route":  "/prototype/p01-pc",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/p01_pc.png"
+    },
+    {
+        "slug":  "p02_pc",
+        "file":  "p02_pc.html",
+        "group":  "P02",
+        "route":  "/prototype/p02-pc",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/p02_pc.png"
+    },
+    {
+        "slug":  "p03_pc",
+        "file":  "p03_pc.html",
+        "group":  "P03",
+        "route":  "/prototype/p03-pc",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/p03_pc.png"
+    },
+    {
+        "slug":  "p04_pc",
+        "file":  "p04_pc.html",
+        "group":  "P04",
+        "route":  "/prototype/p04-pc",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/p04_pc.png"
+    },
+    {
+        "slug":  "p05_404_pc",
+        "file":  "p05_404_pc.html",
+        "group":  "P05",
+        "route":  "/prototype/p05-404-pc",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/p05_404_pc.png"
+    },
+    {
+        "slug":  "p06_pc_1",
+        "file":  "p06_pc_1.html",
+        "group":  "P06",
+        "route":  "/prototype/p06-pc-1",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/p06_pc_1.png"
+    },
+    {
+        "slug":  "p06_pc_2",
+        "file":  "p06_pc_2.html",
+        "group":  "P06",
+        "route":  "/prototype/p06-pc-2",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/p06_pc_2.png"
+    },
+    {
+        "slug":  "r01_pc",
+        "file":  "r01_pc.html",
+        "group":  "R01",
+        "route":  "/prototype/r01-pc",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/r01_pc.png"
+    },
+    {
+        "slug":  "r02_pc",
+        "file":  "r02_pc.html",
+        "group":  "R02",
+        "route":  "/prototype/r02-pc",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/r02_pc.png"
+    },
+    {
+        "slug":  "r03_pc",
+        "file":  "r03_pc.html",
+        "group":  "R03",
+        "route":  "/prototype/r03-pc",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/r03_pc.png"
+    },
+    {
+        "slug":  "r04_pc",
+        "file":  "r04_pc.html",
+        "group":  "R04",
+        "route":  "/prototype/r04-pc",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/r04_pc.png"
+    },
+    {
+        "slug":  "r05_pc_1",
+        "file":  "r05_pc_1.html",
+        "group":  "R05",
+        "route":  "/prototype/r05-pc-1",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/r05_pc_1.png"
+    },
+    {
+        "slug":  "r05_pc_2",
+        "file":  "r05_pc_2.html",
+        "group":  "R05",
+        "route":  "/prototype/r05-pc-2",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/r05_pc_2.png"
+    },
+    {
+        "slug":  "r06_pc",
+        "file":  "r06_pc.html",
+        "group":  "R06",
+        "route":  "/prototype/r06-pc",
+        "screen":  true,
+        "screenPath":  "/prototypes/screens/r06_pc.png"
+    }
+]

@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Logistics 批次详情 - Agri-Chain 溯源</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-surface": "#213145",
+                        "on-secondary-fixed": "#001a41",
+                        "surface-tint": "#0058c9",
+                        "on-background": "#0b1c30",
+                        "on-tertiary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-primary-fixed": "#001944",
+                        "inverse-primary": "#afc6ff",
+                        "surface-dim": "#cbdbf5",
+                        "outline": "#727786",
+                        "surface-container-low": "#eff4ff",
+                        "surface-container-high": "#dce9ff",
+                        "secondary-fixed": "#d8e2ff",
+                        "on-secondary-fixed-variant": "#24467e",
+                        "error-container": "#ffdad6",
+                        "on-primary-container": "#fdfbff",
+                        "primary-fixed-dim": "#afc6ff",
+                        "secondary-container": "#9fbeff",
+                        "primary": "#0056c3",
+                        "on-error-container": "#93000a",
+                        "inverse-on-surface": "#eaf1ff",
+                        "outline-variant": "#c2c6d7",
+                        "tertiary-fixed-dim": "#62df7d",
+                        "surface-container-highest": "#d3e4fe",
+                        "on-tertiary-container": "#f2ffee",
+                        "on-primary-fixed-variant": "#00429a",
+                        "on-error": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "primary-container": "#1e6eeb",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary": "#006a2c",
+                        "secondary-fixed-dim": "#adc7ff",
+                        "on-secondary": "#ffffff",
+                        "surface-bright": "#f8f9ff",
+                        "surface-variant": "#d3e4fe",
+                        "on-tertiary-fixed": "#002109",
+                        "on-surface": "#0b1c30",
+                        "on-tertiary-fixed-variant": "#005320",
+                        "primary-fixed": "#d9e2ff",
+                        "tertiary-fixed": "#7ffc97",
+                        "secondary": "#3e5e98",
+                        "tertiary-container": "#008639",
+                        "surface": "#f8f9ff",
+                        "on-surface-variant": "#424654",
+                        "surface-container": "#e5eeff",
+                        "on-secondary-container": "#2b4c85",
+                        "background": "#f8f9ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "base": "4px",
+                        "md": "16px",
+                        "lg": "24px",
+                        "margin": "24px",
+                        "sm": "12px",
+                        "gutter": "20px",
+                        "xl": "32px",
+                        "xs": "8px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Inter"],
+                        "headline-xl": ["Manrope"],
+                        "headline-md": ["Manrope"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "data-mono": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                        "headline-xl": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "headline-md": ["18px", {"lineHeight": "26px", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "data-mono": ["14px", {"lineHeight": "20px", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1;
+        }
+        /* Custom scrollbar for timeline */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body-md text-body-md text-on-surface antialiased flex h-screen overflow-hidden">
+<!-- Shared Component: SideNavBar -->
+<aside class="hidden md:flex flex-col bg-white dark:bg-slate-900 h-screen w-64 border-r rounded-none border-r border-slate-200 dark:border-slate-800 flat no shadows fixed left-0 top-0 bottom-0 pt-20 pb-6 z-30">
+<!-- Brand Header (Visual space reserved above due to pt-20, assuming TopNav overlaps or is independent. Based on JSON `style_shell_layout`: pt-20. Let's adjust to fit nicely) -->
+<div class="px-6 mb-8 absolute top-0 left-0 w-full h-16 flex items-center gap-3 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 z-50">
+<div class="w-8 h-8 rounded bg-blue-100 flex items-center justify-center overflow-hidden">
+<img alt="Organization Logo" class="w-full h-full object-cover" data-alt="minimalist abstract geometric logo with blue and green intersecting shapes on white background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAczanVamWlWfzOGEl5jkARRWE03Ad1LUHu0P67mopzIa3mpFu4eyXwOwzG8yy_Eb4Q6dn1Yplqckidaev7Om7Fta_1uX1tr1dTgMThkiWUDyXKzs2lFPvKc7a2FeTz1HOkemFhDCo4TtTsigIoI9VR2cyD2Z8i8mjxANF0HzDniAY_NbJfte7_TAfaCtgzAPB8llXMIaTAlxCmzqLw_5_VgAWmESbmVeccgUKR8GsTJq78HuDY9EVXrfo_eBwOipKvcfl6T9c5O-O5"/>
+</div>
+<div>
+<h1 class="font-manrope text-sm antialiased text-lg font-extrabold text-slate-900 dark:text-white leading-tight">Industrial Hub</h1>
+<p class="text-[10px] text-slate-500 font-medium tracking-wide uppercase mt-0.5">Batch Verification Active</p>
+</div>
+</div>
+<nav class="flex-1 px-3 space-y-1 overflow-y-auto mt-2">
+<!-- Index 0 -->
+<a class="flex items-center gap-3 text-slate-600 dark:text-slate-400 px-4 py-3 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 duration-200 ease-in-out transform font-manrope text-sm antialiased rounded-md" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+                工作台
+            </a>
+<!-- Index 1 -->
+<a class="flex items-center gap-3 text-slate-600 dark:text-slate-400 px-4 py-3 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 duration-200 ease-in-out transform font-manrope text-sm antialiased rounded-md" href="#">
+<span class="material-symbols-outlined">factory</span>
+                Processing
+            </a>
+<!-- Index 2 (Active Semantic Match: Logistics 批次详情 -> Logistics) -->
+<a class="flex items-center gap-3 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 font-semibold px-4 py-3 rounded-md hover:bg-slate-50 dark:hover:bg-slate-800/50 duration-200 ease-in-out transform font-manrope text-sm antialiased" href="#">
+<span class="material-symbols-outlined">local_shipping</span>
+                Logistics
+            </a>
+<!-- Index 3 -->
+<a class="flex items-center gap-3 text-slate-600 dark:text-slate-400 px-4 py-3 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 duration-200 ease-in-out transform font-manrope text-sm antialiased rounded-md" href="#">
+<span class="material-symbols-outlined">fact_check</span>
+                Quality Control
+            </a>
+<!-- Index 4 -->
+<a class="flex items-center gap-3 text-slate-600 dark:text-slate-400 px-4 py-3 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 duration-200 ease-in-out transform font-manrope text-sm antialiased rounded-md" href="#">
+<span class="material-symbols-outlined">history_edu</span>
+                Audit Log
+            </a>
+</nav>
+<div class="px-3 mt-auto">
+<button class="w-full mb-4 flex items-center justify-center gap-2 bg-blue-600 text-white font-manrope text-sm font-semibold py-2.5 px-4 rounded-md shadow-sm hover:bg-blue-700 transition-colors">
+<span class="material-symbols-outlined text-[18px]">qr_code_scanner</span>
+                Scan QR Code
+            </button>
+<div class="space-y-1 border-t border-slate-200 dark:border-slate-800 pt-4">
+<a class="flex items-center gap-3 text-slate-600 dark:text-slate-400 px-4 py-2 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 duration-200 ease-in-out transform font-manrope text-sm antialiased rounded-md" href="#">
+<span class="material-symbols-outlined">contact_support</span>
+                    Support
+                </a>
+<a class="flex items-center gap-3 text-slate-600 dark:text-slate-400 px-4 py-2 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 duration-200 ease-in-out transform font-manrope text-sm antialiased rounded-md" href="#">
+<span class="material-symbols-outlined">logout</span>
+                    Sign Out
+                </a>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col md:ml-64 relative h-screen overflow-hidden">
+<!-- Shared Component: TopNavBar -->
+<header class="bg-white dark:bg-slate-900 docked full-width top-0 z-40 border-b border-slate-200 dark:border-slate-800 shadow-sm flex justify-between items-center h-16 px-6 w-full absolute">
+<div class="flex items-center gap-4">
+<span class="text-xl font-bold tracking-tight text-blue-700 dark:text-blue-500 font-manrope">Agri-Chain 溯源</span>
+</div>
+<div class="flex items-center gap-4">
+<!-- Search bar on_right logic -->
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[20px]">search</span>
+<input class="pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-full text-sm font-manrope focus:outline-none focus:ring-2 focus:ring-blue-500 w-64 transition-all" placeholder="Search batch, ID, or entity..." type="text"/>
+</div>
+<div class="flex items-center gap-2 border-l border-slate-200 dark:border-slate-700 pl-4 ml-2">
+<button class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors rounded-full active:opacity-80 transition-opacity">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors rounded-full active:opacity-80 transition-opacity">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<button class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors rounded-full active:opacity-80 transition-opacity">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button class="ml-2 w-8 h-8 rounded-full overflow-hidden border border-slate-200 active:opacity-80 transition-opacity">
+<img alt="Manager Profile" class="w-full h-full object-cover" data-alt="professional headshot of a man in a blue shirt with a neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBon_d-x_GWU-LmHVRNV7_fYliJ5n1X21L8EX-IJS4hcRFB-6crplFtQoc8ByDUj7C6iLTHP4wedR4Qy37M-nvtB_387I7xKkNnXn751ynvu1yQdriLoF-mzsZMd1xagYz-D_2np0UHf9eui2tckmi5RUzDOT38OyJxtiFjxZMH7bxA55FnG6BJZRvwDYN3nQ14-OB3QeXJl8J4z6u7jKGxZ2sNZTBXs6XTn4Du88SXzUVwDyb-gJ2XoVfW9ZpGZv3TEs4JYixOHfv3"/>
+</button>
+</div>
+</div>
+</header>
+<!-- Scrollable Canvas -->
+<main class="flex-1 overflow-y-auto mt-16 p-lg bg-surface relative">
+<div class="max-w-7xl mx-auto space-y-lg pb-xl">
+<!-- Page Header & Breadcrumbs -->
+<div class="flex items-center justify-between">
+<div>
+<div class="flex items-center gap-2 text-on-surface-variant font-label-sm text-label-sm mb-xs">
+<a class="hover:text-primary transition-colors" href="#">Logistics</a>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-on-surface">批次详情</span>
+</div>
+<h2 class="font-headline-xl text-headline-xl text-on-surface">Logistics Batch <span class="font-data-mono text-primary">#TRK-2023-8891A</span></h2>
+</div>
+<div class="flex gap-sm">
+<button class="flex items-center gap-xs px-md py-sm bg-surface-container-lowest border border-outline-variant rounded-lg font-label-sm text-label-sm text-on-surface hover:bg-surface-container-low transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">download</span>
+                            导出运单
+                        </button>
+<button class="flex items-center gap-xs px-md py-sm bg-primary-container text-on-primary-container rounded-lg font-label-sm text-label-sm hover:bg-primary transition-colors hover:text-on-primary shadow-sm">
+<span class="material-symbols-outlined text-[18px]">edit_document</span>
+                            Update Status
+                        </button>
+</div>
+</div>
+<!-- Top Summary Card (Bento Style) -->
+<div class="grid grid-cols-12 gap-lg">
+<!-- Main Status Intro -->
+<div class="col-span-12 lg:col-span-4 bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-sm flex flex-col justify-between relative overflow-hidden">
+<!-- Decorative background element -->
+<div class="absolute -right-10 -top-10 w-32 h-32 bg-secondary-fixed/30 rounded-full blur-2xl pointer-events-none"></div>
+<div>
+<div class="flex items-center gap-sm mb-md">
+<span class="material-symbols-outlined text-primary fill text-[28px]">local_shipping</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">In Transit</h3>
+<span class="px-xs py-1 bg-surface-container-high text-on-surface-variant font-label-sm text-[10px] rounded uppercase tracking-wider ml-auto border border-outline-variant/50">Cold Chain</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-lg">Shipment is currently en route to destination distribution center. Temperature parameters are stable.</p>
+</div>
+<div class="bg-surface p-md rounded-lg border border-outline-variant/50">
+<div class="flex justify-between items-center mb-xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Estimated Arrival</span>
+<span class="font-data-mono text-data-mono text-tertiary flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">schedule</span> 14:30 EST</span>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-1.5 mb-1 overflow-hidden">
+<div class="bg-primary h-1.5 rounded-full" style="width: 65%"></div>
+</div>
+<span class="font-label-sm text-[10px] text-on-surface-variant">65% of route completed</span>
+</div>
+</div>
+<!-- Details Grid -->
+<div class="col-span-12 lg:col-span-8 bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-sm grid grid-cols-2 md:grid-cols-4 gap-y-lg gap-x-md">
+<div class="col-span-2 md:col-span-1">
+<span class="block font-label-sm text-label-sm text-on-surface-variant mb-xs">Originating Node</span>
+<span class="block font-body-md text-body-md text-on-surface font-semibold">Green Valley Farm Coop</span>
+<span class="block font-label-sm text-[11px] text-outline mt-1 flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">location_on</span> Salinas, CA</span>
+</div>
+<div class="col-span-2 md:col-span-1">
+<span class="block font-label-sm text-label-sm text-on-surface-variant mb-xs">Destination Node</span>
+<span class="block font-body-md text-body-md text-on-surface font-semibold">Metro Fresh Dist.</span>
+<span class="block font-label-sm text-[11px] text-outline mt-1 flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">location_on</span> Chicago, IL</span>
+</div>
+<div class="col-span-2 md:col-span-1">
+<span class="block font-label-sm text-label-sm text-on-surface-variant mb-xs">Carrier Entity</span>
+<span class="block font-body-md text-body-md text-on-surface font-semibold">Apex Logistics Ltd.</span>
+<span class="block font-data-mono text-[11px] text-outline mt-1">ID: APX-992-B</span>
+</div>
+<div class="col-span-2 md:col-span-1">
+<span class="block font-label-sm text-label-sm text-on-surface-variant mb-xs">Commodity</span>
+<span class="block font-body-md text-body-md text-on-surface font-semibold">Organic Romaine Hearts</span>
+<span class="block font-label-sm text-[11px] text-outline mt-1">Qty: 450 Cartons</span>
+</div>
+<div class="col-span-4 border-t border-outline-variant/40 pt-md mt-sm flex items-center justify-between">
+<div class="flex items-center gap-md">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Chain Verification:</span>
+<div class="flex items-center gap-xs text-tertiary bg-tertiary-container/20 px-sm py-1 rounded font-data-mono text-[12px]">
+<span class="material-symbols-outlined text-[14px]">verified</span>
+                                    0x7F...9A2C
+                                </div>
+</div>
+<a class="font-label-sm text-label-sm text-primary hover:underline flex items-center gap-1" href="#">View Smart Contract <span class="material-symbols-outlined text-[14px]">open_in_new</span></a>
+</div>
+</div>
+</div>
+<!-- Middle Timeline (Full Chain Horizontal) -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-sm">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-xl">Logistics Progression</h3>
+<div class="relative w-full overflow-x-auto hide-scrollbar pb-md">
+<!-- Connecting Line Background -->
+<div class="absolute top-5 left-[5%] right-[5%] h-0.5 bg-outline-variant/40 z-0"></div>
+<!-- Active Connecting Line -->
+<div class="absolute top-5 left-[5%] w-[60%] h-0.5 bg-primary z-0"></div>
+<div class="flex justify-between items-start relative z-10 min-w-[800px]">
+<!-- Node 1: Dispatched -->
+<div class="flex flex-col items-center w-32 group cursor-pointer">
+<div class="w-10 h-10 rounded-full bg-tertiary flex items-center justify-center text-on-tertiary shadow-sm mb-sm border-2 border-surface-container-lowest ring-2 ring-tertiary/20">
+<span class="material-symbols-outlined text-[20px]">check</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold text-center mb-0.5">Dispatched</span>
+<span class="font-data-mono text-[11px] text-outline text-center block">Oct 26, 08:00</span>
+</div>
+<!-- Node 2: Hub Arrival -->
+<div class="flex flex-col items-center w-32 group cursor-pointer">
+<div class="w-10 h-10 rounded-full bg-tertiary flex items-center justify-center text-on-tertiary shadow-sm mb-sm border-2 border-surface-container-lowest ring-2 ring-tertiary/20">
+<span class="material-symbols-outlined text-[20px]">check</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold text-center mb-0.5">Hub Transit</span>
+<span class="font-data-mono text-[11px] text-outline text-center block">Oct 26, 22:15</span>
+</div>
+<!-- Node 3: Current State -->
+<div class="flex flex-col items-center w-40 group cursor-pointer">
+<div class="relative">
+<div class="absolute -inset-1.5 bg-primary-container rounded-full animate-pulse opacity-50"></div>
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary shadow-sm mb-sm relative z-10 border-2 border-surface-container-lowest">
+<span class="material-symbols-outlined text-[20px]">local_shipping</span>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-primary font-bold text-center mb-0.5 mt-sm">In Transit (I-80 E)</span>
+<span class="font-data-mono text-[11px] text-primary text-center block">Last Sync: 2m ago</span>
+</div>
+<!-- Node 4: Inspection (待处理) -->
+<div class="flex flex-col items-center w-32 group cursor-pointer opacity-60">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-outline shadow-inner mb-sm border-2 border-surface-container-lowest">
+<span class="material-symbols-outlined text-[20px]">rule</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold text-center mb-0.5">QC Inspection</span>
+<span class="font-data-mono text-[11px] text-outline text-center block">待到货</span>
+</div>
+<!-- Node 5: Delivered (待处理) -->
+<div class="flex flex-col items-center w-32 group cursor-pointer opacity-60">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-outline shadow-inner mb-sm border-2 border-surface-container-lowest">
+<span class="material-symbols-outlined text-[20px]">where_to_vote</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold text-center mb-0.5">Delivered</span>
+<span class="font-data-mono text-[11px] text-outline text-center block">Est. Oct 28</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Tabs & Content Area -->
+<div>
+<!-- Tab List -->
+<div class="border-b border-outline-variant flex gap-lg mb-lg overflow-x-auto hide-scrollbar">
+<button class="pb-sm font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors whitespace-nowrap">
+                            Vehicle &amp; Driver
+                        </button>
+<button class="pb-sm font-label-sm text-label-sm text-primary border-b-2 border-primary font-semibold whitespace-nowrap flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">route</span>
+                            Transportation Route
+                        </button>
+<button class="pb-sm font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors whitespace-nowrap">
+                            Environment Data
+                        </button>
+<button class="pb-sm font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors whitespace-nowrap flex items-center gap-1">
+                            Exceptions
+                            <span class="bg-surface-container-high text-on-surface-variant text-[10px] px-1.5 rounded-full ml-1">0</span>
+</button>
+<button class="pb-sm font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors whitespace-nowrap">
+                            Receipts
+                        </button>
+</div>
+<!-- Active Tab Content: Transportation Route (Bento Layout) -->
+<div class="grid grid-cols-12 gap-lg">
+<!-- Map Canvas Area -->
+<div class="col-span-12 lg:col-span-8 bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm flex flex-col h-[500px] relative">
+<!-- Map Image Placeholder -->
+<div class="flex-1 relative bg-surface-variant">
+<img alt="satellite view of a generic map showing highways and terrain in muted blue and grey tones" class="w-full h-full object-cover opacity-80 mix-blend-multiply" data-alt="clean digital map interface showing a route line across terrain with subtle topographical details in cool blue tones" data-location="United States" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_zfWjiALvPzEaHIRShrkEbNsexvU6ukjKPkaOhE82EM8bo4lKiwDDapq3KE1-6yJCf1Gt9KXxpXbF5VFG5gVWQD5Og8Xu9gccmvTusOQaMcKgXi2WOgfk1YaVjU0hkRJkqymj7v1SJ3I26A8MhHCvtpZ7ykhk-pHpHZ3VLQMU0_cDucUZu4wGyiRHKSgbXJnTMijyqM5q2T61peT-rZTOA3UMa08V39-VZqavV8AwMk2v-FaVjzFohAALRRGypMHDw81K_Poc5nhG"/>
+<!-- Fake Map UI Overlays -->
+<div class="absolute top-md left-md bg-white/90 backdrop-blur-sm border border-outline-variant rounded-lg p-sm shadow-md flex flex-col gap-xs">
+<div class="flex items-center gap-sm">
+<div class="w-3 h-3 rounded-full bg-outline-variant"></div>
+<span class="font-label-sm text-[11px] text-on-surface">Salinas, CA</span>
+</div>
+<div class="w-0.5 h-4 bg-outline-variant ml-1.5"></div>
+<div class="flex items-center gap-sm">
+<div class="w-3 h-3 rounded-full bg-primary animate-pulse"></div>
+<span class="font-label-sm text-[11px] text-primary font-bold">Current: Omaha, NE</span>
+</div>
+<div class="w-0.5 h-4 bg-outline-variant ml-1.5 border-l border-dashed border-outline-variant bg-transparent"></div>
+<div class="flex items-center gap-sm">
+<div class="w-3 h-3 rounded-full border-2 border-outline-variant"></div>
+<span class="font-label-sm text-[11px] text-on-surface-variant">Chicago, IL</span>
+</div>
+</div>
+<!-- Real-time indicator -->
+<div class="absolute bottom-md left-md bg-surface-container-lowest/90 backdrop-blur border border-outline-variant px-sm py-1.5 rounded-full shadow-sm flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-tertiary block animate-pulse"></span>
+<span class="font-data-mono text-[10px] text-on-surface">GPS Sync Active</span>
+</div>
+</div>
+</div>
+<!-- Right Side Context Sidebar (Sensor & Driver abstract) -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-lg h-[500px]">
+<!-- Sensor Widget -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md shadow-sm flex-1 flex flex-col">
+<div class="flex justify-between items-center mb-md">
+<h4 class="font-label-sm text-label-sm text-on-surface font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-primary">sensors</span>
+                                        Live Environment
+                                    </h4>
+<button class="text-primary hover:bg-primary-fixed/30 p-1 rounded transition-colors">
+<span class="material-symbols-outlined text-[16px]">show_chart</span>
+</button>
+</div>
+<div class="grid grid-cols-2 gap-sm flex-1">
+<div class="bg-surface rounded-lg border border-outline-variant/40 p-sm flex flex-col justify-center items-center relative overflow-hidden">
+<span class="font-label-sm text-[11px] text-on-surface-variant mb-1">Temperature</span>
+<div class="font-headline-xl text-[28px] text-on-surface font-bold flex items-start">
+                                            34<span class="text-[14px] mt-1 ml-0.5 text-outline">°F</span>
+</div>
+<div class="mt-2 text-tertiary font-label-sm text-[10px] flex items-center gap-0.5 bg-tertiary-container/10 px-1.5 py-0.5 rounded">
+<span class="material-symbols-outlined text-[12px]">check_circle</span> Stable
+                                        </div>
+</div>
+<div class="bg-surface rounded-lg border border-outline-variant/40 p-sm flex flex-col justify-center items-center relative overflow-hidden">
+<span class="font-label-sm text-[11px] text-on-surface-variant mb-1">Humidity</span>
+<div class="font-headline-xl text-[28px] text-on-surface font-bold flex items-start">
+                                            88<span class="text-[14px] mt-1 ml-0.5 text-outline">%</span>
+</div>
+<div class="mt-2 text-tertiary font-label-sm text-[10px] flex items-center gap-0.5 bg-tertiary-container/10 px-1.5 py-0.5 rounded">
+<span class="material-symbols-outlined text-[12px]">check_circle</span> Optimal
+                                        </div>
+</div>
+</div>
+</div>
+<!-- Quick Driver Context -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md shadow-sm h-auto flex flex-col justify-center">
+<h4 class="font-label-sm text-label-sm text-on-surface font-semibold mb-sm">Active Operator</h4>
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-full overflow-hidden border border-outline-variant bg-surface-variant flex-shrink-0">
+<img alt="Driver profile picture" class="w-full h-full object-cover" data-alt="portrait of a professional logistics truck driver wearing a cap, looking confident against a neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhLRhyUHagqzMtEUbnt9bM4aKmuMECwI4xLeag8AHzFowMQmfG2jHjztoQ-nwjxwXlAMxMywdcON89g340sDoTWVCMrpK_VjdJdJXFCa1IuVdDaAGtji0Ge_ZsIg4qXmfqh3pHKzIi9FGUKnJevfA_zBeym9tfhTgss3fEfyslG20VZN1FvHYUVHb8Dt_IsiXrjxu3YgDX07FkJzBgPbRZ_fAaEfQ0oQc3cOp2rGycRAmAu3x_eW2iWhUm9VdHrWrHU-bPblu5FkQc"/>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface font-semibold leading-tight">Marcus Johnson</p>
+<p class="font-label-sm text-[11px] text-on-surface-variant mt-0.5">Lic: CDL-A #99281</p>
+<div class="flex gap-2 mt-1">
+<button class="text-primary hover:text-primary-container"><span class="material-symbols-outlined text-[16px]">call</span></button>
+<button class="text-primary hover:text-primary-container"><span class="material-symbols-outlined text-[16px]">chat</span></button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

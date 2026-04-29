@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Agri-Chain Admin 工作台</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-secondary-fixed": "#001a41",
+                        "inverse-primary": "#afc6ff",
+                        "surface-container": "#e5eeff",
+                        "secondary-fixed": "#d8e2ff",
+                        "background": "#f8f9ff",
+                        "secondary": "#3e5e98",
+                        "surface-bright": "#f8f9ff",
+                        "outline-variant": "#c2c6d7",
+                        "tertiary-fixed-dim": "#62df7d",
+                        "surface-variant": "#d3e4fe",
+                        "outline": "#727786",
+                        "on-primary": "#ffffff",
+                        "on-secondary-container": "#2b4c85",
+                        "on-primary-container": "#fdfbff",
+                        "tertiary-fixed": "#7ffc97",
+                        "on-primary-fixed-variant": "#00429a",
+                        "inverse-surface": "#213145",
+                        "surface": "#f8f9ff",
+                        "on-error": "#ffffff",
+                        "primary-container": "#1e6eeb",
+                        "tertiary-container": "#008639",
+                        "primary-fixed-dim": "#afc6ff",
+                        "on-tertiary-fixed-variant": "#005320",
+                        "on-background": "#0b1c30",
+                        "tertiary": "#006a2c",
+                        "on-tertiary-container": "#f2ffee",
+                        "surface-container-high": "#dce9ff",
+                        "on-secondary-fixed-variant": "#24467e",
+                        "surface-dim": "#cbdbf5",
+                        "primary": "#0056c3",
+                        "surface-container-low": "#eff4ff",
+                        "error": "#ba1a1a",
+                        "on-secondary": "#ffffff",
+                        "secondary-container": "#9fbeff",
+                        "on-tertiary-fixed": "#002109",
+                        "error-container": "#ffdad6",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed": "#d9e2ff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-tint": "#0058c9",
+                        "on-tertiary": "#ffffff",
+                        "on-surface-variant": "#424654",
+                        "surface-container-highest": "#d3e4fe",
+                        "secondary-fixed-dim": "#adc7ff",
+                        "on-error-container": "#93000a",
+                        "on-surface": "#0b1c30",
+                        "on-primary-fixed": "#001944"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    spacing: {
+                        "gutter": "20px",
+                        "sm": "12px",
+                        "base": "4px",
+                        "xs": "8px",
+                        "md": "16px",
+                        "margin": "24px",
+                        "xl": "32px",
+                        "lg": "24px"
+                    },
+                    fontFamily: {
+                        "headline-xl": ["Manrope"],
+                        "data-mono": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Manrope"]
+                    },
+                    fontSize: {
+                        "headline-xl": ["24px", { lineHeight: "32px", fontWeight: "700" }],
+                        "data-mono": ["14px", { lineHeight: "20px", fontWeight: "600" }],
+                        "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+                        "label-sm": ["12px", { lineHeight: "16px", letterSpacing: "0.02em", fontWeight: "500" }],
+                        "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+                        "headline-md": ["18px", { lineHeight: "26px", fontWeight: "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: theme('colors.background'); }
+    </style>
+</head>
+<body class="text-on-background min-h-screen pb-20 lg:pb-0">
+<!-- TopAppBar -->
+<header class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md fixed top-0 left-0 w-full flex justify-between items-center px-6 h-16 border-b border-slate-200 dark:border-slate-800 z-50">
+<div class="flex items-center gap-4">
+<!-- Mobile Menu Toggle (Decorative) -->
+<button class="lg:hidden p-2 -ml-2 text-slate-500 hover:bg-slate-50 rounded-full transition-colors">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="text-lg font-bold text-blue-700 dark:text-blue-300 tracking-tighter font-manrope antialiased">Agri-Chain 溯源</h1>
+</div>
+<div class="flex items-center gap-4">
+<!-- Search Bar (on_right) -->
+<div class="hidden md:flex relative items-center">
+<span class="material-symbols-outlined absolute left-3 text-outline">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-full font-body-md text-body-md focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary w-64 transition-all" placeholder="Search hash, batch, user..." type="text"/>
+</div>
+<div class="flex items-center gap-2 border-l border-slate-200 dark:border-slate-800 pl-4">
+<button class="p-2 text-blue-600 dark:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors rounded-full active:opacity-80 active:scale-98">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-blue-600 dark:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors rounded-full active:opacity-80 active:scale-98">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<button class="p-2 text-blue-600 dark:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors rounded-full active:opacity-80 active:scale-98">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<nav class="hidden lg:flex flex-col fixed left-0 top-0 h-full z-40 bg-slate-50 dark:bg-slate-950 w-64 border-r border-slate-200 dark:border-slate-800 pt-16">
+<div class="p-6 border-b border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">admin_panel_settings</span>
+</div>
+<div>
+<div class="text-xl font-black text-blue-800 dark:text-blue-200 font-headline-md tracking-tight">Agri-Chain Pro</div>
+<div class="font-label-sm text-label-sm text-outline">Verified Admin Suite</div>
+</div>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto py-4 px-3 flex flex-col gap-1 font-manrope text-sm font-medium">
+<!-- Active Tab: 工作台 -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 border-r-4 border-blue-600 active:scale-95 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                工作台
+            </a>
+<!-- Inactive Tabs -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+                溯源
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">gavel</span>
+                Audits
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">group</span>
+                Management
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">lan</span>
+                Node Status
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">verified_user</span>
+                Evidence
+            </a>
+</div>
+</nav>
+<!-- Main Canvas -->
+<main class="pt-20 lg:pt-24 px-4 lg:px-8 lg:pl-[280px] max-w-screen-2xl mx-auto">
+<div class="mb-margin">
+<h2 class="font-headline-xl text-headline-xl text-on-surface">System Overview</h2>
+<p class="font-body-md text-body-md text-outline mt-1">Real-time agricultural supply chain metrics and verification status.</p>
+</div>
+<!-- Bento Grid: Stats -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-sm mb-margin">
+<!-- Stat Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md shadow-[0_4px_12px_rgba(0,0,0,0.02)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-shadow">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-surface-container rounded-lg text-primary">
+<span class="material-symbols-outlined">group</span>
+</div>
+<span class="font-label-sm text-label-sm text-tertiary-container bg-tertiary-fixed px-2 py-1 rounded flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">trending_up</span> +12%
+                    </span>
+</div>
+<div class="font-data-mono text-data-mono text-outline uppercase tracking-wider mb-1">Total Verified Users</div>
+<div class="font-headline-xl text-headline-xl text-on-surface">14,208</div>
+</div>
+<!-- Stat Card 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md shadow-[0_4px_12px_rgba(0,0,0,0.02)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-shadow">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-surface-container rounded-lg text-primary">
+<span class="material-symbols-outlined">inventory_2</span>
+</div>
+</div>
+<div class="font-data-mono text-data-mono text-outline uppercase tracking-wider mb-1">Active Batches On-Chain</div>
+<div class="font-headline-xl text-headline-xl text-on-surface">3,492</div>
+</div>
+<!-- Stat Card 3 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md shadow-[0_4px_12px_rgba(0,0,0,0.02)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-shadow">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-error-container rounded-lg text-on-error-container">
+<span class="material-symbols-outlined">gavel</span>
+</div>
+<span class="font-label-sm text-label-sm text-error bg-error-container px-2 py-1 rounded">Action Needed</span>
+</div>
+<div class="font-data-mono text-data-mono text-outline uppercase tracking-wider mb-1">待审核</div>
+<div class="font-headline-xl text-headline-xl text-on-surface">24</div>
+</div>
+<!-- Stat Card 4 (Blockchain Status) -->
+<div class="bg-inverse-surface border border-slate-700 rounded-xl p-md shadow-[0_4px_12px_rgba(0,0,0,0.08)] relative overflow-hidden">
+<div class="absolute -right-6 -top-6 w-24 h-24 bg-primary rounded-full blur-2xl opacity-20"></div>
+<div class="flex justify-between items-start mb-4 relative z-10">
+<div class="p-2 bg-slate-800 rounded-lg text-inverse-primary">
+<span class="material-symbols-outlined">link</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-tertiary-fixed shadow-[0_0_8px_rgba(127,252,151,0.6)] animate-pulse"></div>
+<span class="font-label-sm text-label-sm text-tertiary-fixed">Network Healthy</span>
+</div>
+</div>
+<div class="font-data-mono text-data-mono text-slate-400 uppercase tracking-wider mb-1 relative z-10">Current Block Height</div>
+<div class="font-headline-xl text-headline-xl text-white relative z-10 font-data-mono tracking-tight">8,942,105</div>
+</div>
+</div>
+<!-- Split Content Area -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-margin mb-margin">
+<!-- Left: Recent Activities (8 cols) -->
+<div class="xl:col-span-8 bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-[0_4px_12px_rgba(0,0,0,0.02)]">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-md text-headline-md text-on-surface">Recent 溯源 Events</h3>
+<button class="font-label-sm text-label-sm text-primary hover:underline">View All</button>
+</div>
+<div class="space-y-6 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-outline-variant before:to-transparent">
+<!-- Activity Item 1 -->
+<div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+<div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-surface-container-lowest bg-tertiary-container text-on-tertiary-container shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+</div>
+<div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-xl border border-outline-variant bg-surface-bright shadow-[0_2px_8px_rgba(0,0,0,0.02)]">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-sm text-label-sm text-tertiary font-bold">Quality Inspection Passed</span>
+<time class="font-data-mono text-[11px] text-outline">10:42 AM</time>
+</div>
+<div class="font-body-md text-body-md text-on-surface">Batch <span class="font-data-mono bg-surface-container px-1 py-0.5 rounded text-primary">#ORG-2023-A92</span> verified by Inspector Node 4. Data sealed to chain.</div>
+</div>
+</div>
+<!-- Activity Item 2 -->
+<div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+<div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-surface-container-lowest bg-primary-container text-on-primary shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow">
+<span class="material-symbols-outlined text-[18px]">local_shipping</span>
+</div>
+<div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-xl border border-outline-variant bg-surface-bright shadow-[0_2px_8px_rgba(0,0,0,0.02)]">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-sm text-label-sm text-primary font-bold">Logistics Transfer</span>
+<time class="font-data-mono text-[11px] text-outline">08:15 AM</time>
+</div>
+<div class="font-body-md text-body-md text-on-surface">Transit from Farm Hub B to Central Processing. Temperature data logged.</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right: Node Status (4 cols) -->
+<div class="xl:col-span-4 bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-[0_4px_12px_rgba(0,0,0,0.02)] flex flex-col">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-6">Consensus Nodes</h3>
+<div class="flex flex-col gap-3 flex-1">
+<!-- Node 1 -->
+<div class="flex items-center justify-between p-3 rounded-lg border border-outline-variant bg-surface-bright hover:bg-surface-container transition-colors">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-tertiary"></div>
+<div>
+<div class="font-data-mono text-data-mono text-on-surface">Gov Node 01</div>
+<div class="font-label-sm text-label-sm text-outline">Ministry of Ag</div>
+</div>
+</div>
+<span class="font-data-mono text-label-sm text-outline">12ms</span>
+</div>
+<!-- Node 2 -->
+<div class="flex items-center justify-between p-3 rounded-lg border border-outline-variant bg-surface-bright hover:bg-surface-container transition-colors">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-tertiary"></div>
+<div>
+<div class="font-data-mono text-data-mono text-on-surface">Cert Node Alpha</div>
+<div class="font-label-sm text-label-sm text-outline">Global Certifiers</div>
+</div>
+</div>
+<span class="font-data-mono text-label-sm text-outline">18ms</span>
+</div>
+<!-- Node 3 -->
+<div class="flex items-center justify-between p-3 rounded-lg border border-outline-variant bg-surface-bright hover:bg-surface-container transition-colors">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-tertiary"></div>
+<div>
+<div class="font-data-mono text-data-mono text-on-surface">Logistics Core</div>
+<div class="font-label-sm text-label-sm text-outline">TransCorp</div>
+</div>
+</div>
+<span class="font-data-mono text-label-sm text-outline">24ms</span>
+</div>
+</div>
+<button class="mt-4 w-full py-2 border-2 border-primary text-primary font-label-sm text-label-sm rounded-lg hover:bg-primary hover:text-white transition-colors">
+                    Manage Network Nodes
+                </button>
+</div>
+</div>
+<!-- Full Width: Data Table -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.02)] overflow-hidden">
+<div class="p-6 border-b border-outline-variant flex justify-between items-center bg-surface-bright">
+<h3 class="font-headline-md text-headline-md text-on-surface">待审核</h3>
+<button class="flex items-center gap-2 font-label-sm text-label-sm text-outline hover:text-on-surface">
+<span class="material-symbols-outlined text-[18px]">filter_list</span> Filter
+                </button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant">
+<th class="p-4 font-label-sm text-label-sm text-outline uppercase tracking-wider">Audit ID</th>
+<th class="p-4 font-label-sm text-label-sm text-outline uppercase tracking-wider">Entity</th>
+<th class="p-4 font-label-sm text-label-sm text-outline uppercase tracking-wider">Type</th>
+<th class="p-4 font-label-sm text-label-sm text-outline uppercase tracking-wider">Submitted</th>
+<th class="p-4 font-label-sm text-label-sm text-outline uppercase tracking-wider text-right">Action</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md text-on-surface">
+<tr class="border-b border-outline-variant hover:bg-surface-container-lowest/50 transition-colors">
+<td class="p-4 font-data-mono text-primary">#AUD-8821</td>
+<td class="p-4 font-medium">GreenValley Farms Coop</td>
+<td class="p-4">Organic Certification</td>
+<td class="p-4 text-outline">2 hrs ago</td>
+<td class="p-4 text-right">
+<button class="px-4 py-1.5 bg-primary text-white rounded font-label-sm hover:bg-surface-tint transition-colors">Review</button>
+</td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-container-lowest/50 transition-colors bg-surface-bright/30">
+<td class="p-4 font-data-mono text-primary">#AUD-8820</td>
+<td class="p-4 font-medium">River Logistics</td>
+<td class="p-4">Cold Chain Compliance</td>
+<td class="p-4 text-outline">5 hrs ago</td>
+<td class="p-4 text-right">
+<button class="px-4 py-1.5 bg-primary text-white rounded font-label-sm hover:bg-surface-tint transition-colors">Review</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 pb-safe bg-white dark:bg-slate-900 border-t rounded-t-xl border-slate-200 dark:border-slate-800 shadow-[0_-4px_12px_rgba(0,0,0,0.05)]">
+<!-- Inactive -->
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 p-2 active:bg-slate-100 dark:active:bg-slate-800" href="#">
+<span class="material-symbols-outlined">search</span>
+<span class="font-manrope text-[10px] uppercase tracking-widest font-bold mt-1">Search</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 p-2 active:bg-slate-100 dark:active:bg-slate-800" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-manrope text-[10px] uppercase tracking-widest font-bold mt-1">Timeline</span>
+</a>
+<!-- Active (Fallback intent for Admin) -->
+<a class="flex flex-col items-center justify-center text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 rounded-xl p-2 scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">qr_code_scanner</span>
+<span class="font-manrope text-[10px] uppercase tracking-widest font-bold mt-1">Verify</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 p-2 active:bg-slate-100 dark:active:bg-slate-800" href="#">
+<span class="material-symbols-outlined">rate_review</span>
+<span class="font-manrope text-[10px] uppercase tracking-widest font-bold mt-1">Feedback</span>
+</a>
+</nav>
+</body></html>

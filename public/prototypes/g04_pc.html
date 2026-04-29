@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AgriTrace - 批次详情</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed-variant": "#005320",
+                        "on-surface": "#0b1c30",
+                        "surface-container": "#e5eeff",
+                        "surface-container-highest": "#d3e4fe",
+                        "secondary-fixed": "#d8e2ff",
+                        "on-background": "#0b1c30",
+                        "surface-variant": "#d3e4fe",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#eff4ff",
+                        "surface": "#f8f9ff",
+                        "primary-fixed": "#d9e2ff",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed": "#002109",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed-dim": "#adc7ff",
+                        "on-secondary-fixed-variant": "#24467e",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-dim": "#cbdbf5",
+                        "on-primary-fixed": "#001944",
+                        "tertiary": "#006a2c",
+                        "tertiary-container": "#008639",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#fdfbff",
+                        "secondary": "#3e5e98",
+                        "inverse-primary": "#afc6ff",
+                        "on-primary-fixed-variant": "#00429a",
+                        "surface-container-high": "#dce9ff",
+                        "secondary-container": "#9fbeff",
+                        "surface-tint": "#0058c9",
+                        "inverse-surface": "#213145",
+                        "on-error": "#ffffff",
+                        "outline": "#727786",
+                        "background": "#f8f9ff",
+                        "outline-variant": "#c2c6d7",
+                        "error": "#ba1a1a",
+                        "primary-fixed-dim": "#afc6ff",
+                        "tertiary-fixed-dim": "#62df7d",
+                        "on-primary": "#ffffff",
+                        "surface-bright": "#f8f9ff",
+                        "tertiary-fixed": "#7ffc97",
+                        "on-tertiary-container": "#f2ffee",
+                        "on-secondary-fixed": "#001a41",
+                        "on-surface-variant": "#424654",
+                        "on-secondary-container": "#2b4c85",
+                        "primary-container": "#1e6eeb",
+                        "primary": "#0056c3",
+                        "on-error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin": "24px",
+                        "gutter": "20px",
+                        "xl": "32px",
+                        "sm": "12px",
+                        "lg": "24px",
+                        "md": "16px",
+                        "base": "4px",
+                        "xs": "8px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "data-mono": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-xl": ["Manrope"],
+                        "headline-md": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                        "data-mono": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-xl": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "headline-md": ["18px", {"lineHeight": "26px", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background min-h-screen flex font-body-md">
+<!-- TopNavBar (Web) -->
+<nav aria-label="Top Navigation" class="bg-white dark:bg-slate-900 flex justify-between items-center px-6 h-16 w-full sticky top-0 z-50 border-b border-slate-200 dark:border-slate-800 hidden md:flex">
+<div class="flex items-center gap-8">
+<span class="text-xl font-black text-blue-700 dark:text-blue-400">AgriTrace</span>
+<div class="flex gap-6">
+<!-- Since this is a detailed transaction/batch page, no global nav item is 'active' per the intent rule for sub-pages, but normally we'd suppress it entirely if it's a dead-end. Assuming it's a child of Compliance Panel, we'll keep the nav but show inactive states for global tabs if they were present. The JSON doesn't provide global tabs for TopNavBar, just the structure. -->
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative flex items-center justify-end">
+<span class="material-symbols-outlined text-slate-500 absolute left-3">search</span>
+<input class="pl-10 pr-4 py-2 bg-slate-50 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary-container w-64" placeholder="Search..." type="text"/>
+</div>
+<button class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors p-2 rounded-full text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors p-2 rounded-full text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button class="text-blue-600 dark:text-blue-400 font-manrope text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors px-4 py-2 rounded-lg">
+                Switch Role
+            </button>
+<img alt="User Profile" class="w-8 h-8 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQr9dWZSXDMzbPY67q5gFbzK-8xtUm46FiTfxDIWWipsK2ufF2XzJ_13oCuOZromZ7qkXfJufVS0rFtHLvxnOr9dto0JEZ9w-c0Sr0VGlRrcL-peYD9JnLbJajoI9x_ySpvl98xt_w5q4MV3TTnktFRjtyVPyaEr24suNj27wjcsByEce1ToBotYFGx-dfARwQ7EnSdx0KAfbUbQ9w5j26hfaGvACR8kG0mXgwSpjN0LGIb16g9CFiH5_iSLs2Uq7awP_uN9T7VNeD"/>
+</div>
+</nav>
+<div class="flex-1 flex flex-col pt-16 md:pt-0">
+<!-- Main Content Canvas -->
+<main class="flex-1 p-margin lg:p-xl max-w-[1600px] mx-auto w-full">
+<!-- Header Section -->
+<div class="mb-lg flex justify-between items-end">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<button class="text-primary hover:bg-primary-fixed p-1 rounded-full transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+</button>
+<span class="font-label-sm text-on-surface-variant text-label-sm">Compliance Panel / 批次详情</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface">Batch #TR-8842-99A</h1>
+</div>
+<div class="flex gap-sm">
+<button class="font-label-sm text-label-sm px-4 py-2 rounded border border-primary text-primary hover:bg-primary-fixed transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">download</span> 导出报告
+                     </button>
+<button class="font-label-sm text-label-sm px-4 py-2 rounded bg-error text-on-error hover:bg-error/90 transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">gavel</span> Flag as Abnormal
+                     </button>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-lg">
+<!-- Summary Card (Spans 8 cols) -->
+<div class="col-span-12 lg:col-span-8 bg-surface-container-lowest rounded-lg border border-outline-variant p-lg shadow-sm relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary-container opacity-5 rounded-bl-full pointer-events-none"></div>
+<div class="flex justify-between items-start mb-md">
+<h2 class="font-headline-md text-headline-md text-on-surface">Batch Summary</h2>
+<div class="flex gap-2">
+<span class="px-3 py-1 rounded-full bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> Verified
+                            </span>
+<span class="px-3 py-1 rounded-full bg-surface-container text-on-surface font-label-sm text-label-sm">
+                                Risk: Low
+                            </span>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-md mt-lg">
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">Product</p>
+<p class="font-data-mono text-data-mono text-on-surface">Organic Soybeans</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">Origin</p>
+<p class="font-body-md text-body-md text-on-surface">Farm A, Region 2</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">Volume</p>
+<p class="font-data-mono text-data-mono text-on-surface">2,500 KG</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">Blockchain Status</p>
+<p class="font-body-md text-body-md text-tertiary flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">link</span> On-Chain
+                            </p>
+</div>
+</div>
+</div>
+<!-- Status/Hash Card (Spans 4 cols) -->
+<div class="col-span-12 lg:col-span-4 bg-surface-container-lowest rounded-lg border border-outline-variant p-lg shadow-sm flex flex-col justify-between">
+<div>
+<h3 class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-sm">Latest Hash Value</h3>
+<div class="bg-surface-container-low p-sm rounded border border-outline-variant/50 font-data-mono text-data-mono text-on-surface break-all mb-md">
+                            0x8fB32...a9C1
+                        </div>
+</div>
+<div>
+<h3 class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-sm">Current Node</h3>
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined">local_shipping</span>
+</div>
+<div>
+<p class="font-body-md text-body-md font-semibold text-on-surface">Logistics Transit</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Updated 2 hrs ago</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Interactive Timeline Card (Full Width) -->
+<div class="col-span-12 bg-surface-container-lowest rounded-lg border border-outline-variant p-lg shadow-sm">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-lg">溯源链路</h2>
+<div class="relative flex justify-between items-center px-8 py-4">
+<!-- Connecting Line -->
+<div class="absolute top-1/2 left-12 right-12 h-1 bg-outline-variant -translate-y-1/2 z-0"></div>
+<div class="absolute top-1/2 left-12 w-[60%] h-1 bg-tertiary -translate-y-1/2 z-0"></div>
+<!-- Node 1: Farm (Completed) -->
+<div class="relative z-10 flex flex-col items-center gap-2 group cursor-pointer">
+<div class="w-12 h-12 rounded-full bg-tertiary border-4 border-white shadow-sm flex items-center justify-center text-on-tertiary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">agriculture</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface">Farming</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant text-[10px]">Oct 12</span>
+</div>
+<!-- Node 2: Processing (Completed) -->
+<div class="relative z-10 flex flex-col items-center gap-2 group cursor-pointer">
+<div class="w-12 h-12 rounded-full bg-tertiary border-4 border-white shadow-sm flex items-center justify-center text-on-tertiary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">factory</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface">Processing</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant text-[10px]">Oct 14</span>
+</div>
+<!-- Node 3: Quality Audit (Completed) -->
+<div class="relative z-10 flex flex-col items-center gap-2 group cursor-pointer">
+<div class="w-12 h-12 rounded-full bg-tertiary border-4 border-white shadow-sm flex items-center justify-center text-on-tertiary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">verified_user</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface">Inspection</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant text-[10px]">Oct 15</span>
+</div>
+<!-- Node 4: Logistics (Active) -->
+<div class="relative z-10 flex flex-col items-center gap-2 group cursor-pointer">
+<div class="w-12 h-12 rounded-full bg-primary-container border-4 border-white shadow-sm flex items-center justify-center text-on-primary group-hover:scale-110 transition-transform ring-4 ring-primary-container/20">
+<span class="material-symbols-outlined">local_shipping</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary font-bold">Logistics</span>
+<span class="font-label-sm text-label-sm text-primary text-[10px]">Current</span>
+</div>
+<!-- Node 5: Retail (待处理) -->
+<div class="relative z-10 flex flex-col items-center gap-2 group opacity-50">
+<div class="w-12 h-12 rounded-full bg-surface-container-high border-4 border-white shadow-sm flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">storefront</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Retail</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant text-[10px]">待处理</span>
+</div>
+</div>
+</div>
+<!-- Tabs & Detailed Data Area (Full Width) -->
+<div class="col-span-12 mt-md">
+<!-- Tab Navigation -->
+<div class="flex border-b border-outline-variant mb-lg">
+<button class="px-6 py-3 font-label-sm text-label-sm text-primary border-b-2 border-primary">Base Info</button>
+<button class="px-6 py-3 font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-colors">Evidence</button>
+<button class="px-6 py-3 font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-colors">Blockchain Transactions</button>
+<button class="px-6 py-3 font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-colors">Feedback</button>
+</div>
+<!-- Tab Content: Base Info (Example) -->
+<div class="bg-surface-container-lowest rounded-lg border border-outline-variant overflow-hidden shadow-sm">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant">
+<th class="py-3 px-4 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Attribute</th>
+<th class="py-3 px-4 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Value</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md text-on-surface divide-y divide-outline-variant/50">
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="py-3 px-4 text-on-surface-variant">Seed Strain</td>
+<td class="py-3 px-4 font-data-mono">SY-2023-X</td>
+</tr>
+<tr class="bg-surface-container-lowest hover:bg-surface-container transition-colors">
+<td class="py-3 px-4 text-on-surface-variant">Planting Date</td>
+<td class="py-3 px-4 font-data-mono">2023-05-10</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="py-3 px-4 text-on-surface-variant">Harvest Date</td>
+<td class="py-3 px-4 font-data-mono">2023-10-12</td>
+</tr>
+<tr class="bg-surface-container-lowest hover:bg-surface-container transition-colors">
+<td class="py-3 px-4 text-on-surface-variant">Inspector ID</td>
+<td class="py-3 px-4 font-data-mono">INSP-402-B</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

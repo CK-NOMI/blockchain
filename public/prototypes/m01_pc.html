@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+
+<html class="light" lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AgriTrace Pro - 首页</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#d9e2ff",
+                        "tertiary-fixed-dim": "#62df7d",
+                        "primary": "#0056c3",
+                        "surface": "#f8f9ff",
+                        "secondary-fixed-dim": "#adc7ff",
+                        "primary-fixed-dim": "#afc6ff",
+                        "on-tertiary-container": "#f2ffee",
+                        "surface-bright": "#f8f9ff",
+                        "secondary-container": "#9fbeff",
+                        "surface-container-highest": "#d3e4fe",
+                        "tertiary-container": "#008639",
+                        "surface-variant": "#d3e4fe",
+                        "surface-container-high": "#dce9ff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-container": "#2b4c85",
+                        "secondary": "#3e5e98",
+                        "on-surface-variant": "#424654",
+                        "surface-container": "#e5eeff",
+                        "on-surface": "#0b1c30",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#7ffc97",
+                        "on-tertiary-fixed-variant": "#005320",
+                        "on-primary-container": "#fdfbff",
+                        "error-container": "#ffdad6",
+                        "on-tertiary": "#ffffff",
+                        "background": "#f8f9ff",
+                        "surface-dim": "#cbdbf5",
+                        "on-error": "#ffffff",
+                        "primary-container": "#1e6eeb",
+                        "on-secondary-fixed-variant": "#24467e",
+                        "on-primary-fixed-variant": "#00429a",
+                        "on-primary-fixed": "#001944",
+                        "surface-tint": "#0058c9",
+                        "inverse-primary": "#afc6ff",
+                        "on-tertiary-fixed": "#002109",
+                        "on-primary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "secondary-fixed": "#d8e2ff",
+                        "on-background": "#0b1c30",
+                        "tertiary": "#006a2c",
+                        "surface-container-lowest": "#ffffff",
+                        "outline": "#727786",
+                        "outline-variant": "#c2c6d7",
+                        "on-secondary-fixed": "#001a41",
+                        "surface-container-low": "#eff4ff",
+                        "inverse-surface": "#213145"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin": "24px",
+                        "md": "16px",
+                        "lg": "24px",
+                        "gutter": "20px",
+                        "xl": "32px",
+                        "sm": "12px",
+                        "xs": "8px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Manrope"],
+                        "headline-xl": ["Manrope"],
+                        "label-sm": ["Inter"],
+                        "data-mono": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["18px", {"lineHeight": "26px", "fontWeight": "600"}],
+                        "headline-xl": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                        "data-mono": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-screen w-64 fixed left-0 py-4 border-r border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-blue-600 dark:text-blue-400 font-manrope text-sm z-50">
+<div class="px-6 mb-8 flex items-center gap-3">
+<img alt="AgriTrace System Logo" class="w-8 h-8 rounded-lg object-cover" data-alt="Abstract geometric logo mark with blue and green intersecting shapes suggesting technology and agriculture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJh8YljIAiyr9-a7wvktI8YWyd7GTbfb27HytiO64vJQLbuZuPBuBTfWIPXig4AkqIXajN4jzwG478pbUoIlZoIbfP71jHNWduxCVKiFVrtlQ-IN90_89tu1XPTxrQOiaNAiXPlLDWCu-VfQtDsDfqBAvZzMmSX8XkUprAYN_mCZfe8iKIK6-zkRjei2OqLx5GmfoHp2e_30_JQUJfgZBAmFDleGG_jnDrnwMEfCu4BwDhYMGl4nVDIsaxrgaiOJ4IYcOQQskP7gUB"/>
+<div>
+<h1 class="text-lg font-extrabold text-blue-700 dark:text-blue-400 tracking-tight">AgriTrace</h1>
+<p class="text-slate-500 text-xs font-medium">Processing Center</p>
+</div>
+</div>
+<button class="mx-6 mb-6 bg-primary text-on-primary py-2.5 px-4 rounded-lg font-headline-md text-sm hover:bg-primary-container transition-colors flex items-center justify-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-[18px]">add</span>
+            Initiate New Batch
+        </button>
+<div class="flex-1 flex flex-col gap-1 px-4">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-md bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 border-r-4 border-blue-600 font-semibold opacity-80 scale-95 translate-x-1" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                Overview
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-md text-slate-600 dark:text-slate-400 hover:text-blue-600 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all font-medium" href="#">
+<span class="material-symbols-outlined">precision_manufacturing</span>
+                Batch Processing
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-md text-slate-600 dark:text-slate-400 hover:text-blue-600 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all font-medium" href="#">
+<span class="material-symbols-outlined">verified</span>
+                Quality Inspection
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-md text-slate-600 dark:text-slate-400 hover:text-blue-600 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all font-medium" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+                库存
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-md text-slate-600 dark:text-slate-400 hover:text-blue-600 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all font-medium" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+                溯源日志
+            </a>
+</div>
+<div class="mt-auto px-4 flex flex-col gap-1 border-t border-slate-200 pt-4">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-md text-slate-600 dark:text-slate-400 hover:text-blue-600 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all font-medium" href="#">
+<span class="material-symbols-outlined">contact_support</span>
+                Support
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-md text-slate-600 dark:text-slate-400 hover:text-blue-600 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all font-medium" href="#">
+<span class="material-symbols-outlined">person</span>
+                Account
+            </a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 ml-0 md:ml-64 flex flex-col min-h-screen">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center h-16 px-6 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none font-manrope antialiased sticky top-0 z-40 w-full text-blue-600 dark:text-blue-400">
+<div class="flex items-center gap-6">
+<!-- Mobile menu button (hidden on desktop) -->
+<button class="md:hidden text-slate-500">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="hidden md:flex items-center bg-slate-100 rounded-full px-4 py-2 w-80 focus-within:ring-2 focus-within:ring-primary-container focus-within:bg-white transition-all">
+<span class="material-symbols-outlined text-slate-400 mr-2 text-[20px]">search</span>
+<input class="bg-transparent border-none outline-none text-sm w-full font-body-md text-on-surface placeholder-slate-400" placeholder="Search batches, logs, or IDs..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-slate-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors p-2 rounded-full relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="text-slate-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors p-2 rounded-full hidden sm:block">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button class="text-slate-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors p-2 rounded-full hidden sm:block">
+<span class="material-symbols-outlined">help</span>
+</button>
+<div class="h-6 w-px bg-slate-200 mx-2 hidden sm:block"></div>
+<button class="flex items-center gap-2 hover:bg-blue-50 transition-colors p-1 pr-3 rounded-full">
+<img alt="Quality Manager Avatar" class="w-8 h-8 rounded-full border border-slate-200" data-alt="Professional headshot of a quality manager in a light blue shirt smiling confidently against a neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAO3A-4h6yiROLLyxTnchhm4JjjXH-tIlrLhw8CkAqpFDIoiIAWbiz3DHBl8JIsEfb0Z5bkLEbF-xx9zhrrc9sWajwxyLLYMt2DyTt2JpTKqzRakNx7hMUq-mFqNOtlCI9fOtaHguAddRQ2plhuTVm9Y43xKIjgeaWo-TxmNMtzeTrgFzACVyqS75ClPeHjEGqh6Oq4mSQVBDPyYKIgwOL2dv2jQnuNXFvYPlS6FNoPO3sACTXHzx_8OdK4wa7TjIq8lqu0CdosMRP2"/>
+<span class="font-label-sm text-on-surface hidden sm:block">Admin</span>
+<span class="material-symbols-outlined text-slate-400 text-[18px] hidden sm:block">expand_more</span>
+</button>
+</div>
+</header>
+<!-- Canvas -->
+<main class="flex-1 p-margin lg:p-xl overflow-y-auto">
+<!-- Welcome Card -->
+<div class="bg-white rounded-xl border border-slate-200 shadow-sm p-lg mb-margin relative overflow-hidden">
+<div class="absolute right-0 top-0 w-64 h-full bg-gradient-to-l from-primary-fixed-dim/20 to-transparent pointer-events-none"></div>
+<h2 class="font-headline-xl text-on-surface mb-2">Central Processing Facility</h2>
+<p class="font-body-md text-on-surface-variant max-w-2xl">Overview of current batch processing, quality inspections, and on-chain traceability records.</p>
+</div>
+<!-- Statistics Grid -->
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-md mb-margin">
+<div class="bg-white p-md rounded-lg border border-slate-200 shadow-sm flex flex-col justify-between h-28">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-on-surface-variant">待加工批次</span>
+<span class="material-symbols-outlined text-secondary text-[20px]">pending_actions</span>
+</div>
+<div class="font-headline-xl text-on-surface">24</div>
+</div>
+<div class="bg-white p-md rounded-lg border border-slate-200 shadow-sm flex flex-col justify-between h-28">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-on-surface-variant">已质检批次</span>
+<span class="material-symbols-outlined text-tertiary text-[20px]">fact_check</span>
+</div>
+<div class="font-headline-xl text-on-surface">156</div>
+</div>
+<div class="bg-white p-md rounded-lg border border-slate-200 shadow-sm flex flex-col justify-between h-28">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-on-surface-variant">报告待上传</span>
+<span class="material-symbols-outlined text-primary text-[20px]">upload_file</span>
+</div>
+<div class="font-headline-xl text-on-surface">3</div>
+</div>
+<div class="bg-white p-md rounded-lg border border-slate-200 shadow-sm flex flex-col justify-between h-28">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-on-surface-variant">已上链记录</span>
+<span class="material-symbols-outlined text-tertiary-container text-[20px]">link</span>
+</div>
+<div class="font-headline-xl text-on-surface text-tertiary-container">178</div>
+</div>
+<div class="bg-error-container p-md rounded-lg border border-red-200 shadow-sm flex flex-col justify-between h-28">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-on-error-container">异常批次</span>
+<span class="material-symbols-outlined text-error text-[20px]">warning</span>
+</div>
+<div class="font-headline-xl text-on-error-container">2</div>
+</div>
+</div>
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-margin">
+<!-- Main Table Area -->
+<div class="xl:col-span-8 lg:col-span-12 flex flex-col gap-margin">
+<div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+<div class="p-lg border-b border-slate-200 flex items-center justify-between">
+<h3 class="font-headline-md text-on-surface">待处理列表</h3>
+<button class="font-label-sm text-primary hover:text-primary-container flex items-center gap-1">
+                                View All <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-slate-50 border-b border-slate-200">
+<th class="p-md font-label-sm text-on-surface-variant font-medium">BatchID</th>
+<th class="p-md font-label-sm text-on-surface-variant font-medium">产品名称</th>
+<th class="p-md font-label-sm text-on-surface-variant font-medium">农户</th>
+<th class="p-md font-label-sm text-on-surface-variant font-medium">产地</th>
+<th class="p-md font-label-sm text-on-surface-variant font-medium">提交时间</th>
+<th class="p-md font-label-sm text-on-surface-variant font-medium">当前状态</th>
+<th class="p-md font-label-sm text-on-surface-variant font-medium text-right">操作</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+<td class="p-md font-data-mono text-sm text-on-surface">BCH-2023-09A</td>
+<td class="p-md font-body-md text-on-surface">Organic Apples</td>
+<td class="p-md font-body-md text-on-surface-variant">Green Acres Farm</td>
+<td class="p-md font-body-md text-on-surface-variant">Valley Region</td>
+<td class="p-md font-body-md text-on-surface-variant">2023-10-24 08:30</td>
+<td class="p-md">
+<span class="inline-flex items-center px-2 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed text-xs font-medium">
+                                                待加工
+                                            </span>
+</td>
+<td class="p-md text-right">
+<button class="font-label-sm text-primary hover:underline">处理批次</button>
+</td>
+</tr>
+<tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+<td class="p-md font-data-mono text-sm text-on-surface">BCH-2023-09B</td>
+<td class="p-md font-body-md text-on-surface">Winter Wheat</td>
+<td class="p-md font-body-md text-on-surface-variant">Sunny Fields</td>
+<td class="p-md font-body-md text-on-surface-variant">North Plains</td>
+<td class="p-md font-body-md text-on-surface-variant">2023-10-24 09:15</td>
+<td class="p-md">
+<span class="inline-flex items-center px-2 py-1 rounded-full bg-surface-container-high text-on-surface text-xs font-medium">
+                                                In Transit
+                                            </span>
+</td>
+<td class="p-md text-right">
+<button class="font-label-sm text-primary hover:underline">处理批次</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="p-md font-data-mono text-sm text-on-surface">BCH-2023-09C</td>
+<td class="p-md font-body-md text-on-surface">Soybeans</td>
+<td class="p-md font-body-md text-on-surface-variant">River Bend Co.</td>
+<td class="p-md font-body-md text-on-surface-variant">East Delta</td>
+<td class="p-md font-body-md text-on-surface-variant">2023-10-24 10:05</td>
+<td class="p-md">
+<span class="inline-flex items-center px-2 py-1 rounded-full bg-error-container text-on-error-container text-xs font-medium">
+                                                Inspection Failed
+                                            </span>
+</td>
+<td class="p-md text-right">
+<button class="font-label-sm text-primary hover:underline">处理批次</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Right Sidebar Area -->
+<div class="xl:col-span-4 lg:col-span-12 flex flex-col gap-margin">
+<div class="bg-white rounded-xl border border-slate-200 shadow-sm p-lg">
+<h3 class="font-headline-md text-on-surface mb-md">Quick Access</h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-1 gap-sm">
+<button class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:border-primary hover:bg-primary-fixed/30 transition-all text-left">
+<div class="bg-primary-fixed text-primary p-2 rounded-md">
+<span class="material-symbols-outlined text-[20px]">precision_manufacturing</span>
+</div>
+<div class="flex-1">
+<div class="font-label-sm text-on-surface font-semibold">待加工批次</div>
+<div class="text-xs text-on-surface-variant mt-0.5">Start processing workflow</div>
+</div>
+<span class="material-symbols-outlined text-slate-400 text-[16px]">chevron_right</span>
+</button>
+<button class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:border-primary hover:bg-primary-fixed/30 transition-all text-left">
+<div class="bg-tertiary-fixed text-tertiary p-2 rounded-md">
+<span class="material-symbols-outlined text-[20px]">upload_file</span>
+</div>
+<div class="flex-1">
+<div class="font-label-sm text-on-surface font-semibold">上传质检报告</div>
+<div class="text-xs text-on-surface-variant mt-0.5">Upload lab results</div>
+</div>
+<span class="material-symbols-outlined text-slate-400 text-[16px]">chevron_right</span>
+</button>
+<button class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:border-primary hover:bg-primary-fixed/30 transition-all text-left">
+<div class="bg-secondary-fixed text-secondary p-2 rounded-md">
+<span class="material-symbols-outlined text-[20px]">history</span>
+</div>
+<div class="flex-1">
+<div class="font-label-sm text-on-surface font-semibold">查看质检记录</div>
+<div class="text-xs text-on-surface-variant mt-0.5">Review past inspections</div>
+</div>
+<span class="material-symbols-outlined text-slate-400 text-[16px]">chevron_right</span>
+</button>
+<button class="flex items-center gap-3 p-3 rounded-lg border border-error/30 hover:border-error hover:bg-error-container/30 transition-all text-left">
+<div class="bg-error-container text-error p-2 rounded-md">
+<span class="material-symbols-outlined text-[20px]">report_problem</span>
+</div>
+<div class="flex-1">
+<div class="font-label-sm text-on-surface font-semibold">查看异常批次</div>
+<div class="text-xs text-on-surface-variant mt-0.5">Handle flagged items</div>
+</div>
+<span class="material-symbols-outlined text-slate-400 text-[16px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>
