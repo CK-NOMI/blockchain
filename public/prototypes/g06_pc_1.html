@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Evidence Chain Viewer - Agri-Chain Pro</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-secondary-fixed": "#001a41",
+                      "inverse-primary": "#afc6ff",
+                      "surface-container": "#e5eeff",
+                      "secondary-fixed": "#d8e2ff",
+                      "background": "#f8f9ff",
+                      "secondary": "#3e5e98",
+                      "surface-bright": "#f8f9ff",
+                      "outline-variant": "#c2c6d7",
+                      "tertiary-fixed-dim": "#62df7d",
+                      "surface-variant": "#d3e4fe",
+                      "outline": "#727786",
+                      "on-primary": "#ffffff",
+                      "on-secondary-container": "#2b4c85",
+                      "on-primary-container": "#fdfbff",
+                      "tertiary-fixed": "#7ffc97",
+                      "on-primary-fixed-variant": "#00429a",
+                      "inverse-surface": "#213145",
+                      "surface": "#f8f9ff",
+                      "on-error": "#ffffff",
+                      "primary-container": "#1e6eeb",
+                      "tertiary-container": "#008639",
+                      "primary-fixed-dim": "#afc6ff",
+                      "on-tertiary-fixed-variant": "#005320",
+                      "on-background": "#0b1c30",
+                      "tertiary": "#006a2c",
+                      "on-tertiary-container": "#f2ffee",
+                      "surface-container-high": "#dce9ff",
+                      "on-secondary-fixed-variant": "#24467e",
+                      "surface-dim": "#cbdbf5",
+                      "primary": "#0056c3",
+                      "surface-container-low": "#eff4ff",
+                      "error": "#ba1a1a",
+                      "on-secondary": "#ffffff",
+                      "secondary-container": "#9fbeff",
+                      "on-tertiary-fixed": "#002109",
+                      "error-container": "#ffdad6",
+                      "surface-container-lowest": "#ffffff",
+                      "primary-fixed": "#d9e2ff",
+                      "inverse-on-surface": "#eaf1ff",
+                      "surface-tint": "#0058c9",
+                      "on-tertiary": "#ffffff",
+                      "on-surface-variant": "#424654",
+                      "surface-container-highest": "#d3e4fe",
+                      "secondary-fixed-dim": "#adc7ff",
+                      "on-error-container": "#93000a",
+                      "on-surface": "#0b1c30",
+                      "on-primary-fixed": "#001944"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "gutter": "20px",
+                      "sm": "12px",
+                      "base": "4px",
+                      "xs": "8px",
+                      "md": "16px",
+                      "margin": "24px",
+                      "xl": "32px",
+                      "lg": "24px"
+              },
+              "fontFamily": {
+                      "headline-xl": [
+                              "Manrope"
+                      ],
+                      "data-mono": [
+                              "Inter"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "label-sm": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Manrope"
+                      ]
+              },
+              "fontSize": {
+                      "headline-xl": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "data-mono": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.02em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "18px",
+                              {
+                                      "lineHeight": "26px",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background antialiased flex w-full min-h-screen">
+<!-- SideNavBar (Desktop) -->
+<nav class="bg-slate-50 dark:bg-slate-950 text-blue-600 dark:text-blue-400 font-manrope text-sm font-medium h-screen w-64 border-r border-slate-200 dark:border-slate-800 flat hidden lg:flex flex-col fixed left-0 top-0 z-40">
+<div class="p-margin border-b border-slate-200 flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary font-headline-md text-headline-md">A</div>
+<div>
+<h1 class="text-xl font-black text-blue-800 dark:text-blue-200 tracking-tight">Agri-Chain Pro</h1>
+<p class="font-label-sm text-label-sm text-outline">Verified Admin Suite</p>
+</div>
+</div>
+<div class="flex flex-col py-md flex-1 overflow-y-auto">
+<!-- Inactive -->
+<a class="flex items-center gap-md px-margin py-sm text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>工作台</span>
+</a>
+<!-- Inactive -->
+<a class="flex items-center gap-md px-margin py-sm text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+<span>溯源</span>
+</a>
+<!-- Inactive -->
+<a class="flex items-center gap-md px-margin py-sm text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">gavel</span>
+<span>Audits</span>
+</a>
+<!-- Inactive -->
+<a class="flex items-center gap-md px-margin py-sm text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">group</span>
+<span>Management</span>
+</a>
+<!-- Inactive -->
+<a class="flex items-center gap-md px-margin py-sm text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">lan</span>
+<span>Node Status</span>
+</a>
+<!-- Active (Evidence Chain Viewer semantic match) -->
+<a class="flex items-center gap-md px-margin py-sm bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 border-r-4 border-blue-600 scale-95 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined icon-fill">verified_user</span>
+<span>Evidence</span>
+</a>
+</div>
+<div class="p-margin border-t border-slate-200 text-outline font-label-sm text-label-sm">
+            Node: #ACT-882-Mainnet
+        </div>
+</nav>
+<!-- BottomNavBar (Mobile) -->
+<nav class="bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 font-manrope text-[10px] uppercase tracking-widest font-bold fixed bottom-0 w-full border-t rounded-t-xl border-slate-200 dark:border-slate-800 shadow-[0_-4px_12px_rgba(0,0,0,0.05)] lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 pb-safe">
+<!-- Inactive -->
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 p-2 active:bg-slate-100 dark:active:bg-slate-800 rounded-lg" href="#">
+<span class="material-symbols-outlined mb-1">search</span>
+<span>Search</span>
+</a>
+<!-- Inactive -->
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 p-2 active:bg-slate-100 dark:active:bg-slate-800 rounded-lg" href="#">
+<span class="material-symbols-outlined mb-1">history</span>
+<span>Timeline</span>
+</a>
+<!-- Active (Verify intent matches Evidence Chain Viewer) -->
+<a class="flex flex-col items-center justify-center text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 rounded-xl p-2 scale-90 transition-transform active:bg-slate-100 dark:active:bg-slate-800" href="#">
+<span class="material-symbols-outlined icon-fill mb-1">qr_code_scanner</span>
+<span>Verify</span>
+</a>
+<!-- Inactive -->
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 p-2 active:bg-slate-100 dark:active:bg-slate-800 rounded-lg" href="#">
+<span class="material-symbols-outlined mb-1">rate_review</span>
+<span>Feedback</span>
+</a>
+</nav>
+<!-- Main Wrapper -->
+<div class="flex-1 flex flex-col lg:ml-64 w-full">
+<!-- TopAppBar -->
+<header class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md text-blue-600 dark:text-blue-400 font-manrope antialiased tracking-tight docked full-width top-0 border-b z-50 border-slate-200 dark:border-slate-800 flat no shadows fixed top-0 left-0 w-full lg:w-[calc(100%-16rem)] lg:left-64 flex justify-between items-center px-6 h-16">
+<div class="flex items-center gap-md">
+<span class="text-lg font-bold text-blue-700 dark:text-blue-300 tracking-tighter">Agri-Chain 溯源</span>
+</div>
+<div class="flex items-center gap-md">
+<!-- Actions -->
+<button class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<button class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 pt-[80px] px-margin pb-24 lg:pb-margin overflow-y-auto w-full max-w-7xl mx-auto">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-md mb-margin">
+<div>
+<div class="flex items-center gap-xs font-label-sm text-label-sm text-outline mb-base">
+<span>溯源</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="text-primary font-medium">Batch Evidence Chain</span>
+</div>
+<h2 class="font-headline-xl text-headline-xl text-on-surface flex items-center gap-sm">
+                        Batch #ORG-2023-88X
+                        <span class="inline-flex items-center gap-base px-2 py-1 rounded bg-tertiary-container/10 text-tertiary-container border border-tertiary-container/20 font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">verified</span> Validated
+                        </span>
+</h2>
+</div>
+<div class="flex gap-sm">
+<button class="px-md py-sm rounded-lg border border-primary text-primary font-label-sm text-label-sm hover:bg-primary/5 transition-colors flex items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">download</span> 导出审计报告
+                    </button>
+<button class="px-md py-sm rounded-lg bg-primary-container text-on-primary-container font-label-sm text-label-sm hover:opacity-90 transition-opacity flex items-center gap-xs shadow-[0_4px_12px_rgba(30,110,235,0.2)]">
+<span class="material-symbols-outlined text-[18px]">lock_reset</span> Re-verify Chain
+                    </button>
+</div>
+</div>
+<!-- 12-Column Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
+<!-- Left Split: Complex Data & Forms (8 cols) -->
+<div class="lg:col-span-8 flex flex-col gap-gutter">
+<!-- Bento Grid: Data Integrity -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-lg flex flex-col gap-md">
+<div class="flex items-center gap-sm mb-xs">
+<div class="w-10 h-10 rounded-full bg-tertiary-container/10 flex items-center justify-center text-tertiary-container">
+<span class="material-symbols-outlined icon-fill">shield_locked</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Data Integrity Match</h3>
+<p class="font-body-md text-body-md text-outline">Cryptographic hash comparison across distributed ledgers.</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-7 gap-sm items-center bg-surface-container p-md rounded-lg border border-outline-variant/50">
+<div class="md:col-span-3">
+<span class="font-label-sm text-label-sm text-outline block mb-base">Off-chain File Hash (SHA-256)</span>
+<div class="bg-white px-sm py-xs rounded border border-outline-variant font-data-mono text-data-mono text-on-surface-variant break-all">
+                                    e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+                                </div>
+</div>
+<div class="md:col-span-1 flex justify-center text-tertiary-container">
+<span class="material-symbols-outlined text-xl">sync_alt</span>
+</div>
+<div class="md:col-span-3">
+<span class="font-label-sm text-label-sm text-outline block mb-base flex items-center gap-xs">
+<span class="w-2 h-2 rounded-full bg-tertiary-container"></span>
+                                    On-chain Immutable Hash
+                                </span>
+<div class="bg-white px-sm py-xs rounded border border-tertiary-container/30 font-data-mono text-data-mono text-tertiary-container break-all bg-tertiary-container/5">
+                                    e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+                                </div>
+</div>
+</div>
+</div>
+<!-- On-Chain Transactions Table -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden flex flex-col">
+<div class="p-lg border-b border-outline-variant flex justify-between items-center bg-surface-bright">
+<h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-xs">
+<span class="material-symbols-outlined text-outline">link</span> Ledger Transactions
+                            </h3>
+<span class="font-label-sm text-label-sm text-outline">Total Records: 4</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant">
+<th class="p-sm pl-lg font-label-sm text-label-sm text-outline font-medium">Tx Hash</th>
+<th class="p-sm font-label-sm text-label-sm text-outline font-medium">Block Height</th>
+<th class="p-sm font-label-sm text-label-sm text-outline font-medium">Node Sender</th>
+<th class="p-sm font-label-sm text-label-sm text-outline font-medium">Timestamp (UTC)</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md text-on-surface">
+<tr class="border-b border-outline-variant hover:bg-surface-container-low transition-colors">
+<td class="p-sm pl-lg font-data-mono text-data-mono text-primary flex items-center gap-xs">
+                                            0x8f...4a2c <span class="material-symbols-outlined text-[14px] text-outline cursor-pointer">content_copy</span>
+</td>
+<td class="p-sm text-on-surface-variant font-data-mono">14,293,012</td>
+<td class="p-sm">Farm Cooperative A</td>
+<td class="p-sm text-outline">2023-10-24 08:12:45</td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-container-low transition-colors bg-surface-bright/50">
+<td class="p-sm pl-lg font-data-mono text-data-mono text-primary flex items-center gap-xs">
+                                            0x3a...9b11 <span class="material-symbols-outlined text-[14px] text-outline cursor-pointer">content_copy</span>
+</td>
+<td class="p-sm text-on-surface-variant font-data-mono">14,295,884</td>
+<td class="p-sm">Logistics Hub North</td>
+<td class="p-sm text-outline">2023-10-25 14:30:10</td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-container-low transition-colors">
+<td class="p-sm pl-lg font-data-mono text-data-mono text-primary flex items-center gap-xs">
+                                            0xc2...7d0f <span class="material-symbols-outlined text-[14px] text-outline cursor-pointer">content_copy</span>
+</td>
+<td class="p-sm text-on-surface-variant font-data-mono">14,298,105</td>
+<td class="p-sm">Quality Inspectorate</td>
+<td class="p-sm text-outline">2023-10-26 09:15:22</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors bg-surface-bright/50">
+<td class="p-sm pl-lg font-data-mono text-data-mono text-primary flex items-center gap-xs">
+                                            0x9e...2b44 <span class="material-symbols-outlined text-[14px] text-outline cursor-pointer">content_copy</span>
+</td>
+<td class="p-sm text-on-surface-variant font-data-mono">14,301,440</td>
+<td class="p-sm">Retail Processing Unit</td>
+<td class="p-sm text-outline">2023-10-27 11:45:00</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Off-chain Attachments (Glassmorphism inspired cards) -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-lg">
+<h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-xs mb-md">
+<span class="material-symbols-outlined text-outline">attachment</span> Off-chain Evidence
+                        </h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-md">
+<!-- Attachment Card -->
+<div class="border border-outline-variant rounded-lg p-sm hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-shadow bg-surface flex items-start gap-sm cursor-pointer group">
+<div class="w-10 h-10 rounded bg-error/10 text-error flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined">picture_as_pdf</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-body-md text-body-md font-medium text-on-surface truncate group-hover:text-primary transition-colors">Soil_Analysis_Report.pdf</p>
+<p class="font-label-sm text-label-sm text-outline">2.4 MB • Oct 24</p>
+</div>
+</div>
+<!-- Attachment Card -->
+<div class="border border-outline-variant rounded-lg p-sm hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-shadow bg-surface flex items-start gap-sm cursor-pointer group">
+<div class="w-10 h-10 rounded bg-primary/10 text-primary flex items-center justify-center shrink-0 overflow-hidden relative">
+<div class="absolute inset-0 bg-cover bg-center opacity-40" data-alt="close-up of organic green leafy vegetables growing in neat rows in a sunny agricultural greenhouse" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDilm-QuhXTWBwnEe46w6M12XeibO2CMtWwbpmWehxes7nxv8GPsqzO_qD1E4glaUkIpxoA7oKCzgiMDU5qlTsQL8wvDykWu_H9gwzWINP5W6aUilVr1mEClL3RXTA7Of0JyKCGOkrmSxDWMlGgRTTG_sudJ7nXgL-o7raY_3acwiV9xz0bpAs_3ydLHoObCPo-v7myP19EUXNOsQQN5_yrxyr7LlY7HpGF_9gtlhF9blxGysVyqCFjMkgAHdICZ2FICybjQuJvFbMh');"></div>
+<span class="material-symbols-outlined relative z-10 text-white drop-shadow-md">image</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-body-md text-body-md font-medium text-on-surface truncate group-hover:text-primary transition-colors">Harvest_Lot_Photo.jpg</p>
+<p class="font-label-sm text-label-sm text-outline">4.1 MB • Oct 24</p>
+</div>
+</div>
+<!-- Attachment Card -->
+<div class="border border-outline-variant rounded-lg p-sm hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-shadow bg-surface flex items-start gap-sm cursor-pointer group">
+<div class="w-10 h-10 rounded bg-error/10 text-error flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined">picture_as_pdf</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-body-md text-body-md font-medium text-on-surface truncate group-hover:text-primary transition-colors">Pesticide_Clearance.pdf</p>
+<p class="font-label-sm text-label-sm text-outline">1.1 MB • Oct 26</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Split: Status / Timeline (4 cols) -->
+<div class="lg:col-span-4 flex flex-col gap-gutter">
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-lg sticky top-[88px]">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-lg flex items-center justify-between">
+                            溯源流程
+                            <span class="material-symbols-outlined text-outline text-[20px]">filter_list</span>
+</h3>
+<!-- Vertical Timeline -->
+<div class="relative border-l-2 border-outline-variant/30 ml-3 space-y-lg">
+<!-- Node 1 (Completed) -->
+<div class="relative pl-md">
+<div class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-tertiary-container ring-4 ring-surface-container-lowest"></div>
+<div class="flex flex-col gap-base">
+<div class="flex justify-between items-center">
+<span class="font-body-md text-body-md font-medium text-on-surface">Origin Registration</span>
+<span class="font-label-sm text-label-sm text-outline">Oct 24</span>
+</div>
+<span class="font-label-sm text-label-sm text-tertiary-container flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> On-Chain
+                                    </span>
+</div>
+</div>
+<!-- Node 2 (Completed) -->
+<div class="relative pl-md">
+<div class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-tertiary-container ring-4 ring-surface-container-lowest"></div>
+<div class="flex flex-col gap-base">
+<div class="flex justify-between items-center">
+<span class="font-body-md text-body-md font-medium text-on-surface">Transport Departure</span>
+<span class="font-label-sm text-label-sm text-outline">Oct 25</span>
+</div>
+<span class="font-label-sm text-label-sm text-tertiary-container flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> On-Chain
+                                    </span>
+</div>
+</div>
+<!-- Node 3 (Completed) -->
+<div class="relative pl-md">
+<div class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-tertiary-container ring-4 ring-surface-container-lowest"></div>
+<div class="flex flex-col gap-base">
+<div class="flex justify-between items-center">
+<span class="font-body-md text-body-md font-medium text-on-surface">Quality Inspection</span>
+<span class="font-label-sm text-label-sm text-outline">Oct 26</span>
+</div>
+<span class="font-label-sm text-label-sm text-tertiary-container flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> Passed
+                                    </span>
+</div>
+</div>
+<!-- Node 4 (Active) -->
+<div class="relative pl-md">
+<div class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-primary ring-4 ring-surface-container-lowest ring-offset-2 ring-offset-primary/20 animate-pulse"></div>
+<div class="flex flex-col gap-base bg-surface-container-low p-sm rounded border border-primary/20 mt-[-8px]">
+<div class="flex justify-between items-center">
+<span class="font-body-md text-body-md font-semibold text-primary">Retail Processing</span>
+<span class="font-label-sm text-label-sm text-primary">Today</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Awaiting final packaging confirmation...</span>
+</div>
+</div>
+<!-- Node 5 (待处理) -->
+<div class="relative pl-md">
+<div class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-outline-variant ring-4 ring-surface-container-lowest"></div>
+<div class="flex flex-col gap-base opacity-50">
+<div class="flex justify-between items-center">
+<span class="font-body-md text-body-md font-medium text-on-surface">Store Delivery</span>
+<span class="font-label-sm text-label-sm text-outline">待处理</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

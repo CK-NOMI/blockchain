@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Farm Records - Industrial Trace</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-highest": "#d3e4fe",
+                        "on-tertiary-fixed": "#002109",
+                        "inverse-surface": "#213145",
+                        "on-error": "#ffffff",
+                        "on-tertiary-container": "#f2ffee",
+                        "on-secondary": "#ffffff",
+                        "on-primary-container": "#fdfbff",
+                        "primary": "#0056c3",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface": "#f8f9ff",
+                        "surface-container-high": "#dce9ff",
+                        "on-surface-variant": "#424654",
+                        "on-background": "#0b1c30",
+                        "primary-fixed": "#d9e2ff",
+                        "surface-variant": "#d3e4fe",
+                        "on-primary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "surface-dim": "#cbdbf5",
+                        "inverse-primary": "#afc6ff",
+                        "outline-variant": "#c2c6d7",
+                        "secondary": "#3e5e98",
+                        "surface-tint": "#0058c9",
+                        "surface-container": "#e5eeff",
+                        "primary-container": "#1e6eeb",
+                        "error": "#ba1a1a",
+                        "secondary-fixed-dim": "#adc7ff",
+                        "primary-fixed-dim": "#afc6ff",
+                        "tertiary-fixed-dim": "#62df7d",
+                        "secondary-container": "#9fbeff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#0b1c30",
+                        "on-secondary-fixed-variant": "#24467e",
+                        "on-tertiary-fixed-variant": "#005320",
+                        "on-primary-fixed": "#001944",
+                        "on-secondary-container": "#2b4c85",
+                        "outline": "#727786",
+                        "on-secondary-fixed": "#001a41",
+                        "tertiary": "#006a2c",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed-variant": "#00429a",
+                        "secondary-fixed": "#d8e2ff",
+                        "surface-container-low": "#eff4ff",
+                        "tertiary-container": "#008639",
+                        "tertiary-fixed": "#7ffc97",
+                        "surface-bright": "#f8f9ff",
+                        "error-container": "#ffdad6",
+                        "background": "#f8f9ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "lg": "24px",
+                        "gutter": "20px",
+                        "sm": "12px",
+                        "base": "4px",
+                        "xs": "8px",
+                        "margin": "24px",
+                        "xl": "32px",
+                        "md": "16px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "data-mono": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-xl": ["Manrope"],
+                        "headline-md": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "data-mono": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "headline-xl": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "headline-md": ["18px", { "lineHeight": "26px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background min-h-screen flex w-full">
+<!-- SideNavBar -->
+<nav class="bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flat no shadows h-screen w-64 fixed left-0 top-0 hidden md:flex flex-col py-4 z-40">
+<div class="px-6 pb-6 border-b border-slate-200 dark:border-slate-800 mb-4">
+<h1 class="text-xl font-bold text-blue-700 dark:text-blue-500 font-headline-md">Industrial Trace</h1>
+<p class="text-slate-500 dark:text-slate-400 font-label-sm text-label-sm mt-1">V3.2.0-Alpha</p>
+</div>
+<div class="flex-1 overflow-y-auto flex flex-col gap-2 px-3">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-200 ease-in-out font-sans text-sm font-semibold" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                工作台
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-200 ease-in-out font-sans text-sm font-semibold" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+                Batch Management
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 border-r-4 border-blue-600 transition-all duration-200 ease-in-out font-sans text-sm font-semibold" href="#">
+<span class="material-symbols-outlined" data-icon="agriculture" data-weight="fill" style="font-variation-settings: 'FILL' 1;">agriculture</span>
+                Farm Records
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-200 ease-in-out font-sans text-sm font-semibold" href="#">
+<span class="material-symbols-outlined" data-icon="verified">verified</span>
+                Quality Audit
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-200 ease-in-out font-sans text-sm font-semibold" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                系统设置
+            </a>
+</div>
+<div class="p-4 mt-auto">
+<button class="w-full bg-primary-container text-on-primary py-3 rounded-lg font-label-sm text-label-sm flex items-center justify-center gap-2 hover:opacity-90 transition-opacity shadow-[0px_4px_12px_rgba(0,0,0,0.05)]">
+<span class="material-symbols-outlined text-[18px]">cloud_upload</span>
+                 提交上链
+             </button>
+<div class="mt-4 flex items-center gap-3 px-2">
+<img alt="User Profile" class="w-8 h-8 rounded-full border border-outline-variant" data-alt="Close up portrait of a professional man in a blue shirt with a neutral expression, soft lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAfRvmIpBF3SrzXFATaJ5WEU_TbOTyTvb0RGsDF7zX5ipZiEl7Eu4xNy9RqLwr4YIsfTql9_Cul_6svlk611lwU6jW3nnHMp68MbUzjnU18yimmnqjRh4wCFsPVYxd2484HN12fJTcCF2vknblQPc2glMkBN8dI7TbW-KDbSSaUekRThlUE474qyUoNCM-bZOK05BtPLwZCwptpFJCMwbwOE92YuuM9GAqroWykU6apiBvbP8jtOFfjvSzv64-g3oU88CHBqUe8jeh"/>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface">John Doe</span>
+<span class="font-label-sm text-[10px] text-outline">Farmer</span>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-64 flex flex-col min-h-screen">
+<!-- TopAppBar (Mobile Only) -->
+<header class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md font-sans text-sm font-medium tracking-tight docked full-width top-0 sticky z-50 border-b border-slate-200 dark:border-slate-800 shadow-sm flex justify-between items-center w-full px-6 h-16 md:hidden">
+<div class="flex items-center gap-4 text-blue-600 dark:text-blue-400 cursor-pointer active:opacity-80 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</div>
+<h1 class="text-lg font-black text-blue-700 dark:text-blue-400 tracking-tighter">AgriChain 溯源</h1>
+<div class="flex items-center gap-4 text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" data-icon="help_outline">help_outline</span>
+<span class="material-symbols-outlined cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" data-icon="account_circle">account_circle</span>
+</div>
+</header>
+<!-- Page Content -->
+<div class="flex-1 p-4 md:p-lg lg:p-xl pb-24 md:pb-lg w-full max-w-7xl mx-auto">
+<!-- Top Batch Summary -->
+<div class="bg-surface-container-lowest rounded-lg border border-outline-variant p-md mb-lg shadow-[0px_4px_12px_rgba(0,0,0,0.02)] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+                        Farm &amp; Harvest Record Entry
+                    </h2>
+<p class="font-body-md text-body-md text-outline mt-1 flex items-center gap-2">
+                        BatchID: <span class="font-data-mono text-data-mono text-primary">202405230001</span> | Sunshine Grape
+                    </p>
+</div>
+<div class="bg-surface-container-low px-4 py-2 rounded-lg border border-surface-container-highest flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary">eco</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Organic Certified</span>
+</div>
+</div>
+<!-- Split Content Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-lg">
+<!-- Main Form Area (Left) -->
+<div class="lg:col-span-8 flex flex-col gap-lg">
+<!-- Planting Info Card -->
+<section class="bg-surface-container-lowest rounded-lg border border-outline-variant p-lg shadow-[0px_4px_12px_rgba(0,0,0,0.02)]">
+<h3 class="font-headline-md text-[16px] text-on-surface mb-md pb-2 border-b border-surface-container-highest flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">pin_drop</span>
+                            Planting Information
+                        </h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<div class="flex flex-col gap-1">
+<label class="font-label-sm text-label-sm text-on-surface-variant">Plot Location</label>
+<select class="w-full rounded-DEFAULT border-outline-variant bg-surface-container-lowest text-body-md font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary h-10 px-3">
+<option>North Field - Sector A</option>
+<option>South Field - Sector B</option>
+<option>Greenhouse 01</option>
+</select>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-sm text-label-sm text-on-surface-variant">Planting Date</label>
+<input class="w-full rounded-DEFAULT border-outline-variant bg-surface-container-lowest text-body-md font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary h-10 px-3" type="date" value="2023-11-15"/>
+</div>
+<div class="flex flex-col gap-1 md:col-span-2">
+<label class="font-label-sm text-label-sm text-on-surface-variant">Seed/Sapling Source</label>
+<input class="w-full rounded-DEFAULT border-outline-variant bg-surface-container-lowest text-body-md font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary h-10 px-3" placeholder="Enter supplier or batch number" type="text" value="AgriCorp Elite Seeds B22"/>
+</div>
+</div>
+</section>
+<!-- Harvesting Info Card -->
+<section class="bg-surface-container-lowest rounded-lg border border-outline-variant p-lg shadow-[0px_4px_12px_rgba(0,0,0,0.02)]">
+<h3 class="font-headline-md text-[16px] text-on-surface mb-md pb-2 border-b border-surface-container-highest flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">shopping_basket</span>
+                            Harvesting Information
+                        </h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-md">
+<div class="flex flex-col gap-1">
+<label class="font-label-sm text-label-sm text-on-surface-variant">Harvest Quantity (kg)</label>
+<input class="w-full rounded-DEFAULT border-outline-variant bg-surface-container-lowest text-body-md font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary h-10 px-3" placeholder="0.00" type="number" value="1500.50"/>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-sm text-label-sm text-on-surface-variant">Harvest Date</label>
+<input class="w-full rounded-DEFAULT border-outline-variant bg-surface-container-lowest text-body-md font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary h-10 px-3" type="date" value="2024-05-23"/>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-sm text-label-sm text-on-surface-variant">Quality Grade</label>
+<select class="w-full rounded-DEFAULT border-outline-variant bg-surface-container-lowest text-body-md font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary h-10 px-3">
+<option>Grade A (Premium)</option>
+<option>Grade B (Standard)</option>
+<option>Grade C (Processing)</option>
+</select>
+</div>
+<div class="flex flex-col gap-1 md:col-span-3">
+<label class="font-label-sm text-label-sm text-on-surface-variant">Inspector Notes</label>
+<textarea class="w-full rounded-DEFAULT border-outline-variant bg-surface-container-lowest text-body-md font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary p-3 min-h-[80px]" placeholder="Add any relevant observations..."></textarea>
+</div>
+</div>
+</section>
+<!-- Fertilizer/Pesticide Log -->
+<section class="bg-surface-container-lowest rounded-lg border border-outline-variant p-lg shadow-[0px_4px_12px_rgba(0,0,0,0.02)]">
+<div class="flex justify-between items-center mb-md pb-2 border-b border-surface-container-highest">
+<h3 class="font-headline-md text-[16px] text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">science</span>
+                                Application Logs
+                            </h3>
+<button class="text-primary font-label-sm text-label-sm hover:underline flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">add</span> Add Entry
+                            </button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface border-b border-surface-container-highest">
+<th class="py-2 px-3 font-label-sm text-label-sm text-outline">Date</th>
+<th class="py-2 px-3 font-label-sm text-label-sm text-outline">Type</th>
+<th class="py-2 px-3 font-label-sm text-label-sm text-outline">Product Name</th>
+<th class="py-2 px-3 font-label-sm text-label-sm text-outline">Dosage</th>
+<th class="py-2 px-3 font-label-sm text-label-sm text-outline"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-surface-container-highest last:border-0 hover:bg-surface-container-lowest">
+<td class="py-3 px-3 font-data-mono text-data-mono text-on-surface">2024-04-10</td>
+<td class="py-3 px-3">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-surface-container-highest text-secondary">Fertilizer</span>
+</td>
+<td class="py-3 px-3 font-body-md text-body-md text-on-surface">Organic Compost Mix</td>
+<td class="py-3 px-3 font-data-mono text-data-mono text-on-surface">500kg/ha</td>
+<td class="py-3 px-3 text-right">
+<button class="text-outline hover:text-error transition-colors"><span class="material-symbols-outlined text-[18px]">delete</span></button>
+</td>
+</tr>
+<tr class="border-b border-surface-container-highest last:border-0 hover:bg-surface-container-lowest">
+<td class="py-3 px-3 font-data-mono text-data-mono text-on-surface">2024-05-02</td>
+<td class="py-3 px-3">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-error-container text-on-error-container">Pesticide</span>
+</td>
+<td class="py-3 px-3 font-body-md text-body-md text-on-surface">Neem Oil Extract</td>
+<td class="py-3 px-3 font-data-mono text-data-mono text-on-surface">2L/ha</td>
+<td class="py-3 px-3 text-right">
+<button class="text-outline hover:text-error transition-colors"><span class="material-symbols-outlined text-[18px]">delete</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Media Upload -->
+<section class="bg-surface-container-lowest rounded-lg border border-outline-variant p-lg shadow-[0px_4px_12px_rgba(0,0,0,0.02)]">
+<h3 class="font-headline-md text-[16px] text-on-surface mb-md pb-2 border-b border-surface-container-highest flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">photo_camera</span>
+                            Evidence Media
+                        </h3>
+<div class="border-2 border-dashed border-outline-variant rounded-lg p-xl flex flex-col items-center justify-center bg-surface hover:bg-surface-container-low transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-outline text-[32px] mb-2">cloud_upload</span>
+<p class="font-body-md text-body-md text-on-surface mb-1">Click to upload or drag and drop</p>
+<p class="font-label-sm text-label-sm text-outline">SVG, PNG, JPG or GIF (max. 800x400px)</p>
+</div>
+<div class="mt-4 flex gap-4 overflow-x-auto pb-2">
+<div class="relative w-24 h-24 rounded-lg overflow-hidden border border-outline-variant group shrink-0">
+<img alt="Grape Harvest" class="w-full h-full object-cover" data-alt="Close up of fresh green grapes on the vine with sun dappling through leaves" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA04-UH1uiIAkuW7u5DGunucRUlRfCAO_7m9eDJP_NSIDu9wlyv2ntlww0z1EWFeBxqEdA1khr6Mzs6dhVAeDfmgXzLb6OrqpRPAxcSyPb125MqgeTvzyTzAlhkzO_6ZFcX0zI_pRhxWUnttwEVT77eoKerFLa57ukqykPDqmXLN8x1iDHqT508L7oCtsqr1pLp-gGurhFauTcr2oq3qQ4BsIK5pk0aTTDbET_H6drGnGkZji2myyxKjTWKPZ6mBkGmHQmBJZERSonU"/>
+<button class="absolute top-1 right-1 bg-black/50 text-white rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</div>
+<div class="relative w-24 h-24 rounded-lg overflow-hidden border border-outline-variant group shrink-0">
+<img alt="Farm Field" class="w-full h-full object-cover" data-alt="Wide shot of a neat agricultural field with green plants growing in rows under a blue sky" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCtV6f_R9TQKnJJUR6fyVcPUqn2YlzjWSy9zNAwmx05Feq0Cl_H8PF07hTfadeZNEieuVfHOJCEu5mnV9b6OGwr3h4EYs9pJnHg9b-Ky_YonUqlzN3vX8EmIyZFIew9wTS1FoqOjTzHcXBUjwQ9XGSW3_eJLgCpWQrJhIc-Y7zKlAWjxFN0JWfad5kw1Zsj-iuRwur8APBWgjglTdcusPs7qdzQIRHdWCBXDQCdhxxRBBk6aKFk0nCnri0lo8M3gBXqQ67Ue_IxDvN"/>
+<button class="absolute top-1 right-1 bg-black/50 text-white rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</div>
+</div>
+</section>
+</div>
+<!-- Status Card (Right) -->
+<div class="lg:col-span-4">
+<div class="sticky top-20 flex flex-col gap-lg">
+<!-- Blockchain Verification Card -->
+<div class="bg-surface-container-lowest rounded-lg border border-outline-variant p-lg shadow-[0px_4px_12px_rgba(0,0,0,0.05)]">
+<h3 class="font-headline-md text-[16px] text-on-surface mb-md pb-2 border-b border-surface-container-highest flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">verified_user</span>
+                                Status Info
+                            </h3>
+<div class="flex flex-col gap-4">
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-label-sm text-outline">Current Step</span>
+<span class="font-body-md text-body-md text-on-surface font-medium">Farmer Entry</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-label-sm text-outline">On-chain Status</span>
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-secondary-container text-on-secondary-container font-label-sm text-[10px] font-bold uppercase tracking-wider">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+                                        In Progress
+                                    </span>
+</div>
+<div class="mt-2 pt-4 border-t border-surface-container-highest">
+<span class="font-label-sm text-label-sm text-outline block mb-1">Expected Hash</span>
+<div class="bg-surface p-2 rounded border border-outline-variant font-data-mono text-[11px] text-on-surface-variant break-all">
+                                        待提交上链...
+                                    </div>
+</div>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex flex-col gap-3">
+<button class="w-full bg-primary-container hover:bg-surface-tint text-on-primary py-3 rounded-lg font-body-md font-semibold transition-colors shadow-sm flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                Save &amp; 提交上链
+                            </button>
+<button class="w-full bg-surface-container-lowest border border-primary text-primary hover:bg-surface py-3 rounded-lg font-body-md font-semibold transition-colors">
+                                保存草稿
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-lg text-[10px] font-bold uppercase tracking-widest fixed bottom-0 w-full z-50 rounded-t-xl border-t border-slate-200 dark:border-slate-800 shadow-[0_-4px_12px_rgba(0,0,0,0.05)] md:hidden">
+<div class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pt-2 pb-safe-offset-2">
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 active:bg-slate-100 dark:active:bg-slate-800 tap-highlight-transparent scale-95 active:scale-90 transition-transform py-1 px-3 rounded-xl" href="#">
+<span class="material-symbols-outlined text-[24px] mb-1" data-icon="home">home</span>
+                Home
+            </a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 active:bg-slate-100 dark:active:bg-slate-800 tap-highlight-transparent scale-95 active:scale-90 transition-transform py-1 px-3 rounded-xl" href="#">
+<span class="material-symbols-outlined text-[24px] mb-1" data-icon="qr_code_scanner">qr_code_scanner</span>
+                Scan QR
+            </a>
+<a class="flex flex-col items-center justify-center text-blue-600 dark:text-blue-400 bg-blue-50/50 dark:bg-blue-900/30 rounded-xl px-3 py-1 tap-highlight-transparent scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined text-[24px] mb-1" data-icon="verified_user" data-weight="fill" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+                Verify
+            </a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 active:bg-slate-100 dark:active:bg-slate-800 tap-highlight-transparent scale-95 active:scale-90 transition-transform py-1 px-3 rounded-xl" href="#">
+<span class="material-symbols-outlined text-[24px] mb-1" data-icon="person">person</span>
+                Profile
+            </a>
+</div>
+</nav>
+</body></html>

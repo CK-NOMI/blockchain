@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>G09 数据统计与风险概览页 (PC)</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed-variant": "#005320",
+                        "on-surface": "#0b1c30",
+                        "surface-container": "#e5eeff",
+                        "surface-container-highest": "#d3e4fe",
+                        "secondary-fixed": "#d8e2ff",
+                        "on-background": "#0b1c30",
+                        "surface-variant": "#d3e4fe",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#eff4ff",
+                        "surface": "#f8f9ff",
+                        "primary-fixed": "#d9e2ff",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed": "#002109",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed-dim": "#adc7ff",
+                        "on-secondary-fixed-variant": "#24467e",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-dim": "#cbdbf5",
+                        "on-primary-fixed": "#001944",
+                        "tertiary": "#006a2c",
+                        "tertiary-container": "#008639",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#fdfbff",
+                        "secondary": "#3e5e98",
+                        "inverse-primary": "#afc6ff",
+                        "on-primary-fixed-variant": "#00429a",
+                        "surface-container-high": "#dce9ff",
+                        "secondary-container": "#9fbeff",
+                        "surface-tint": "#0058c9",
+                        "inverse-surface": "#213145",
+                        "on-error": "#ffffff",
+                        "outline": "#727786",
+                        "background": "#f8f9ff",
+                        "outline-variant": "#c2c6d7",
+                        "error": "#ba1a1a",
+                        "primary-fixed-dim": "#afc6ff",
+                        "tertiary-fixed-dim": "#62df7d",
+                        "on-primary": "#ffffff",
+                        "surface-bright": "#f8f9ff",
+                        "tertiary-fixed": "#7ffc97",
+                        "on-tertiary-container": "#f2ffee",
+                        "on-secondary-fixed": "#001a41",
+                        "on-surface-variant": "#424654",
+                        "on-secondary-container": "#2b4c85",
+                        "primary-container": "#1e6eeb",
+                        "primary": "#0056c3",
+                        "on-error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin": "24px",
+                        "gutter": "20px",
+                        "xl": "32px",
+                        "sm": "12px",
+                        "lg": "24px",
+                        "md": "16px",
+                        "base": "4px",
+                        "xs": "8px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "data-mono": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-xl": ["Manrope"],
+                        "headline-md": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "data-mono": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-xl": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "headline-md": ["18px", { "lineHeight": "26px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .chart-grid {
+            background-image: linear-gradient(to right, #e2e8f0 1px, transparent 1px), linear-gradient(to bottom, #e2e8f0 1px, transparent 1px);
+            background-size: 20% 25%;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md antialiased flex">
+<!-- Shared Component: SideNavBar -->
+<nav class="fixed left-0 top-0 flex flex-col h-full z-40 bg-slate-50 dark:bg-slate-950 docked left-0 h-screen w-64 border-r border-slate-200 dark:border-slate-800 font-manrope text-sm tracking-tight">
+<!-- Header -->
+<div class="p-6 border-b border-slate-200 dark:border-slate-800 flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined" data-icon="eco">eco</span>
+</div>
+<div>
+<h1 class="text-lg font-bold text-blue-800 dark:text-blue-200">AgriTrace Global</h1>
+<p class="text-xs text-slate-500 dark:text-slate-400">Industrial Supply Chain</p>
+</div>
+</div>
+<!-- Main Tabs -->
+<div class="flex-1 overflow-y-auto py-4 flex flex-col gap-1">
+<!-- Active Tab: 工作台 -->
+<a class="flex items-center gap-3 px-4 py-3 text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-900/20 border-r-4 border-blue-600 dark:border-blue-400 font-semibold hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200 translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span>工作台</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="hub">hub</span>
+<span>溯源节点</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+<span>Quality Audits</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="gavel">gavel</span>
+<span>Compliance Panel</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span>库存</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
+<span>Logistics</span>
+</a>
+</div>
+<!-- CTA & Footer -->
+<div class="p-4 border-t border-slate-200 dark:border-slate-800 flex flex-col gap-4">
+<button class="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center justify-center gap-2 font-semibold transition-colors shadow-sm">
+<span class="material-symbols-outlined text-sm" data-icon="add_link">add_link</span>
+                Verify Block
+            </button>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200 rounded-lg text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span>Support</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200 rounded-lg text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span>Sign Out</span>
+</a>
+</div>
+<!-- User Profile snippet (optional based on json alt text, placing here as a footer anchor) -->
+<div class="flex items-center gap-3 px-2 pt-2 mt-2 border-t border-slate-200 dark:border-slate-800">
+<div class="w-8 h-8 rounded-full bg-slate-300 dark:bg-slate-700 overflow-hidden" data-alt="close-up portrait of a professional system administrator in a clean office setting, subtle lighting"></div>
+<div class="flex flex-col">
+<span class="text-xs font-semibold text-slate-700 dark:text-slate-300">System Administrator</span>
+<span class="text-[10px] text-slate-500">Active</span>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Canvas -->
+<main class="ml-64 flex-1 min-h-screen p-margin flex flex-col gap-lg">
+<!-- Header & Filters -->
+<header class="flex flex-col md:flex-row md:items-center justify-between gap-md">
+<div>
+<h2 class="font-headline-xl text-headline-xl text-on-surface">数据统计与风险概览</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">全局供应链溯源数据监控与异常分析</p>
+</div>
+<div class="flex items-center gap-sm">
+<!-- Date Filter -->
+<div class="flex items-center bg-surface-container-lowest border border-outline-variant rounded-lg px-3 py-2 shadow-[0px_4px_12px_rgba(0,0,0,0.02)]">
+<span class="material-symbols-outlined text-on-surface-variant mr-2 text-sm" data-icon="calendar_today">calendar_today</span>
+<select class="bg-transparent border-none p-0 focus:ring-0 text-sm font-label-sm text-on-surface outline-none cursor-pointer">
+<option>过去 30 天</option>
+<option>本季度</option>
+<option>今年</option>
+</select>
+</div>
+<!-- Category Filter -->
+<div class="flex items-center bg-surface-container-lowest border border-outline-variant rounded-lg px-3 py-2 shadow-[0px_4px_12px_rgba(0,0,0,0.02)]">
+<span class="material-symbols-outlined text-on-surface-variant mr-2 text-sm" data-icon="category">category</span>
+<select class="bg-transparent border-none p-0 focus:ring-0 text-sm font-label-sm text-on-surface outline-none cursor-pointer">
+<option>全部分类</option>
+<option>生鲜果蔬</option>
+<option>肉类加工</option>
+<option>粮油副食</option>
+</select>
+</div>
+<!-- ???? -->
+<button class="flex items-center gap-2 bg-primary-container hover:bg-primary text-on-primary-container hover:text-on-primary px-4 py-2 rounded-lg transition-colors font-label-sm text-label-sm shadow-sm">
+<span class="material-symbols-outlined text-sm" data-icon="download">download</span>
+                    导出分析报告
+                </button>
+</div>
+</header>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Row 1: KPI Summary Cards -->
+<div class="col-span-12 md:col-span-4 bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-[0px_4px_12px_rgba(0,0,0,0.05)] relative overflow-hidden">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-primary-fixed opacity-50 rounded-full blur-2xl"></div>
+<div class="flex justify-between items-start mb-md">
+<h3 class="font-body-md text-body-md text-on-surface-variant">累计溯源批次</h3>
+<div class="p-2 bg-primary-container/10 text-primary-container rounded-lg">
+<span class="material-symbols-outlined" data-icon="layers">layers</span>
+</div>
+</div>
+<div class="flex items-baseline gap-sm">
+<span class="font-headline-xl text-[32px] font-bold text-on-surface">124,592</span>
+<span class="flex items-center text-tertiary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-sm" data-icon="trending_up">trending_up</span>
+                        12.5%
+                    </span>
+</div>
+<p class="font-label-sm text-label-sm text-outline mt-2">较上月同期新增 15,200 批次</p>
+</div>
+<div class="col-span-12 md:col-span-4 bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-[0px_4px_12px_rgba(0,0,0,0.05)] relative overflow-hidden">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-error-container opacity-50 rounded-full blur-2xl"></div>
+<div class="flex justify-between items-start mb-md">
+<h3 class="font-body-md text-body-md text-on-surface-variant">风险预警拦截</h3>
+<div class="p-2 bg-error-container/30 text-error rounded-lg">
+<span class="material-symbols-outlined" data-icon="warning">warning</span>
+</div>
+</div>
+<div class="flex items-baseline gap-sm">
+<span class="font-headline-xl text-[32px] font-bold text-on-surface">843</span>
+<span class="flex items-center text-error font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-sm" data-icon="trending_up">trending_up</span>
+                        4.2%
+                    </span>
+</div>
+<p class="font-label-sm text-label-sm text-outline mt-2">拦截高危物流节点 12 处</p>
+</div>
+<div class="col-span-12 md:col-span-4 bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-[0px_4px_12px_rgba(0,0,0,0.05)] relative overflow-hidden">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-tertiary-container opacity-20 rounded-full blur-2xl"></div>
+<div class="flex justify-between items-start mb-md">
+<h3 class="font-body-md text-body-md text-on-surface-variant">整体合规率</h3>
+<div class="p-2 bg-tertiary-container/10 text-tertiary-container rounded-lg">
+<span class="material-symbols-outlined" data-icon="fact_check">fact_check</span>
+</div>
+</div>
+<div class="flex items-baseline gap-sm">
+<span class="font-headline-xl text-[32px] font-bold text-on-surface">99.32%</span>
+<span class="flex items-center text-outline font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-sm" data-icon="horizontal_rule">horizontal_rule</span>
+                        0.0%
+                    </span>
+</div>
+<p class="font-label-sm text-label-sm text-outline mt-2">符合国家农业部质检标准</p>
+</div>
+<!-- Row 2: Charts Area 1 -->
+<!-- Line Chart: Batch Trends -->
+<div class="col-span-12 lg:col-span-8 bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-[0px_4px_12px_rgba(0,0,0,0.05)] flex flex-col">
+<div class="flex justify-between items-center mb-lg">
+<h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="show_chart">show_chart</span>
+                        批次上链趋势
+                    </h3>
+<div class="flex gap-2">
+<button class="px-3 py-1 rounded-md text-label-sm font-label-sm bg-surface-container-highest text-on-surface-variant hover:bg-primary-fixed hover:text-on-primary-fixed transition-colors">日</button>
+<button class="px-3 py-1 rounded-md text-label-sm font-label-sm bg-primary text-on-primary shadow-sm">周</button>
+<button class="px-3 py-1 rounded-md text-label-sm font-label-sm bg-surface-container-highest text-on-surface-variant hover:bg-primary-fixed hover:text-on-primary-fixed transition-colors">月</button>
+</div>
+</div>
+<!-- Mock Line Chart CSS representation -->
+<div class="flex-1 relative chart-grid border-b border-l border-outline-variant/30 min-h-[250px] flex items-end">
+<!-- Y Axis Labels -->
+<div class="absolute -left-8 top-0 h-full flex flex-col justify-between text-xs text-outline font-data-mono pb-6">
+<span>5k</span><span>4k</span><span>3k</span><span>2k</span><span>1k</span><span>0</span>
+</div>
+<!-- SVG Area/Line Chart Mock -->
+<svg class="w-full h-full overflow-visible" preserveaspectratio="none" viewbox="0 0 100 100">
+<defs>
+<lineargradient id="gradientArea" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#1e6eeb" stop-opacity="0.2"></stop>
+<stop offset="100%" stop-color="#1e6eeb" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+<!-- Area -->
+<polygon fill="url(#gradientArea)" points="0,100 0,80 15,60 30,70 45,40 60,50 75,20 90,30 100,10 100,100"></polygon>
+<!-- Line -->
+<polyline fill="none" points="0,80 15,60 30,70 45,40 60,50 75,20 90,30 100,10" stroke="#1e6eeb" stroke-linejoin="round" stroke-width="2"></polyline>
+<!-- Data Points -->
+<circle cx="15" cy="60" fill="#ffffff" r="1.5" stroke="#1e6eeb" stroke-width="1"></circle>
+<circle cx="45" cy="40" fill="#ffffff" r="1.5" stroke="#1e6eeb" stroke-width="1"></circle>
+<circle cx="75" cy="20" fill="#ffffff" r="1.5" stroke="#1e6eeb" stroke-width="1"></circle>
+<circle cx="100" cy="10" fill="#ffffff" r="1.5" stroke="#1e6eeb" stroke-width="1"></circle>
+</svg>
+<!-- X Axis Labels -->
+<div class="absolute -bottom-6 left-0 w-full flex justify-between text-xs text-outline font-data-mono">
+<span>周一</span><span>周二</span><span>周三</span><span>周四</span><span>周五</span><span>周六</span><span>周日</span>
+</div>
+</div>
+</div>
+<!-- Doughnut Chart: Anomaly Types -->
+<div class="col-span-12 lg:col-span-4 bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-[0px_4px_12px_rgba(0,0,0,0.05)] flex flex-col">
+<h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2 mb-lg">
+<span class="material-symbols-outlined text-primary" data-icon="donut_large">donut_large</span>
+                    异常类型分布
+                </h3>
+<div class="flex-1 flex flex-col items-center justify-center relative min-h-[250px]">
+<!-- CSS Doughnut Mock -->
+<div class="w-48 h-48 rounded-full relative shadow-inner" style="background: conic-gradient(
+                        #ba1a1a 0% 25%,     /* Error: Temp Exceeded */
+                        #f59e0b 25% 60%,    /* Warning: Logistics Delay */
+                        #3e5e98 60% 85%,    /* Secondary: Doc Missing */
+                        #9fbeff 85% 100%    /* Secondary Container: Other */
+                    );">
+<!-- Inner Cutout for Doughnut -->
+<div class="absolute inset-0 m-auto w-32 h-32 bg-surface-container-lowest rounded-full flex flex-col items-center justify-center shadow-[inset_0px_2px_4px_rgba(0,0,0,0.05)]">
+<span class="font-headline-md text-headline-md font-bold text-on-surface">843</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">总异常数</span>
+</div>
+</div>
+</div>
+<!-- Legend -->
+<div class="mt-4 flex flex-col gap-2">
+<div class="flex items-center justify-between text-sm">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-[#ba1a1a]"></div>
+<span class="text-on-surface font-body-md text-body-md">温控超标 (25%)</span>
+</div>
+<span class="font-data-mono text-data-mono text-on-surface-variant">211</span>
+</div>
+<div class="flex items-center justify-between text-sm">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-[#f59e0b]"></div>
+<span class="text-on-surface font-body-md text-body-md">物流延误 (35%)</span>
+</div>
+<span class="font-data-mono text-data-mono text-on-surface-variant">295</span>
+</div>
+<div class="flex items-center justify-between text-sm">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-[#3e5e98]"></div>
+<span class="text-on-surface font-body-md text-body-md">单据缺失 (25%)</span>
+</div>
+<span class="font-data-mono text-data-mono text-on-surface-variant">211</span>
+</div>
+<div class="flex items-center justify-between text-sm">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-[#9fbeff]"></div>
+<span class="text-on-surface font-body-md text-body-md">其他异常 (15%)</span>
+</div>
+<span class="font-data-mono text-data-mono text-on-surface-variant">126</span>
+</div>
+</div>
+</div>
+<!-- Row 3: Detail Analysis -->
+<!-- Bar Chart: Responsible Link Breakdown -->
+<div class="col-span-12 lg:col-span-7 bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-[0px_4px_12px_rgba(0,0,0,0.05)]">
+<h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2 mb-lg">
+<span class="material-symbols-outlined text-primary" data-icon="view_timeline">view_timeline</span>
+                    风险责任环节定位
+                </h3>
+<div class="flex flex-col gap-6 mt-4">
+<!-- Bar Item -->
+<div>
+<div class="flex justify-between items-center mb-1">
+<span class="font-label-sm text-label-sm text-on-surface flex items-center gap-1">
+<span class="material-symbols-outlined text-sm text-outline" data-icon="local_shipping">local_shipping</span>
+                                冷链运输环节
+                            </span>
+<span class="font-data-mono text-data-mono text-error">42%</span>
+</div>
+<div class="w-full bg-surface-container h-3 rounded-full overflow-hidden">
+<div class="bg-error h-full rounded-full" style="width: 42%"></div>
+</div>
+</div>
+<!-- Bar Item -->
+<div>
+<div class="flex justify-between items-center mb-1">
+<span class="font-label-sm text-label-sm text-on-surface flex items-center gap-1">
+<span class="material-symbols-outlined text-sm text-outline" data-icon="warehouse">warehouse</span>
+                                仓储分拨中心
+                            </span>
+<span class="font-data-mono text-data-mono text-[#f59e0b]">28%</span>
+</div>
+<div class="w-full bg-surface-container h-3 rounded-full overflow-hidden">
+<div class="bg-[#f59e0b] h-full rounded-full" style="width: 28%"></div>
+</div>
+</div>
+<!-- Bar Item -->
+<div>
+<div class="flex justify-between items-center mb-1">
+<span class="font-label-sm text-label-sm text-on-surface flex items-center gap-1">
+<span class="material-symbols-outlined text-sm text-outline" data-icon="agriculture">agriculture</span>
+                                产地采摘预冷
+                            </span>
+<span class="font-data-mono text-data-mono text-primary">18%</span>
+</div>
+<div class="w-full bg-surface-container h-3 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 18%"></div>
+</div>
+</div>
+<!-- Bar Item -->
+<div>
+<div class="flex justify-between items-center mb-1">
+<span class="font-label-sm text-label-sm text-on-surface flex items-center gap-1">
+<span class="material-symbols-outlined text-sm text-outline" data-icon="storefront">storefront</span>
+                                终端零售网点
+                            </span>
+<span class="font-data-mono text-data-mono text-secondary">12%</span>
+</div>
+<div class="w-full bg-surface-container h-3 rounded-full overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 12%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- List: High-Risk Ranking -->
+<div class="col-span-12 lg:col-span-5 bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-[0px_4px_12px_rgba(0,0,0,0.05)]">
+<div class="flex justify-between items-center mb-lg">
+<h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-error" data-icon="report">report</span>
+                        高风险主体监控名单
+                    </h3>
+<span class="text-xs bg-error-container text-on-error-container px-2 py-1 rounded-md font-medium">Top 4</span>
+</div>
+<div class="flex flex-col gap-0 border border-outline-variant/50 rounded-lg overflow-hidden">
+<!-- Header -->
+<div class="flex bg-surface-container-low px-4 py-2 border-b border-outline-variant/50 text-xs font-label-sm text-on-surface-variant">
+<div class="w-12">排名</div>
+<div class="flex-1">主体名称 (哈希标识)</div>
+<div class="w-20 text-right">风险分</div>
+</div>
+<!-- List Item 1 -->
+<div class="flex items-center px-4 py-3 border-b border-outline-variant/30 hover:bg-surface-container transition-colors">
+<div class="w-12 font-data-mono text-error font-bold flex items-center gap-1">
+                            #1 <span class="material-symbols-outlined text-[10px]" data-icon="arrow_upward">arrow_upward</span>
+</div>
+<div class="flex-1 flex flex-col">
+<span class="font-body-md text-body-md text-on-surface font-medium">顺风冷链物流 (华南区)</span>
+<span class="font-data-mono text-[10px] text-outline truncate">0x7a8...9f2b</span>
+</div>
+<div class="w-20 text-right">
+<span class="inline-flex items-center justify-center px-2 py-1 bg-error/10 text-error rounded text-xs font-data-mono font-bold">92.5</span>
+</div>
+</div>
+<!-- List Item 2 -->
+<div class="flex items-center px-4 py-3 border-b border-outline-variant/30 hover:bg-surface-container transition-colors">
+<div class="w-12 font-data-mono text-[#f59e0b] font-bold flex items-center gap-1">
+                            #2 <span class="material-symbols-outlined text-[10px] text-outline" data-icon="horizontal_rule">horizontal_rule</span>
+</div>
+<div class="flex-1 flex flex-col">
+<span class="font-body-md text-body-md text-on-surface font-medium">绿源鲜果合作社</span>
+<span class="font-data-mono text-[10px] text-outline truncate">0x3b1...4c9e</span>
+</div>
+<div class="w-20 text-right">
+<span class="inline-flex items-center justify-center px-2 py-1 bg-[#f59e0b]/10 text-[#f59e0b] rounded text-xs font-data-mono font-bold">88.0</span>
+</div>
+</div>
+<!-- List Item 3 -->
+<div class="flex items-center px-4 py-3 border-b border-outline-variant/30 hover:bg-surface-container transition-colors">
+<div class="w-12 font-data-mono text-[#f59e0b] font-bold flex items-center gap-1">
+                            #3 <span class="material-symbols-outlined text-[10px] text-error" data-icon="arrow_upward">arrow_upward</span>
+</div>
+<div class="flex-1 flex flex-col">
+<span class="font-body-md text-body-md text-on-surface font-medium">万家生鲜超市 (滨海店)</span>
+<span class="font-data-mono text-[10px] text-outline truncate">0x9d4...1a2f</span>
+</div>
+<div class="w-20 text-right">
+<span class="inline-flex items-center justify-center px-2 py-1 bg-[#f59e0b]/10 text-[#f59e0b] rounded text-xs font-data-mono font-bold">85.4</span>
+</div>
+</div>
+<!-- List Item 4 -->
+<div class="flex items-center px-4 py-3 hover:bg-surface-container transition-colors">
+<div class="w-12 font-data-mono text-outline font-bold flex items-center gap-1">
+                            #4 <span class="material-symbols-outlined text-[10px] text-tertiary" data-icon="arrow_downward">arrow_downward</span>
+</div>
+<div class="flex-1 flex flex-col">
+<span class="font-body-md text-body-md text-on-surface font-medium">恒温仓储中心 A区</span>
+<span class="font-data-mono text-[10px] text-outline truncate">0x2e6...8b7c</span>
+</div>
+<div class="w-20 text-right">
+<span class="inline-flex items-center justify-center px-2 py-1 bg-surface-variant text-on-surface-variant rounded text-xs font-data-mono font-bold">76.2</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

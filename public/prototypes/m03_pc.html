@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Processing &amp; Quality Entry - AgriTrace Pro</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for main content */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #c2c6d7; /* outline-variant */
+            border-radius: 4px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#d9e2ff",
+                        "tertiary-fixed-dim": "#62df7d",
+                        "primary": "#0056c3",
+                        "surface": "#f8f9ff",
+                        "secondary-fixed-dim": "#adc7ff",
+                        "primary-fixed-dim": "#afc6ff",
+                        "on-tertiary-container": "#f2ffee",
+                        "surface-bright": "#f8f9ff",
+                        "secondary-container": "#9fbeff",
+                        "surface-container-highest": "#d3e4fe",
+                        "tertiary-container": "#008639",
+                        "surface-variant": "#d3e4fe",
+                        "surface-container-high": "#dce9ff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-container": "#2b4c85",
+                        "secondary": "#3e5e98",
+                        "on-surface-variant": "#424654",
+                        "surface-container": "#e5eeff",
+                        "on-surface": "#0b1c30",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#7ffc97",
+                        "on-tertiary-fixed-variant": "#005320",
+                        "on-primary-container": "#fdfbff",
+                        "error-container": "#ffdad6",
+                        "on-tertiary": "#ffffff",
+                        "background": "#f8f9ff",
+                        "surface-dim": "#cbdbf5",
+                        "on-error": "#ffffff",
+                        "primary-container": "#1e6eeb",
+                        "on-secondary-fixed-variant": "#24467e",
+                        "on-primary-fixed-variant": "#00429a",
+                        "on-primary-fixed": "#001944",
+                        "surface-tint": "#0058c9",
+                        "inverse-primary": "#afc6ff",
+                        "on-tertiary-fixed": "#002109",
+                        "on-primary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "secondary-fixed": "#d8e2ff",
+                        "on-background": "#0b1c30",
+                        "tertiary": "#006a2c",
+                        "surface-container-lowest": "#ffffff",
+                        "outline": "#727786",
+                        "outline-variant": "#c2c6d7",
+                        "on-secondary-fixed": "#001a41",
+                        "surface-container-low": "#eff4ff",
+                        "inverse-surface": "#213145"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin": "24px",
+                        "md": "16px",
+                        "lg": "24px",
+                        "gutter": "20px",
+                        "xl": "32px",
+                        "sm": "12px",
+                        "xs": "8px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Manrope"],
+                        "headline-xl": ["Manrope"],
+                        "label-sm": ["Inter"],
+                        "data-mono": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["18px", {"lineHeight": "26px", "fontWeight": "600"}],
+                        "headline-xl": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                        "data-mono": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background flex h-screen overflow-hidden antialiased">
+<!-- SideNavBar -->
+<aside class="bg-slate-50 dark:bg-slate-950 font-manrope text-sm flex flex-col h-full py-4 left-0 h-screen w-64 fixed border-r border-slate-200 dark:border-slate-800 z-50">
+<!-- Header -->
+<div class="px-6 mb-8 flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white shrink-0">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">eco</span>
+</div>
+<div>
+<div class="text-lg font-extrabold text-blue-700 dark:text-blue-400 leading-tight">AgriTrace</div>
+<div class="text-slate-500 text-xs font-medium">Processing Center</div>
+</div>
+</div>
+<!-- Main Navigation -->
+<nav class="flex-1 px-4 space-y-1">
+<!-- Inactive Tab -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:text-blue-600">dashboard</span>
+<span class="font-medium">Overview</span>
+</a>
+<!-- Active Tab (Intent: Processing Entry) -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 border-r-4 border-blue-600 font-semibold group translate-x-1" href="#">
+<span class="material-symbols-outlined text-blue-700" style="font-variation-settings: 'FILL' 1;">precision_manufacturing</span>
+<span>Batch Processing</span>
+</a>
+<!-- Inactive Tabs -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:text-blue-600">verified</span>
+<span class="font-medium">Quality Inspection</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:text-blue-600">inventory_2</span>
+<span class="font-medium">库存</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:text-blue-600">account_tree</span>
+<span class="font-medium">溯源日志</span>
+</a>
+</nav>
+<!-- CTA -->
+<div class="px-4 mt-auto mb-4">
+<button class="w-full flex items-center justify-center gap-2 bg-primary text-white py-2.5 rounded-lg font-headline-md text-sm hover:bg-surface-tint transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                Initiate New Batch
+            </button>
+</div>
+<!-- Footer Navigation -->
+<div class="px-4 border-t border-slate-200 pt-4 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:text-blue-600">contact_support</span>
+<span class="font-medium">Support</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:text-blue-600">person</span>
+<span class="font-medium">Account</span>
+</a>
+</div>
+</aside>
+<!-- Main Wrapper -->
+<div class="flex-1 flex flex-col ml-64 h-full relative">
+<!-- TopAppBar -->
+<header class="bg-white dark:bg-slate-900 font-manrope antialiased docked full-width top-0 sticky z-40 border-b border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none flex justify-between items-center h-16 px-6">
+<div class="flex items-center gap-4">
+<!-- Search Bar Placeholder left alignment -->
+<div class="relative hidden md:block w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]">search</span>
+<input class="w-full pl-9 pr-4 py-1.5 bg-slate-100 border-none rounded-full text-sm focus:ring-2 focus:ring-primary-container outline-none transition-all" placeholder="Search batches..." type="text"/>
+</div>
+</div>
+<div class="text-xl font-black tracking-tight text-blue-700 dark:text-blue-400 absolute left-1/2 -translate-x-1/2">
+                AgriTrace Pro
+            </div>
+<div class="flex items-center gap-2">
+<button class="p-2 text-slate-500 dark:text-slate-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-slate-500 dark:text-slate-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button class="p-2 text-slate-500 dark:text-slate-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">help</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden ml-2 border border-slate-200 shrink-0">
+<img alt="Quality Manager Avatar" class="w-full h-full object-cover" data-alt="Professional headshot of a confident man in a business shirt, quality manager avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9J5wvjuSXV2h7k_bdbIEIN9HebKPoLgzFoqhnN-MASSKD_3AjqoDy1nR15N6W7FlcyEwR8UgsThq3hlm8Tn3M5PhT_vCCIRAbFKsIJTkU12CXz9g0oXmPQttKo3M8z8-vqKUPERqu3z3ujQqkWB_TSZ81VbvPh6KIpQgT3RAqE0IiflSMI61KrL1avQK8f7x9pTD0oVZ7_E2qfuWzSjNEMWLsLoZ9u5l0KXJe9JoZm3uxC32sNfKJ0y8HFm-tAkLddEba6t-WpMGw"/>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 overflow-y-auto p-margin bg-surface pb-32">
+<div class="max-w-[1400px] mx-auto flex flex-col lg:flex-row gap-margin">
+<!-- Left Column: Forms & Data -->
+<div class="flex-1 flex flex-col gap-margin">
+<!-- 1. Batch Summary Header -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-lg relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary-container"></div>
+<div class="flex items-start justify-between">
+<div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface mb-2">加工与质检录入</h1>
+<p class="font-body-md text-body-md text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">tag</span>
+                                    Batch ID: <span class="font-data-mono text-data-mono text-primary">#BCH-202405230001</span>
+</p>
+</div>
+<div class="text-right">
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container text-on-surface font-label-sm text-label-sm border border-outline-variant">
+<div class="w-2 h-2 rounded-full bg-tertiary"></div>
+                                    Draft Mode
+                                </div>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-6 mt-6 pt-6 border-t border-outline-variant">
+<div>
+<div class="font-label-sm text-label-sm text-on-surface-variant mb-1 uppercase tracking-wider">Product Name</div>
+<div class="font-body-lg text-body-lg font-semibold text-on-surface">Sunshine Grape</div>
+</div>
+<div>
+<div class="font-label-sm text-label-sm text-on-surface-variant mb-1 uppercase tracking-wider">Farmer</div>
+<div class="font-body-lg text-body-lg font-semibold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-primary">person</span>
+                                    张三 (Zhang San)
+                                </div>
+</div>
+<div>
+<div class="font-label-sm text-label-sm text-on-surface-variant mb-1 uppercase tracking-wider">Origin</div>
+<div class="font-body-lg text-body-lg font-semibold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-tertiary">location_on</span>
+                                    Yunnan, China
+                                </div>
+</div>
+</div>
+</div>
+<!-- 2. Upstream Info Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-lg shadow-[0_4px_12px_rgba(0,0,0,0.02)]">
+<div class="flex items-center justify-between mb-4">
+<h2 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-outline">history</span>
+                                上游信息 (Upstream Info)
+                            </h2>
+<button class="text-primary hover:text-surface-tint font-label-sm text-label-sm flex items-center gap-1 transition-colors">
+                                View Farm Records
+                                <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+<div class="flex gap-12 bg-surface-container-low rounded-lg p-md border border-surface-container">
+<div>
+<div class="font-label-sm text-label-sm text-on-surface-variant mb-1">Harvest Date</div>
+<div class="font-data-mono text-data-mono text-on-surface">2024-05-22 08:30</div>
+</div>
+<div>
+<div class="font-label-sm text-label-sm text-on-surface-variant mb-1">Quantity Received</div>
+<div class="font-data-mono text-data-mono text-on-surface">5,000 kg</div>
+</div>
+<div>
+<div class="font-label-sm text-label-sm text-on-surface-variant mb-1">Delivery Temp</div>
+<div class="font-data-mono text-data-mono text-tertiary">18°C (Verified)</div>
+</div>
+</div>
+</div>
+<!-- 3. Processing Info Form -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-lg shadow-[0_4px_12px_rgba(0,0,0,0.02)]">
+<h2 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-outline">precision_manufacturing</span>
+                            加工信息 (Processing Info)
+                        </h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
+<div class="col-span-2">
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1.5">加工企业名称 (Company Name)</label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2.5 font-body-md text-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" readonly="" type="text" value="Yunnan AgriTech Processing Co., Ltd."/>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1.5">加工日期 (Processing Date)</label>
+<div class="relative">
+<input class="w-full bg-surface-bright border border-outline-variant rounded-lg pl-4 pr-10 py-2.5 font-body-md text-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" type="date"/>
+</div>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1.5">加工方式 (Processing Method)</label>
+<select class="w-full bg-surface-bright border border-outline-variant rounded-lg px-4 py-2.5 font-body-md text-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all appearance-none">
+<option>Standard Cleaning &amp; Sorting</option>
+<option>Cold Press</option>
+<option>Fermentation</option>
+</select>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1.5">包装规格 (Packaging Spec)</label>
+<input class="w-full bg-surface-bright border border-outline-variant rounded-lg px-4 py-2.5 font-body-md text-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" placeholder="e.g., 5kg/box" type="text"/>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1.5">负责人 (Manager)</label>
+<input class="w-full bg-surface-bright border border-outline-variant rounded-lg px-4 py-2.5 font-body-md text-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" placeholder="Manager Name" type="text"/>
+</div>
+<div class="col-span-2">
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1.5">说明 (Notes)</label>
+<textarea class="w-full bg-surface-bright border border-outline-variant rounded-lg px-4 py-2.5 font-body-md text-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all resize-none" placeholder="Enter any additional processing notes..." rows="3"></textarea>
+</div>
+</div>
+</div>
+<!-- 4. Quality Info Form -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-lg shadow-[0_4px_12px_rgba(0,0,0,0.02)]">
+<h2 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-outline">fact_check</span>
+                            质检信息 (Quality Info)
+                        </h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1.5">质检机构 (Inspection Agency)</label>
+<input class="w-full bg-surface-bright border border-outline-variant rounded-lg px-4 py-2.5 font-body-md text-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" placeholder="e.g., National Agri-Quality Center" type="text"/>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1.5">质检员 (Inspector)</label>
+<input class="w-full bg-surface-bright border border-outline-variant rounded-lg px-4 py-2.5 font-body-md text-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" placeholder="Inspector Name" type="text"/>
+</div>
+<div class="col-span-2">
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1.5">检测项目 (Inspection Items)</label>
+<div class="flex flex-wrap gap-2">
+<span class="inline-flex items-center gap-1 px-3 py-1.5 bg-surface-container rounded-md border border-outline-variant font-body-md text-body-md text-on-surface">
+                                        Pesticide Residue <button class="material-symbols-outlined text-[16px] text-outline hover:text-error transition-colors">close</button>
+</span>
+<span class="inline-flex items-center gap-1 px-3 py-1.5 bg-surface-container rounded-md border border-outline-variant font-body-md text-body-md text-on-surface">
+                                        Heavy Metals <button class="material-symbols-outlined text-[16px] text-outline hover:text-error transition-colors">close</button>
+</span>
+<button class="inline-flex items-center gap-1 px-3 py-1.5 bg-surface-bright border border-dashed border-primary text-primary rounded-md font-body-md text-body-md hover:bg-primary-fixed transition-colors">
+<span class="material-symbols-outlined text-[16px]">add</span> Add Item
+                                    </button>
+</div>
+</div>
+<div class="col-span-2 mt-2">
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-3">检测结果 (Result)</label>
+<div class="flex gap-6">
+<label class="flex items-center gap-2 cursor-pointer group">
+<div class="w-5 h-5 rounded-full border-2 border-outline flex items-center justify-center group-hover:border-tertiary transition-colors">
+<div class="w-2.5 h-2.5 rounded-full bg-tertiary opacity-0 transition-opacity"></div>
+</div>
+<input checked="" class="hidden" name="qc_result" type="radio"/>
+<span class="font-body-md text-body-md text-on-surface group-hover:text-tertiary transition-colors">合格 (Pass)</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer group">
+<div class="w-5 h-5 rounded-full border-2 border-outline flex items-center justify-center group-hover:border-error transition-colors">
+<div class="w-2.5 h-2.5 rounded-full bg-error opacity-0 transition-opacity"></div>
+</div>
+<input class="hidden" name="qc_result" type="radio"/>
+<span class="font-body-md text-body-md text-on-surface group-hover:text-error transition-colors">不合格 (Fail)</span>
+</label>
+</div>
+</div>
+<div class="col-span-2">
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1.5">备注 (Notes)</label>
+<textarea class="w-full bg-surface-bright border border-outline-variant rounded-lg px-4 py-2.5 font-body-md text-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all resize-none" placeholder="Quality inspection remarks..." rows="2"></textarea>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Status Card (Timeline) -->
+<div class="w-full lg:w-80 shrink-0">
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-lg shadow-[0_4px_12px_rgba(0,0,0,0.02)] sticky top-margin">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-6 border-b border-outline-variant pb-4">Batch Status</h3>
+<div class="relative border-l-2 border-surface-container ml-3 space-y-8">
+<!-- Node 1: Completed -->
+<div class="relative pl-6">
+<div class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-tertiary ring-4 ring-surface-container-lowest"></div>
+<div class="font-label-sm text-label-sm text-tertiary font-bold mb-1">COMPLETED</div>
+<div class="font-body-lg text-body-lg text-on-surface font-semibold">Farm Harvest</div>
+<div class="font-data-mono text-xs text-on-surface-variant mt-1">Tx: 0x8f...3a2b</div>
+</div>
+<!-- Node 2: Active -->
+<div class="relative pl-6">
+<div class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-primary ring-4 ring-primary-fixed animate-pulse"></div>
+<div class="font-label-sm text-label-sm text-primary font-bold mb-1 flex items-center gap-1">
+                                    CURRENT NODE
+                                    <span class="material-symbols-outlined text-[14px]">edit</span>
+</div>
+<div class="font-body-lg text-body-lg text-on-surface font-semibold">加工录入 (Processing Entry)</div>
+<div class="mt-3 p-3 bg-surface-container rounded-lg border border-outline-variant">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-outline text-[18px]">link_off</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">On-chain Status:</span>
+</div>
+<div class="font-body-md text-body-md text-on-surface font-semibold">未上链 (Not On-chain)</div>
+</div>
+</div>
+<!-- Node 3: 待处理 -->
+<div class="relative pl-6 opacity-50">
+<div class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-outline-variant ring-4 ring-surface-container-lowest"></div>
+<div class="font-label-sm text-label-sm text-on-surface-variant font-bold mb-1">NEXT STEP</div>
+<div class="font-body-lg text-body-lg text-on-surface font-semibold">上传质检报告</div>
+<div class="font-body-md text-sm text-on-surface-variant mt-1">Upload Report</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Action Bar -->
+<div class="absolute bottom-0 left-0 w-full bg-surface-container-lowest border-t border-outline-variant px-margin py-4 flex items-center justify-between shadow-[0_-4px_16px_rgba(0,0,0,0.05)] z-30">
+<div class="text-sm text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">info</span>
+                Please ensure all physical records match digital entries.
+            </div>
+<div class="flex gap-3">
+<button class="px-6 py-2.5 rounded-lg border border-outline text-on-surface font-body-md text-body-md hover:bg-surface-container transition-colors">
+                    保存草稿 (保存草稿)
+                </button>
+<button class="px-6 py-2.5 rounded-lg border border-primary text-primary font-body-md text-body-md hover:bg-primary-fixed transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">upload_file</span>
+                    提交并上传报告
+                </button>
+<button class="px-8 py-2.5 rounded-lg bg-primary text-white font-body-md text-body-md font-semibold hover:bg-surface-tint transition-colors flex items-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-[18px]">link</span>
+                    提交上链 (提交上链)
+                </button>
+</div>
+</div>
+</div>
+</body></html>

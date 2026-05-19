@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>全生命周期时间线 - Agri-Chain 溯源</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed": "#001a41",
+                        "inverse-primary": "#afc6ff",
+                        "surface-container": "#e5eeff",
+                        "secondary-fixed": "#d8e2ff",
+                        "background": "#f8f9ff",
+                        "secondary": "#3e5e98",
+                        "surface-bright": "#f8f9ff",
+                        "outline-variant": "#c2c6d7",
+                        "tertiary-fixed-dim": "#62df7d",
+                        "surface-variant": "#d3e4fe",
+                        "outline": "#727786",
+                        "on-primary": "#ffffff",
+                        "on-secondary-container": "#2b4c85",
+                        "on-primary-container": "#fdfbff",
+                        "tertiary-fixed": "#7ffc97",
+                        "on-primary-fixed-variant": "#00429a",
+                        "inverse-surface": "#213145",
+                        "surface": "#f8f9ff",
+                        "on-error": "#ffffff",
+                        "primary-container": "#1e6eeb",
+                        "tertiary-container": "#008639",
+                        "primary-fixed-dim": "#afc6ff",
+                        "on-tertiary-fixed-variant": "#005320",
+                        "on-background": "#0b1c30",
+                        "tertiary": "#006a2c",
+                        "on-tertiary-container": "#f2ffee",
+                        "surface-container-high": "#dce9ff",
+                        "on-secondary-fixed-variant": "#24467e",
+                        "surface-dim": "#cbdbf5",
+                        "primary": "#0056c3",
+                        "surface-container-low": "#eff4ff",
+                        "error": "#ba1a1a",
+                        "on-secondary": "#ffffff",
+                        "secondary-container": "#9fbeff",
+                        "on-tertiary-fixed": "#002109",
+                        "error-container": "#ffdad6",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed": "#d9e2ff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-tint": "#0058c9",
+                        "on-tertiary": "#ffffff",
+                        "on-surface-variant": "#424654",
+                        "surface-container-highest": "#d3e4fe",
+                        "secondary-fixed-dim": "#adc7ff",
+                        "on-error-container": "#93000a",
+                        "on-surface": "#0b1c30",
+                        "on-primary-fixed": "#001944"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "20px",
+                        "sm": "12px",
+                        "base": "4px",
+                        "xs": "8px",
+                        "md": "16px",
+                        "margin": "24px",
+                        "xl": "32px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-xl": ["Manrope"],
+                        "data-mono": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "headline-xl": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "data-mono": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-md": ["18px", { "lineHeight": "26px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-lg text-body-lg min-h-screen flex flex-col antialiased">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full flex justify-between items-center px-6 h-16 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 z-50">
+<div class="flex items-center gap-sm">
+<span class="text-lg font-bold text-blue-700 dark:text-blue-300 tracking-tighter">Agri-Chain 溯源</span>
+</div>
+<div class="flex items-center gap-xs">
+<button aria-label="notifications" class="p-2 rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button aria-label="help_outline" class="p-2 rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<button aria-label="account_circle" class="p-2 rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<div class="flex flex-1 pt-16">
+<!-- SideNavBar -->
+<nav class="hidden lg:flex flex-col fixed left-0 top-16 h-[calc(100vh-64px)] z-40 w-64 border-r border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 pb-safe">
+<div class="p-md border-b border-slate-200 dark:border-slate-800 mb-md">
+<div class="flex items-center gap-sm mb-xs">
+<div class="w-8 h-8 rounded bg-blue-100 flex items-center justify-center overflow-hidden">
+<img alt="Organization Logo" class="w-full h-full object-cover" data-alt="minimalist modern corporate agriculture abstract logo mark in blue and green" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkzfijQ9Xj30kbQiD6T8VEe70wmPf--YjJsl_0Vz0sZ1kC6Z0ZNfUDwERelnK8GdF0mN6zYo_S478wgcg-zp517mWOYda2TzoXEf6_dZ87D_y7mzh4_0kcG6dzc_54vJjA7nhfDLNY6Nom2ceFJsvfUlQnA6_48FW4H1ybmpnbfXenpyk1C_UroKs3qKzsjik-fZC3MnOv8c8v-Js2XPD6R35-zGou9uTJvZgZx3FJBK39dWV9YncxlS85CVVWyXEp7GC6hu8FNzoi"/>
+</div>
+<div>
+<div class="text-sm font-bold text-blue-800 dark:text-blue-200 leading-tight">Agri-Chain Pro</div>
+<div class="text-[10px] text-slate-500 font-medium">Verified Admin Suite</div>
+</div>
+</div>
+</div>
+<ul class="flex flex-col px-sm gap-xs font-manrope text-sm font-medium">
+<li>
+<a class="flex items-center gap-sm px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+                        工作台
+                    </a>
+</li>
+<li>
+<!-- Active State -->
+<a class="flex items-center gap-sm px-3 py-2 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 border-r-4 border-blue-600 scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined text-[20px]">account_tree</span>
+                        溯源
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-sm px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">gavel</span>
+                        Audits
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-sm px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">group</span>
+                        Management
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-sm px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">lan</span>
+                        Node Status
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-sm px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">verified_user</span>
+                        Evidence
+                    </a>
+</li>
+</ul>
+</nav>
+<!-- Main Canvas -->
+<main class="flex-1 w-full lg:pl-64 pb-24 lg:pb-lg">
+<div class="max-w-3xl mx-auto p-md lg:p-lg">
+<!-- Product Overview Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-md shadow-[0_4px_12px_rgba(0,0,0,0.02)] mb-lg flex items-start gap-md">
+<div class="w-20 h-20 shrink-0 rounded-lg overflow-hidden bg-surface-container">
+<img alt="Premium Organic Apples" class="w-full h-full object-cover" data-alt="close up of fresh red organic apples in a wooden crate with soft natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHJN8grI6Jb8qaehdfSsISL1orqEF68PERhKzDEGFfhlbSlKrVOHBn8XhYC2lBzj7NTj7smT5j6oVf7-DduTxDKOFVG4QW7r51U58yJ0nNGJKdiro6BZ5NcGY-i1Zi71T9j6MtH2-52nid8MtElc53dm7f4ufXjU7eCNCa5sPeeX6I1vdan28g2maimr2a5K5KfjTj5TcybhlW_z3ALE_0A6IQL8pz8E0i9c87vy-3QVB8syo5adee7NR3IHSfLZrUANXACtWb0hVT"/>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-xs">
+<h1 class="font-headline-md text-headline-md text-on-surface">Premium Organic Fuji Apples</h1>
+<span class="inline-flex items-center gap-1 bg-tertiary-container text-on-tertiary-container px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider">
+<span class="material-symbols-outlined fill text-[14px]">verified</span>
+                                Genuine
+                            </span>
+</div>
+<div class="grid grid-cols-2 gap-sm mt-sm">
+<div>
+<div class="font-label-sm text-label-sm text-on-surface-variant mb-1">Batch ID</div>
+<div class="font-data-mono text-data-mono text-on-surface">BAT-2023-09-44A</div>
+</div>
+<div>
+<div class="font-label-sm text-label-sm text-on-surface-variant mb-1">Origin</div>
+<div class="font-body-md text-body-md text-on-surface">Green Valley Estate</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Timeline Container -->
+<div class="relative">
+<!-- Global Line -->
+<div class="absolute left-[15px] top-4 bottom-4 w-[2px] bg-outline-variant rounded-full"></div>
+<!-- Node: Retail (Latest) -->
+<div class="relative flex items-start mb-xl group">
+<div class="w-8 h-8 rounded-full bg-surface-container-lowest border-2 border-primary flex items-center justify-center shrink-0 relative z-10 shadow-sm mt-1">
+<div class="w-2.5 h-2.5 rounded-full bg-primary"></div>
+</div>
+<div class="ml-md flex-1 bg-surface-container-lowest rounded-xl border border-outline-variant p-md shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-all hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)]">
+<div class="flex justify-between items-center mb-sm">
+<h3 class="font-headline-md text-[16px] font-bold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">storefront</span>
+                                    Retail Arrival
+                                </h3>
+<span class="font-label-sm text-label-sm text-on-surface-variant">2023-10-15 08:30</span>
+</div>
+<div class="grid grid-cols-2 gap-xs mb-sm">
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant block">Operator</span>
+<span class="font-body-md text-body-md text-on-surface">FreshMart Distro #4</span>
+</div>
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant block">Location</span>
+<span class="font-body-md text-body-md text-on-surface">Seattle, WA</span>
+</div>
+</div>
+<!-- On-chain verification box -->
+<div class="bg-surface p-sm rounded-lg border border-outline-variant flex items-start gap-sm">
+<span class="material-symbols-outlined fill text-tertiary shrink-0 mt-0.5 text-[18px]">verified_user</span>
+<div class="overflow-hidden">
+<div class="font-label-sm text-[10px] text-tertiary font-bold uppercase mb-0.5">Verified on Blockchain</div>
+<div class="font-data-mono text-[12px] text-on-surface-variant truncate w-full" title="0x8f2a...9c41">Hash: 0x8f2a4bc...9c41</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Node: Logistics -->
+<div class="relative flex items-start mb-xl">
+<div class="w-8 h-8 rounded-full bg-surface-container-lowest border-2 border-outline-variant flex items-center justify-center shrink-0 relative z-10 mt-1">
+<div class="w-2.5 h-2.5 rounded-full bg-outline-variant"></div>
+</div>
+<div class="ml-md flex-1 bg-surface-container-lowest rounded-xl border border-outline-variant p-md opacity-90">
+<div class="flex justify-between items-center mb-sm">
+<h3 class="font-headline-md text-[16px] font-bold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-outline text-[20px]">local_shipping</span>
+                                    Cold Chain Transport
+                                </h3>
+<span class="font-label-sm text-label-sm text-on-surface-variant">2023-10-12 14:15</span>
+</div>
+<div class="grid grid-cols-2 gap-xs mb-sm">
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant block">Carrier</span>
+<span class="font-body-md text-body-md text-on-surface">SwiftTransit Logistics</span>
+</div>
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant block">Conditions</span>
+<span class="font-body-md text-body-md text-on-surface">Maintained 4°C</span>
+</div>
+</div>
+<div class="bg-surface p-sm rounded-lg border border-outline-variant flex items-start gap-sm">
+<span class="material-symbols-outlined fill text-tertiary shrink-0 mt-0.5 text-[18px]">verified_user</span>
+<div class="overflow-hidden">
+<div class="font-data-mono text-[12px] text-on-surface-variant truncate w-full">Hash: 0x3b11...e822</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 pb-safe bg-white dark:bg-slate-900 rounded-t-xl border-t-0 shadow-[0_-4px_12px_rgba(0,0,0,0.05)]">
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors" href="#">
+<span class="material-symbols-outlined mb-1">search</span>
+<span class="font-manrope text-[10px] uppercase tracking-widest font-bold">Search</span>
+</a>
+<!-- Active State -->
+<a class="flex flex-col items-center justify-center text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 rounded-xl p-2 scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined mb-1 fill">history</span>
+<span class="font-manrope text-[10px] uppercase tracking-widest font-bold">Timeline</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors" href="#">
+<span class="material-symbols-outlined mb-1">qr_code_scanner</span>
+<span class="font-manrope text-[10px] uppercase tracking-widest font-bold">Verify</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors" href="#">
+<span class="material-symbols-outlined mb-1">rate_review</span>
+<span class="font-manrope text-[10px] uppercase tracking-widest font-bold">Feedback</span>
+</a>
+</nav>
+</body></html>

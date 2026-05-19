@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Agri-Chain 溯源 - 工作台</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                            "on-background": "#0b1c30",
+                            "surface": "#f8f9ff",
+                            "on-error": "#ffffff",
+                            "primary-container": "#1e6eeb",
+                            "tertiary-container": "#008639",
+                            "primary-fixed-dim": "#afc6ff",
+                            "on-tertiary-fixed-variant": "#005320",
+                            "tertiary": "#006a2c",
+                            "on-tertiary-container": "#f2ffee",
+                            "surface-container-high": "#dce9ff",
+                            "on-secondary-fixed-variant": "#24467e",
+                            "surface-bright": "#f8f9ff",
+                            "outline-variant": "#c2c6d7",
+                            "on-secondary-fixed": "#001a41",
+                            "inverse-primary": "#afc6ff",
+                            "surface-container": "#e5eeff",
+                            "secondary-fixed": "#d8e2ff",
+                            "background": "#f8f9ff",
+                            "secondary": "#3e5e98",
+                            "tertiary-fixed": "#7ffc97",
+                            "on-primary-fixed-variant": "#00429a",
+                            "inverse-surface": "#213145",
+                            "tertiary-fixed-dim": "#62df7d",
+                            "surface-variant": "#d3e4fe",
+                            "outline": "#727786",
+                            "on-primary": "#ffffff",
+                            "on-secondary-container": "#2b4c85",
+                            "on-primary-container": "#fdfbff",
+                            "primary-fixed": "#d9e2ff",
+                            "inverse-on-surface": "#eaf1ff",
+                            "surface-tint": "#0058c9",
+                            "on-tertiary": "#ffffff",
+                            "on-surface-variant": "#424654",
+                            "surface-container-lowest": "#ffffff",
+                            "on-surface": "#0b1c30",
+                            "on-primary-fixed": "#001944",
+                            "surface-container-highest": "#d3e4fe",
+                            "secondary-fixed-dim": "#adc7ff",
+                            "on-error-container": "#93000a",
+                            "surface-container-low": "#eff4ff",
+                            "error": "#ba1a1a",
+                            "surface-dim": "#cbdbf5",
+                            "primary": "#0056c3",
+                            "secondary-container": "#9fbeff",
+                            "on-tertiary-fixed": "#002109",
+                            "error-container": "#ffdad6",
+                            "on-secondary": "#ffffff"
+                    },
+                    "borderRadius": {
+                            "DEFAULT": "0.125rem",
+                            "lg": "0.25rem",
+                            "xl": "0.5rem",
+                            "full": "0.75rem"
+                    },
+                    "spacing": {
+                            "sm": "12px",
+                            "gutter": "20px",
+                            "xs": "8px",
+                            "base": "4px",
+                            "xl": "32px",
+                            "md": "16px",
+                            "margin": "24px",
+                            "lg": "24px"
+                    },
+                    "fontFamily": {
+                            "data-mono": ["Inter"],
+                            "body-lg": ["Inter"],
+                            "label-sm": ["Inter"],
+                            "body-md": ["Inter"],
+                            "headline-md": ["Manrope"],
+                            "headline-xl": ["Manrope"]
+                    },
+                    "fontSize": {
+                            "data-mono": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+                            "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                            "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                            "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                            "headline-md": ["18px", {"lineHeight": "26px", "fontWeight": "600"}],
+                            "headline-xl": ["24px", {"lineHeight": "32px", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex">
+<!-- SideNavBar -->
+<nav class="bg-white dark:bg-slate-900 h-screen w-64 border-r fixed left-0 top-0 border-r border-slate-200 dark:border-slate-800 flat no shadows flex flex-col h-full py-4 z-50">
+<div class="px-6 mb-8 flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">admin_panel_settings</span>
+</div>
+<div>
+<h1 class="text-lg font-black text-blue-700 dark:text-blue-500 tracking-tight leading-tight">Agri-Chain Central</h1>
+<p class="font-label-sm text-label-sm text-slate-500">Verified Nodes</p>
+</div>
+</div>
+<div class="px-4 mb-6">
+<button class="w-full bg-primary text-on-primary font-body-md text-body-md py-2 px-4 rounded-lg flex items-center justify-center gap-2 hover:bg-primary/90 transition-colors">
+<span class="material-symbols-outlined text-sm">add</span>
+                New 溯源 Batch
+            </button>
+</div>
+<ul class="flex-1 px-3 space-y-1 overflow-y-auto">
+<li>
+<a class="bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 font-bold border-r-4 border-blue-600 flex items-center gap-3 px-3 py-2.5 rounded-l-lg transition-all duration-200 opacity-80 transition-opacity font-manrope text-sm" href="#">
+<span class="material-symbols-outlined text-blue-700" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+                    Overview
+                </a>
+</li>
+<li>
+<a class="text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:pl-2 transition-all duration-200 flex items-center gap-3 px-3 py-2.5 rounded-lg font-manrope text-sm" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+                    库存管理
+                </a>
+</li>
+<li>
+<a class="text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:pl-2 transition-all duration-200 flex items-center gap-3 px-3 py-2.5 rounded-lg font-manrope text-sm" href="#">
+<span class="material-symbols-outlined">qr_code_2</span>
+                    QR Generation
+                </a>
+</li>
+<li>
+<a class="text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:pl-2 transition-all duration-200 flex items-center gap-3 px-3 py-2.5 rounded-lg font-manrope text-sm" href="#">
+<span class="material-symbols-outlined">verified_user</span>
+                    Audit Logs
+                </a>
+</li>
+<li>
+<a class="text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:pl-2 transition-all duration-200 flex items-center gap-3 px-3 py-2.5 rounded-lg font-manrope text-sm" href="#">
+<span class="material-symbols-outlined">gpp_maybe</span>
+                    Risk Assessment
+                </a>
+</li>
+<li>
+<a class="text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:pl-2 transition-all duration-200 flex items-center gap-3 px-3 py-2.5 rounded-lg font-manrope text-sm" href="#">
+<span class="material-symbols-outlined">settings</span>
+                    系统设置
+                </a>
+</li>
+</ul>
+<div class="mt-auto px-3 border-t border-slate-200 pt-4 space-y-1">
+<a class="text-slate-600 hover:bg-slate-50 hover:pl-2 transition-all duration-200 flex items-center gap-3 px-3 py-2 rounded-lg font-manrope text-sm" href="#">
+<span class="material-symbols-outlined">contact_support</span>
+                Support
+            </a>
+<a class="text-slate-600 hover:bg-slate-50 hover:pl-2 transition-all duration-200 flex items-center gap-3 px-3 py-2 rounded-lg font-manrope text-sm" href="#">
+<span class="material-symbols-outlined">logout</span>
+                Sign Out
+            </a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 ml-64 flex flex-col min-h-screen overflow-hidden">
+<!-- TopNavBar (Web) -->
+<header class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md docked full-width top-0 sticky z-40 border-b border-slate-200 dark:border-slate-800 flat no shadows flex justify-between items-center w-full px-6 py-3 hidden md:flex">
+<div class="flex items-center gap-8 flex-1">
+<span class="text-xl font-bold text-blue-700 dark:text-blue-400 tracking-tight">Agri-Chain 溯源</span>
+<nav class="flex space-x-6">
+<a class="text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 pb-1 font-manrope text-sm font-medium hover:text-blue-700 dark:hover:text-blue-300 transition-colors opacity-80 transition-opacity" href="#">工作台</a>
+<a class="text-slate-500 dark:text-slate-400 font-manrope text-sm font-medium hover:text-blue-700 dark:hover:text-blue-300 transition-colors" href="#">溯源</a>
+<a class="text-slate-500 dark:text-slate-400 font-manrope text-sm font-medium hover:text-blue-700 dark:hover:text-blue-300 transition-colors" href="#">Audits</a>
+<a class="text-slate-500 dark:text-slate-400 font-manrope text-sm font-medium hover:text-blue-700 dark:hover:text-blue-300 transition-colors" href="#">库存</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative">
+<input class="pl-9 pr-4 py-1.5 bg-surface border border-outline-variant rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-primary w-64 text-on-surface" placeholder="Search batches, nodes..." type="text"/>
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span>
+</div>
+<button class="text-slate-500 hover:text-blue-600 transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="text-slate-500 hover:text-blue-600 transition-colors">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-variant overflow-hidden border border-outline-variant cursor-pointer ml-2">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="professional headshot of a man with short hair wearing a button down shirt against a plain background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCz9C8bjOh08m4xP9bHRTfs1KWppL3FqnairdVxxW1Gf1hQCyaHTilKaJX3rKH6r3A1DgN7W6vYo7yT3kQS8U5kNdr-tbpK64aHHLWhE8TYm-QhW6S3bKhDrvcEuKkjowf9XlHqCJ5IbozI0NkYalSffaImJZwfwynzjT0sbUf06mP44gaA9qB9LZpKzDWtNqK1hyZdRdPJXT-DNrlTLiqwOWv7q5sqXZ4P2Mq5mvhARGLawKzoP35cR-Ro9bCpHQiKTMRY1mkk6j8t"/>
+</div>
+</div>
+</header>
+<!-- Canvas -->
+<main class="flex-1 overflow-y-auto p-margin bg-background">
+<div class="max-w-7xl mx-auto space-y-gutter">
+<!-- Header -->
+<div class="flex justify-between items-end mb-6">
+<div>
+<h2 class="font-headline-xl text-headline-xl text-on-background mb-1">Regulatory Overview</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Real-time monitoring of agricultural supply chain integrity.</p>
+</div>
+<div class="flex gap-3">
+<button class="bg-surface text-primary border border-outline-variant font-label-sm text-label-sm py-2 px-4 rounded-lg flex items-center gap-2 hover:bg-surface-variant transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">download</span>
+                            导出报告
+                        </button>
+<button class="bg-primary text-on-primary font-label-sm text-label-sm py-2 px-4 rounded-lg flex items-center gap-2 hover:bg-primary/90 transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+                            Filter Data
+                        </button>
+</div>
+</div>
+<!-- KPI Cards (Bento Grid Style) -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-5 border border-outline-variant shadow-[0_4px_12px_rgba(0,0,0,0.02)] flex flex-col justify-between h-full relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-[64px]" style="font-variation-settings: 'FILL' 1;">local_shipping</span>
+</div>
+<div class="flex items-center gap-2 mb-4 text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px] text-primary">data_usage</span>
+<span class="font-label-sm text-label-sm font-semibold">Total Batches</span>
+</div>
+<div>
+<div class="font-headline-xl text-[32px] font-bold text-on-background leading-none mb-2">124,592</div>
+<div class="flex items-center text-tertiary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px] mr-1">trending_up</span>
+                                +12.4% vs last month
+                            </div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-error-container rounded-xl p-5 border border-error/20 shadow-[0_4px_12px_rgba(0,0,0,0.02)] flex flex-col justify-between h-full relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-[64px] text-error" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<div class="flex items-center gap-2 mb-4 text-on-error-container">
+<span class="material-symbols-outlined text-[20px]">gpp_bad</span>
+<span class="font-label-sm text-label-sm font-semibold">Anomalous Batches</span>
+</div>
+<div>
+<div class="font-headline-xl text-[32px] font-bold text-on-error-container leading-none mb-2">347</div>
+<div class="flex items-center text-error font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px] mr-1">trending_up</span>
+                                +2.1% requires attention
+                            </div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest rounded-xl p-5 border border-outline-variant shadow-[0_4px_12px_rgba(0,0,0,0.02)] flex flex-col justify-between h-full relative overflow-hidden">
+<div class="flex items-center gap-2 mb-4 text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px] text-secondary">fact_check</span>
+<span class="font-label-sm text-label-sm font-semibold">待审核</span>
+</div>
+<div>
+<div class="font-headline-xl text-[32px] font-bold text-on-background leading-none mb-2">89</div>
+<div class="flex items-center text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px] mr-1">schedule</span>
+                                14 urgent
+                            </div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="bg-surface-container-lowest rounded-xl p-5 border border-outline-variant shadow-[0_4px_12px_rgba(0,0,0,0.02)] flex flex-col justify-between h-full relative overflow-hidden">
+<div class="flex items-center gap-2 mb-4 text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px] text-tertiary">verified</span>
+<span class="font-label-sm text-label-sm font-semibold">Verification Rate</span>
+</div>
+<div>
+<div class="font-headline-xl text-[32px] font-bold text-on-background leading-none mb-2">99.7%</div>
+<div class="w-full bg-surface-variant rounded-full h-1.5 mt-2">
+<div class="bg-tertiary h-1.5 rounded-full" style="width: 99.7%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Charts Section -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Line Chart -->
+<div class="lg:col-span-2 bg-surface-container-lowest rounded-xl border border-outline-variant shadow-[0_4px_12px_rgba(0,0,0,0.02)] p-6">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-md text-headline-md text-on-background">Anomaly Trends</h3>
+<select class="bg-surface border border-outline-variant rounded-md text-label-sm font-label-sm py-1 px-2 text-on-surface-variant focus:ring-primary">
+<option>Last 30 Days</option>
+<option>Last 3 Months</option>
+<option>Year to Date</option>
+</select>
+</div>
+<!-- Placeholder for Chart -->
+<div class="h-64 w-full bg-surface rounded-lg border border-outline-variant border-dashed flex items-center justify-center">
+<p class="text-on-surface-variant font-body-sm flex items-center gap-2">
+<span class="material-symbols-outlined">show_chart</span>
+                                Line Chart Canvas Area
+                            </p>
+</div>
+</div>
+<!-- Pie Chart -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-[0_4px_12px_rgba(0,0,0,0.02)] p-6 flex flex-col">
+<div class="mb-6">
+<h3 class="font-headline-md text-headline-md text-on-background">Risk by Supply Link</h3>
+<p class="text-label-sm font-label-sm text-on-surface-variant mt-1">Distribution of identified anomalies.</p>
+</div>
+<!-- Placeholder for Chart -->
+<div class="flex-1 w-full bg-surface rounded-lg border border-outline-variant border-dashed flex items-center justify-center min-h-[200px]">
+<p class="text-on-surface-variant font-body-sm flex items-center gap-2">
+<span class="material-symbols-outlined">pie_chart</span>
+                                Pie Chart Canvas
+                            </p>
+</div>
+</div>
+</div>
+<!-- Alerts & Nodes -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-gutter">
+<!-- High Risk Nodes -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-[0_4px_12px_rgba(0,0,0,0.02)] overflow-hidden flex flex-col">
+<div class="p-5 border-b border-outline-variant flex justify-between items-center bg-surface/50">
+<h3 class="font-headline-md text-headline-md text-on-background flex items-center gap-2">
+<span class="material-symbols-outlined text-warning">storefront</span>
+                                High Risk Nodes
+                            </h3>
+<button class="text-primary font-label-sm text-label-sm hover:underline">View All</button>
+</div>
+<div class="p-0">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-outline-variant bg-surface text-on-surface-variant font-label-sm text-label-sm">
+<th class="py-3 px-5 font-medium">Node ID</th>
+<th class="py-3 px-5 font-medium">Type</th>
+<th class="py-3 px-5 font-medium">Risk Score</th>
+<th class="py-3 px-5 font-medium">Action</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md">
+<tr class="border-b border-outline-variant hover:bg-surface-container-lowest transition-colors">
+<td class="py-3 px-5 font-data-mono text-data-mono text-on-background">ND-8821</td>
+<td class="py-3 px-5 text-on-surface">Processing Plant</td>
+<td class="py-3 px-5">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-error-container text-on-error-container">92/100</span>
+</td>
+<td class="py-3 px-5">
+<button class="text-primary hover:text-primary/80"><span class="material-symbols-outlined text-[20px]">chevron_right</span></button>
+</td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-container-lowest transition-colors">
+<td class="py-3 px-5 font-data-mono text-data-mono text-on-background">ND-4432</td>
+<td class="py-3 px-5 text-on-surface">Logistics Hub</td>
+<td class="py-3 px-5">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-error-container text-on-error-container">85/100</span>
+</td>
+<td class="py-3 px-5">
+<button class="text-primary hover:text-primary/80"><span class="material-symbols-outlined text-[20px]">chevron_right</span></button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="py-3 px-5 font-data-mono text-data-mono text-on-background">ND-9102</td>
+<td class="py-3 px-5 text-on-surface">Farm Cooperative</td>
+<td class="py-3 px-5">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-[#fff3e0] text-[#e65100]">78/100</span>
+</td>
+<td class="py-3 px-5">
+<button class="text-primary hover:text-primary/80"><span class="material-symbols-outlined text-[20px]">chevron_right</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Latest Critical Alerts -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-[0_4px_12px_rgba(0,0,0,0.02)] overflow-hidden flex flex-col">
+<div class="p-5 border-b border-outline-variant flex justify-between items-center bg-surface/50">
+<h3 class="font-headline-md text-headline-md text-on-background flex items-center gap-2">
+<span class="material-symbols-outlined text-error">campaign</span>
+                                Latest Critical Alerts
+                            </h3>
+<button class="text-primary font-label-sm text-label-sm hover:underline">View All</button>
+</div>
+<div class="p-5 space-y-4">
+<div class="flex gap-4 p-3 rounded-lg border border-error/20 bg-error-container/30">
+<div class="mt-1">
+<span class="material-symbols-outlined text-error" style="font-variation-settings: 'FILL' 1;">error</span>
+</div>
+<div>
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-label-sm text-label-sm font-bold text-on-background">Temperature Deviation Detected</h4>
+<span class="text-xs text-on-surface-variant font-data-mono">10 mins ago</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface text-sm">Batch <span class="font-data-mono text-primary">TRX-992A</span> recorded temperatures outside safe limits during transit.</p>
+</div>
+</div>
+<div class="flex gap-4 p-3 rounded-lg border border-outline-variant bg-surface">
+<div class="mt-1">
+<span class="material-symbols-outlined text-[#e65100]" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<div>
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-label-sm text-label-sm font-bold text-on-background">Blockchain Sync Delay</h4>
+<span class="text-xs text-on-surface-variant font-data-mono">1 hr ago</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface text-sm">Node <span class="font-data-mono text-primary">ND-4432</span> failed to sync to the main chain within expected window.</p>
+</div>
+</div>
+<div class="flex gap-4 p-3 rounded-lg border border-outline-variant bg-surface">
+<div class="mt-1">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">policy</span>
+</div>
+<div>
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-label-sm text-label-sm font-bold text-on-background">Missing Audit Certificate</h4>
+<span class="text-xs text-on-surface-variant font-data-mono">3 hrs ago</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface text-sm">Required organic certification document missing for Batch <span class="font-data-mono text-primary">TRX-711B</span>.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

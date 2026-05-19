@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>G05 Exception Flagging - AgriTrace</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed-variant": "#005320",
+                        "on-surface": "#0b1c30",
+                        "surface-container": "#e5eeff",
+                        "surface-container-highest": "#d3e4fe",
+                        "secondary-fixed": "#d8e2ff",
+                        "on-background": "#0b1c30",
+                        "surface-variant": "#d3e4fe",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#eff4ff",
+                        "surface": "#f8f9ff",
+                        "primary-fixed": "#d9e2ff",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed": "#002109",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed-dim": "#adc7ff",
+                        "on-secondary-fixed-variant": "#24467e",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-dim": "#cbdbf5",
+                        "on-primary-fixed": "#001944",
+                        "tertiary": "#006a2c",
+                        "tertiary-container": "#008639",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#fdfbff",
+                        "secondary": "#3e5e98",
+                        "inverse-primary": "#afc6ff",
+                        "on-primary-fixed-variant": "#00429a",
+                        "surface-container-high": "#dce9ff",
+                        "secondary-container": "#9fbeff",
+                        "surface-tint": "#0058c9",
+                        "inverse-surface": "#213145",
+                        "on-error": "#ffffff",
+                        "outline": "#727786",
+                        "background": "#f8f9ff",
+                        "outline-variant": "#c2c6d7",
+                        "error": "#ba1a1a",
+                        "primary-fixed-dim": "#afc6ff",
+                        "tertiary-fixed-dim": "#62df7d",
+                        "on-primary": "#ffffff",
+                        "surface-bright": "#f8f9ff",
+                        "tertiary-fixed": "#7ffc97",
+                        "on-tertiary-container": "#f2ffee",
+                        "on-secondary-fixed": "#001a41",
+                        "on-surface-variant": "#424654",
+                        "on-secondary-container": "#2b4c85",
+                        "primary-container": "#1e6eeb",
+                        "primary": "#0056c3",
+                        "on-error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin": "24px",
+                        "gutter": "20px",
+                        "xl": "32px",
+                        "sm": "12px",
+                        "lg": "24px",
+                        "md": "16px",
+                        "base": "4px",
+                        "xs": "8px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "data-mono": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-xl": ["Manrope"],
+                        "headline-md": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "data-mono": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-xl": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "headline-md": ["18px", { "lineHeight": "26px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex">
+<!-- SideNavBar Component -->
+<nav class="bg-slate-50 dark:bg-slate-950 text-blue-600 dark:text-blue-400 font-manrope text-sm tracking-tight text-lg font-bold text-blue-800 dark:text-blue-200 docked left-0 h-screen w-64 border-r border-slate-200 dark:border-slate-800 flat no shadows fixed left-0 top-0 flex flex-col h-full z-40 hidden md:flex">
+<div class="p-6 border-b border-slate-200 dark:border-slate-800 flex items-center gap-3">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">eco</span>
+<div>
+<h1 class="text-blue-800 dark:text-blue-200 font-headline-md text-headline-md">AgriTrace Global</h1>
+<p class="text-slate-500 font-label-sm text-label-sm font-normal">Industrial Supply Chain</p>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto py-4">
+<ul class="flex flex-col gap-1 px-2">
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200 rounded" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>工作台</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200 rounded" href="#">
+<span class="material-symbols-outlined">hub</span>
+<span>溯源节点</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200 rounded" href="#">
+<span class="material-symbols-outlined">verified_user</span>
+<span>Quality Audits</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-900/20 border-r-4 border-blue-600 dark:border-blue-400 font-semibold transition-all duration-200 rounded-l rounded-r-none translate-x-1" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">gavel</span>
+<span>Compliance Panel</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200 rounded" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span>库存</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200 rounded" href="#">
+<span class="material-symbols-outlined">local_shipping</span>
+<span>Logistics</span>
+</a>
+</li>
+</ul>
+</div>
+<div class="p-4 border-t border-slate-200 dark:border-slate-800">
+<button class="w-full py-2 bg-primary-container text-on-primary text-body-md font-body-md font-semibold rounded-lg flex justify-center items-center gap-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined">security</span>
+                Verify Block
+            </button>
+<ul class="flex flex-col gap-1 mt-4">
+<li>
+<a class="flex items-center gap-3 px-4 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200 rounded text-sm" href="#">
+<span class="material-symbols-outlined text-sm">help</span>
+<span>Support</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200 rounded text-sm" href="#">
+<span class="material-symbols-outlined text-sm">logout</span>
+<span>Sign Out</span>
+</a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col md:ml-64 min-h-screen">
+<!-- TopNavBar Component -->
+<header class="bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 font-manrope text-sm font-medium text-xl font-black text-blue-700 dark:text-blue-400 docked full-width top-0 border-b border-slate-200 dark:border-slate-800 flat no shadows flex justify-between items-center px-6 h-16 w-full sticky top-0 z-50">
+<div class="flex items-center gap-4 md:hidden">
+<span class="material-symbols-outlined">menu</span>
+<span class="font-headline-md text-headline-md tracking-tight">AgriTrace</span>
+</div>
+<div class="hidden md:flex items-center gap-6 flex-1">
+<div class="relative w-96 ml-auto">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+<input class="w-full bg-slate-50 border border-slate-200 rounded-lg py-2 pl-10 pr-4 text-body-md font-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-on-surface" placeholder="Search batch hash, node ID..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4 ml-6">
+<button class="text-primary font-body-md text-body-md font-semibold hover:opacity-80 transition-opacity hidden md:block">Switch Role</button>
+<div class="flex items-center gap-2">
+<button class="p-2 text-slate-500 hover:bg-slate-50 rounded-full transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-slate-50 rounded-full transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center overflow-hidden border border-slate-200 ml-2">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="Corporate headshot of a system administrator in professional attire, soft office lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBiuRdQQkdAW9yzVPzTbMtqwfUjB0cKUx8h7GYjJMhQXF5423G9ZulABUVBoPypkDzmKwwxLZerNogaEPullUxn6UP-nU9uwDb-T6eeTW-L-xAU6dvR9XmxTRlDnihEJtz00Gv-AKASoOV5Of_QvftfsYIOpikMsNBR0WOFd5pop_qiyG4464dU3n0LDCtcYSiUODAwl2wSsHrxsLE6mZgGawQpYU738nv37gBObtEggljtUOyuX_dqlz49jVE_fA_XI1sMPfBuaSRE"/>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<div class="p-margin md:p-xl flex-1 flex flex-col gap-lg">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-2">
+<div>
+<h2 class="font-headline-xl text-headline-xl text-on-surface mb-1 flex items-center gap-2">
+<span class="material-symbols-outlined text-error text-3xl" style="font-variation-settings: 'FILL' 1;">warning</span>
+                        Record Exception / Flag Batch
+                    </h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Formally register an anomaly for Batch <span class="font-data-mono text-data-mono text-on-surface">#BCH-2023-8842-A</span> onto the immutable ledger.</p>
+</div>
+</div>
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Left Column: Form Canvas (8 cols) -->
+<div class="col-span-12 lg:col-span-8 flex flex-col gap-lg">
+<!-- Form Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-lg shadow-sm">
+<form class="flex flex-col gap-lg">
+<!-- Batch Summary Read-Only -->
+<div class="bg-surface-container-low p-md rounded-lg border border-outline-variant">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-4">Target Entity Information</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div>
+<label class="font-label-sm text-label-sm text-on-surface-variant block mb-1">Batch ID</label>
+<p class="font-data-mono text-data-mono text-on-surface bg-white px-3 py-2 border border-outline-variant rounded">BCH-2023-8842-A</p>
+</div>
+<div>
+<label class="font-label-sm text-label-sm text-on-surface-variant block mb-1">Product</label>
+<p class="font-body-md text-body-md text-on-surface bg-white px-3 py-2 border border-outline-variant rounded">Organic Soybeans - Grade A</p>
+</div>
+<div>
+<label class="font-label-sm text-label-sm text-on-surface-variant block mb-1">Current Custodian</label>
+<p class="font-body-md text-body-md text-on-surface bg-white px-3 py-2 border border-outline-variant rounded">Midwest Logistics Corp.</p>
+</div>
+<div>
+<label class="font-label-sm text-label-sm text-on-surface-variant block mb-1">Last Verification Block</label>
+<p class="font-data-mono text-data-mono text-on-surface bg-white px-3 py-2 border border-outline-variant rounded flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary-container text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                            0x8f2a...9b1c
+                                        </p>
+</div>
+</div>
+</div>
+<hr class="border-outline-variant"/>
+<!-- Exception Details -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<div class="col-span-1 md:col-span-2">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-4">Exception Details</h3>
+</div>
+<div>
+<label class="font-label-sm text-label-sm text-on-surface block mb-1">Abnormal Type <span class="text-error">*</span></label>
+<select class="w-full bg-white border border-outline-variant rounded-lg px-3 py-2 font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+<option disabled="" selected="" value="">Select abnormality type...</option>
+<option value="temp">Temperature Anomaly (Transit)</option>
+<option value="quality">Failed Quality Inspection</option>
+<option value="doc">Missing/Invalid Documentation</option>
+<option value="tamper">Seal Tampering Detected</option>
+<option value="expired">Beyond Expiration Date</option>
+</select>
+</div>
+<div>
+<label class="font-label-sm text-label-sm text-on-surface block mb-1">Responsible Link <span class="text-error">*</span></label>
+<select class="w-full bg-white border border-outline-variant rounded-lg px-3 py-2 font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+<option disabled="" selected="" value="">Select supply chain stage...</option>
+<option value="farm">Node 1: Origin Farm</option>
+<option value="process">Node 2: Processing Facility</option>
+<option value="transit1">Node 3: Primary Transit</option>
+<option value="warehouse">Node 4: Regional Warehouse</option>
+</select>
+</div>
+<div class="col-span-1 md:col-span-2">
+<label class="font-label-sm text-label-sm text-on-surface block mb-2">Risk Level <span class="text-error">*</span></label>
+<div class="flex gap-4">
+<label class="flex-1 cursor-pointer">
+<input class="peer sr-only" name="risk_level" type="radio" value="low"/>
+<div class="rounded-lg border border-outline-variant p-3 text-center peer-checked:border-tertiary-container peer-checked:bg-on-tertiary-container transition-colors">
+<span class="font-body-md text-body-md text-on-surface block font-medium">Low Risk</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Informational Flag</span>
+</div>
+</label>
+<label class="flex-1 cursor-pointer">
+<input checked="" class="peer sr-only" name="risk_level" type="radio" value="medium"/>
+<div class="rounded-lg border border-outline-variant p-3 text-center peer-checked:border-[#eab308] peer-checked:bg-[#fefce8] transition-colors">
+<span class="font-body-md text-body-md text-on-surface block font-medium">Medium Risk</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Requires Audit</span>
+</div>
+</label>
+<label class="flex-1 cursor-pointer">
+<input class="peer sr-only" name="risk_level" type="radio" value="high"/>
+<div class="rounded-lg border border-outline-variant p-3 text-center peer-checked:border-error peer-checked:bg-error-container transition-colors">
+<span class="font-body-md text-body-md text-error block font-medium">Critical Risk</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Halt Distribution</span>
+</div>
+</label>
+</div>
+</div>
+<div class="col-span-1 md:col-span-2">
+<label class="font-label-sm text-label-sm text-on-surface block mb-1">Detailed Description <span class="text-error">*</span></label>
+<textarea class="w-full bg-white border border-outline-variant rounded-lg px-3 py-2 font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary" placeholder="Provide specific details regarding the anomaly, including time of detection and observed metrics..." rows="4"></textarea>
+</div>
+</div>
+<hr class="border-outline-variant"/>
+<!-- Evidence Upload -->
+<div class="flex flex-col gap-md">
+<h3 class="font-headline-md text-headline-md text-on-surface">Cryptographic Evidence Upload</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Upload photos, sensor logs, or inspection reports. Files will be hashed and anchored to the blockchain.</p>
+<div class="border-2 border-dashed border-outline-variant rounded-xl p-8 flex flex-col items-center justify-center bg-surface-container-lowest hover:bg-surface-container-low transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-4xl text-outline mb-2 group-hover:text-primary transition-colors">cloud_upload</span>
+<p class="font-body-md text-body-md text-on-surface font-medium">Drag and drop files here or click to browse</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-1">Supported: PDF, JPG, PNG, CSV (Max 50MB)</p>
+</div>
+<!-- Uploaded File Preview -->
+<div class="bg-surface p-3 rounded-lg border border-outline-variant flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-error-container text-error rounded flex items-center justify-center">
+<span class="material-symbols-outlined">image</span>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface font-medium">temp_log_sensor_3B.csv</p>
+<div class="flex items-center gap-2">
+<p class="font-label-sm text-label-sm text-on-surface-variant">1.2 MB</p>
+<span class="w-1 h-1 bg-outline-variant rounded-full"></span>
+<p class="font-data-mono text-[10px] text-tertiary-container flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">lock</span>
+                                                    SHA-256 Calculated
+                                                </p>
+</div>
+</div>
+</div>
+<button class="text-outline hover:text-error transition-colors p-2">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex justify-end gap-3 mt-4 pt-4 border-t border-outline-variant">
+<button class="px-6 py-2 border border-primary text-primary font-body-md text-body-md font-semibold rounded-lg hover:bg-surface-container-low transition-colors" type="button">取消</button>
+<button class="px-6 py-2 bg-error text-on-error font-body-md text-body-md font-semibold rounded-lg hover:opacity-90 transition-opacity flex items-center gap-2" type="submit">
+<span class="material-symbols-outlined text-sm">gavel</span>
+                                    Submit Flag to Chain
+                                </button>
+</div>
+</form>
+</div>
+</div>
+<!-- Right Column: Context/Status (4 cols) -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-lg">
+<!-- Chain Anchor Status -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-lg shadow-sm">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">link</span>
+                            Chain Target Context
+                        </h3>
+<div class="flex flex-col gap-4">
+<div class="bg-surface-container p-3 rounded-lg border border-primary-fixed">
+<span class="font-label-sm text-label-sm text-primary block mb-1 uppercase tracking-wider">待处理 Block Node</span>
+<p class="font-data-mono text-data-mono text-on-surface break-all">node_us_midwest_validator_09</p>
+</div>
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant block mb-1">Smart Contract</span>
+<p class="font-data-mono text-data-mono text-on-surface flex items-center justify-between">
+                                    0xAgri...7f21
+                                    <button class="text-primary hover:opacity-80"><span class="material-symbols-outlined text-sm">content_copy</span></button>
+</p>
+</div>
+<div class="pt-4 border-t border-outline-variant">
+<h4 class="font-label-sm text-label-sm text-on-surface-variant mb-3">溯源时间线摘要</h4>
+<div class="relative border-l-2 border-outline-variant ml-3 flex flex-col gap-6">
+<div class="relative pl-6">
+<div class="absolute w-3 h-3 bg-tertiary-container rounded-full -left-[7px] top-1 border-2 border-white"></div>
+<p class="font-body-md text-body-md text-on-surface font-medium">Node 1: Harvest Logged</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Oct 12, 08:00 AM</p>
+</div>
+<div class="relative pl-6">
+<div class="absolute w-3 h-3 bg-tertiary-container rounded-full -left-[7px] top-1 border-2 border-white"></div>
+<p class="font-body-md text-body-md text-on-surface font-medium">Node 2: Quality Inspection</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Oct 14, 11:30 AM</p>
+</div>
+<div class="relative pl-6">
+<div class="absolute w-4 h-4 bg-error flex items-center justify-center rounded-full -left-[9px] top-0 border-2 border-white">
+<span class="material-symbols-outlined text-white text-[10px]" style="font-variation-settings: 'FILL' 1;">priority_high</span>
+</div>
+<p class="font-body-md text-body-md text-error font-semibold">Node 3: 运输标记（待处理）</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Current Action</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

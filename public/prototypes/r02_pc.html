@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AgriTrace - 待入库批次</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-fixed-variant": "#005320",
+                    "on-surface": "#0b1c30",
+                    "surface-container": "#e5eeff",
+                    "surface-container-highest": "#d3e4fe",
+                    "secondary-fixed": "#d8e2ff",
+                    "on-background": "#0b1c30",
+                    "surface-variant": "#d3e4fe",
+                    "error-container": "#ffdad6",
+                    "surface-container-low": "#eff4ff",
+                    "surface": "#f8f9ff",
+                    "primary-fixed": "#d9e2ff",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary-fixed": "#002109",
+                    "on-tertiary": "#ffffff",
+                    "secondary-fixed-dim": "#adc7ff",
+                    "on-secondary-fixed-variant": "#24467e",
+                    "inverse-on-surface": "#eaf1ff",
+                    "surface-dim": "#cbdbf5",
+                    "on-primary-fixed": "#001944",
+                    "tertiary": "#006a2c",
+                    "tertiary-container": "#008639",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-container": "#fdfbff",
+                    "secondary": "#3e5e98",
+                    "inverse-primary": "#afc6ff",
+                    "on-primary-fixed-variant": "#00429a",
+                    "surface-container-high": "#dce9ff",
+                    "secondary-container": "#9fbeff",
+                    "surface-tint": "#0058c9",
+                    "inverse-surface": "#213145",
+                    "on-error": "#ffffff",
+                    "outline": "#727786",
+                    "background": "#f8f9ff",
+                    "outline-variant": "#c2c6d7",
+                    "error": "#ba1a1a",
+                    "primary-fixed-dim": "#afc6ff",
+                    "tertiary-fixed-dim": "#62df7d",
+                    "on-primary": "#ffffff",
+                    "surface-bright": "#f8f9ff",
+                    "tertiary-fixed": "#7ffc97",
+                    "on-tertiary-container": "#f2ffee",
+                    "on-secondary-fixed": "#001a41",
+                    "on-surface-variant": "#424654",
+                    "on-secondary-container": "#2b4c85",
+                    "primary-container": "#1e6eeb",
+                    "primary": "#0056c3",
+                    "on-error-container": "#93000a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "margin": "24px",
+                    "gutter": "20px",
+                    "xl": "32px",
+                    "sm": "12px",
+                    "lg": "24px",
+                    "md": "16px",
+                    "base": "4px",
+                    "xs": "8px"
+            },
+            "fontFamily": {
+                    "body-md": [
+                            "Inter"
+                    ],
+                    "label-sm": [
+                            "Inter"
+                    ],
+                    "data-mono": [
+                            "Inter"
+                    ],
+                    "body-lg": [
+                            "Inter"
+                    ],
+                    "headline-xl": [
+                            "Manrope"
+                    ],
+                    "headline-md": [
+                            "Manrope"
+                    ]
+            },
+            "fontSize": {
+                    "body-md": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "label-sm": [
+                            "12px",
+                            {
+                                    "lineHeight": "16px",
+                                    "letterSpacing": "0.02em",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "data-mono": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-lg": [
+                            "16px",
+                            {
+                                    "lineHeight": "24px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-xl": [
+                            "24px",
+                            {
+                                    "lineHeight": "32px",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "headline-md": [
+                            "18px",
+                            {
+                                    "lineHeight": "26px",
+                                    "fontWeight": "600"
+                            }
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex text-body-md overflow-x-hidden">
+<!-- SideNavBar -->
+<nav class="bg-slate-50 dark:bg-slate-950 font-manrope text-sm tracking-tight docked left-0 h-screen w-64 border-r border-slate-200 dark:border-slate-800 flat no shadows fixed left-0 top-0 flex flex-col h-full z-40 hidden md:flex">
+<div class="px-6 py-8 border-b border-slate-200 dark:border-slate-800 flex flex-col gap-sm">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary-container text-2xl fill" data-icon="eco">eco</span>
+<span class="text-lg font-bold text-blue-800 dark:text-blue-200 font-headline-md text-headline-md">AgriTrace Global</span>
+</div>
+<span class="text-on-surface-variant font-label-sm text-label-sm">Industrial Supply Chain</span>
+</div>
+<div class="flex-1 overflow-y-auto py-lg">
+<ul class="flex flex-col gap-base px-md">
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200 rounded-DEFAULT" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>工作台</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200 rounded-DEFAULT" href="#">
+<span class="material-symbols-outlined" data-icon="hub">hub</span>
+<span>溯源节点</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200 rounded-DEFAULT" href="#">
+<span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+<span>Quality Audits</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200 rounded-DEFAULT" href="#">
+<span class="material-symbols-outlined" data-icon="gavel">gavel</span>
+<span>Compliance Panel</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-900/20 border-r-4 border-blue-600 dark:border-blue-400 font-semibold hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200 rounded-DEFAULT translate-x-1" href="#">
+<span class="material-symbols-outlined fill" data-icon="inventory_2">inventory_2</span>
+<span>库存</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200 rounded-DEFAULT" href="#">
+<span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
+<span>Logistics</span>
+</a>
+</li>
+</ul>
+<div class="px-lg mt-xl">
+<button class="w-full bg-primary-container text-on-primary py-sm px-md rounded-lg font-label-sm text-label-sm flex items-center justify-center gap-xs hover:bg-primary transition-colors shadow-sm">
+<span class="material-symbols-outlined" data-icon="verified">verified</span>
+                    Verify Block
+                </button>
+</div>
+</div>
+<div class="mt-auto border-t border-slate-200 dark:border-slate-800 py-md px-md flex flex-col gap-base">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200 rounded-DEFAULT" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span>Support</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200 rounded-DEFAULT" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span>Sign Out</span>
+</a>
+<div class="px-4 py-3 flex items-center gap-sm mt-sm">
+<img alt="System Administrator" class="w-8 h-8 rounded-full border border-outline-variant" data-alt="Close up portrait of a professional system administrator in a server room setting with blue ambient light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuByh7gfAGrDvhJywyBilobX84A0htsL6bwH_fS4Vpq7dt0vlUvuQpqXEvnZmJgYh49EltpBwVSSOR8a0TBd4i7KCoqrcCQfr0edJaLqxTkpSS7hW6wQrSeV6aaqT3ErTGutKiX5luMHnqs_UE_G9blNSHbAp0d7mvyXaK-m5G1trRBxcPDXEZ3JS7v0FtnMfaAOGpxyRV7YJynx0buuj7UUcjeATLgcxTAsmjrKC6zZ22gJdQKivQwDCKrob6eL6sR4oZfcslURu3gy"/>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface">Admin User</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant text-[10px]">Supermarket Node</span>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col ml-0 md:ml-64 w-full">
+<!-- TopNavBar (Mobile Only) -->
+<header class="bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 font-manrope text-sm font-medium docked full-width top-0 border-b border-slate-200 dark:border-slate-800 flat no shadows flex justify-between items-center px-6 h-16 w-full sticky top-0 z-50 md:hidden">
+<div class="flex items-center gap-md">
+<span class="text-xl font-black text-blue-700 dark:text-blue-400">AgriTrace</span>
+</div>
+<div class="flex items-center gap-md">
+<button class="text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors p-2 rounded-full">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors p-2 rounded-full">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<img alt="User Profile" class="w-8 h-8 rounded-full border border-outline-variant" data-alt="Close up portrait of a professional system administrator in a server room setting with blue ambient light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwEuYZCpDn8-AVVyLtdSdJnpQJ_Mo9Ll-47gvopR1q85FBunAJtAr_A0a14HQprtdF1SKAeUD1dNDJ7JRLUsoHuVSjI_f_vkwXYGi-YE_mEHbIpktAHQfpKsw-0DZ7DHC9PZoz5wlCDjOU-Q7Uz9pgnn6kuAtPDG6zONltP8Je_3lxsyK8jfXgXscv7N93RcSt4hPUrPzKbHP1cUjzm9UJwNc8XiEV3jK_Fzc3hV9A3r_m_Uk-ZJp1P5rKBNuKO1it7j5d14pE5VB-"/>
+</div>
+</header>
+<div class="p-lg md:p-xl flex-1 flex flex-col gap-lg max-w-[1600px] mx-auto w-full">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-md">
+<div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface mb-xs">待入库批次</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Manage incoming logistics deliveries awaiting supermarket entry and shelving verification.</p>
+</div>
+<div class="flex items-center gap-sm">
+<button class="bg-surface text-on-surface border border-outline-variant py-sm px-md rounded-lg font-label-sm text-label-sm flex items-center gap-xs hover:bg-surface-variant transition-colors shadow-sm">
+<span class="material-symbols-outlined" data-icon="download">download</span>
+                        导出报告
+                    </button>
+</div>
+</div>
+<!-- Filter Panel -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-sm flex flex-col lg:flex-row gap-md items-end">
+<div class="flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-md w-full">
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-on-surface-variant" for="batchId">Batch ID / Hash</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" data-icon="tag">tag</span>
+<input class="w-full pl-10 pr-sm py-sm border border-outline-variant rounded-lg bg-surface font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary-container focus:border-transparent transition-shadow" id="batchId" placeholder="e.g. BATCH-001" type="text"/>
+</div>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-on-surface-variant" for="product">Product Category</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" data-icon="category">category</span>
+<select class="w-full pl-10 pr-sm py-sm border border-outline-variant rounded-lg bg-surface font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary-container focus:border-transparent transition-shadow appearance-none" id="product">
+<option value="">All Products</option>
+<option value="produce">Fresh Produce</option>
+<option value="meat">Meat &amp; Poultry</option>
+<option value="dairy">Dairy</option>
+</select>
+</div>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-on-surface-variant" for="logistics">Logistics Co.</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" data-icon="local_shipping">local_shipping</span>
+<select class="w-full pl-10 pr-sm py-sm border border-outline-variant rounded-lg bg-surface font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary-container focus:border-transparent transition-shadow appearance-none" id="logistics">
+<option value="">All Carriers</option>
+<option value="fastfreight">FastFreight Logistics</option>
+<option value="coldchain">ColdChain Transport</option>
+<option value="agromove">AgroMove Global</option>
+</select>
+</div>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-on-surface-variant" for="date">Arrival Time</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" data-icon="calendar_today">calendar_today</span>
+<input class="w-full pl-10 pr-sm py-sm border border-outline-variant rounded-lg bg-surface font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary-container focus:border-transparent transition-shadow" id="date" type="date"/>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-sm w-full lg:w-auto">
+<button class="bg-surface text-on-surface border border-outline-variant py-sm px-md rounded-lg font-label-sm text-label-sm flex items-center justify-center gap-xs hover:bg-surface-variant transition-colors shadow-sm flex-1 lg:flex-none">
+                        Reset
+                    </button>
+<button class="bg-primary-container text-on-primary py-sm px-md rounded-lg font-label-sm text-label-sm flex items-center justify-center gap-xs hover:bg-primary transition-colors shadow-sm flex-1 lg:flex-none">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+                        Apply Filters
+                    </button>
+</div>
+</div>
+<!-- Data Table Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm flex-1 overflow-hidden flex flex-col">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse min-w-[1000px]">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant">
+<th class="py-sm px-md font-label-sm text-label-sm text-on-surface-variant font-medium">Batch ID / Hash</th>
+<th class="py-sm px-md font-label-sm text-label-sm text-on-surface-variant font-medium">Product Information</th>
+<th class="py-sm px-md font-label-sm text-label-sm text-on-surface-variant font-medium">Logistics Details</th>
+<th class="py-sm px-md font-label-sm text-label-sm text-on-surface-variant font-medium">Arrival Time</th>
+<th class="py-sm px-md font-label-sm text-label-sm text-on-surface-variant font-medium">Risk Status</th>
+<th class="py-sm px-md font-label-sm text-label-sm text-on-surface-variant font-medium text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md">
+<!-- Row 1 -->
+<tr class="border-b border-outline-variant hover:bg-surface-container-low transition-colors group">
+<td class="py-md px-md">
+<div class="flex flex-col">
+<span class="font-data-mono text-data-mono text-on-surface">ORG-APL-8821</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-mono text-[10px] truncate max-w-[150px]" title="0x7f8...a2b">0x7f8...a2b</span>
+</div>
+</td>
+<td class="py-md px-md">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-lg overflow-hidden shrink-0 border border-outline-variant">
+<img alt="Organic Apples" class="w-full h-full object-cover" data-alt="Close up of fresh red organic apples in a wooden crate with natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUPzXyqcUV7N5jfMlaXqGAAqPEDxfQ2B-0QSy9BVo_hM0_P9VJ8GCknGJsojyl3JvvFtNB72-carEzqAKIlVwhRdfPZXEZdnR8PCUiZnprDmlxs9N0a4aky7zefw6C12Wxj_EAXN-QGpnjxhT5gEJZS_Wr74ml9hUA51EL07-QeXsA-iSY26AAULLNiTwO8_M-JMpaGzAs4nUz0vMTFEFAuD0rg5KDOYKHa-cfFUsetgfytfUcmRm9PXQarS-H9y7emxtKZpXnkAuD"/>
+</div>
+<div class="flex flex-col">
+<span class="text-on-surface font-medium">Premium Fuji Apples</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Qty: 500 kg (25 crates)</span>
+</div>
+</div>
+</td>
+<td class="py-md px-md">
+<div class="flex flex-col">
+<span class="text-on-surface">ColdChain Transport</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="thermostat">thermostat</span>
+                                            Maintained 2-4°C
+                                        </span>
+</div>
+</td>
+<td class="py-md px-md">
+<div class="flex flex-col">
+<span class="text-on-surface">Today, 08:30 AM</span>
+<span class="font-label-sm text-label-sm text-secondary">Awaiting Entry</span>
+</div>
+</td>
+<td class="py-md px-md">
+<span class="inline-flex items-center gap-1 bg-tertiary-container/10 text-tertiary-container px-2 py-1 rounded-md font-label-sm text-label-sm border border-tertiary-container/20">
+<span class="material-symbols-outlined text-[14px]" data-icon="check_circle">check_circle</span>
+                                        Low Risk / Verified
+                                    </span>
+</td>
+<td class="py-md px-md text-right">
+<div class="flex items-center justify-end gap-sm opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-secondary hover:text-primary transition-colors p-1" title="View Logistics Details">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+</button>
+<button class="bg-primary-container text-on-primary py-1 px-3 rounded-lg font-label-sm text-label-sm hover:bg-primary transition-colors shadow-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="shelves">shelves</span>
+                                            Receive
+                                        </button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="border-b border-outline-variant hover:bg-surface-container-low transition-colors group">
+<td class="py-md px-md">
+<div class="flex flex-col">
+<span class="font-data-mono text-data-mono text-on-surface">DRY-WHT-9022</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-mono text-[10px] truncate max-w-[150px]" title="0x3c4...e1f">0x3c4...e1f</span>
+</div>
+</td>
+<td class="py-md px-md">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-lg overflow-hidden shrink-0 border border-outline-variant">
+<img alt="Wheat Grain" class="w-full h-full object-cover" data-alt="Macro shot of golden wheat grains overflowing from a burlap sack under warm studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHw8r5eyA7W9wai1ktJ3AMOVD54D_j08A3YIs-4i0ugTMh4VyDrAD8dxySFkAutu3IYj49Pqs-19HQUrkhBBa940588997k-gsHjhLr6oZRrd0vEtquu13W9w5knKV3C3pV620jTX2S9CWROoAq3ZBxviHtacnDThwy70Qj8j8vW28So0tmhQ8th9jqSjlltR8ZDWZHiiFx4yrsLvFczzmCJ7c7FL17iOGi4tzUTEgkZ-BL8uou5Gy_oyffxvuW3x88-A3OjH4KvOa"/>
+</div>
+<div class="flex flex-col">
+<span class="text-on-surface font-medium">Whole Wheat Grain</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Qty: 2000 kg (40 sacks)</span>
+</div>
+</div>
+</td>
+<td class="py-md px-md">
+<div class="flex flex-col">
+<span class="text-on-surface">AgroMove Global</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="dry">dry</span>
+                                            Standard Dry
+                                        </span>
+</div>
+</td>
+<td class="py-md px-md">
+<div class="flex flex-col">
+<span class="text-on-surface">Today, 09:15 AM</span>
+<span class="font-label-sm text-label-sm text-secondary">Awaiting Entry</span>
+</div>
+</td>
+<td class="py-md px-md">
+<span class="inline-flex items-center gap-1 bg-tertiary-container/10 text-tertiary-container px-2 py-1 rounded-md font-label-sm text-label-sm border border-tertiary-container/20">
+<span class="material-symbols-outlined text-[14px]" data-icon="check_circle">check_circle</span>
+                                        Low Risk / Verified
+                                    </span>
+</td>
+<td class="py-md px-md text-right">
+<div class="flex items-center justify-end gap-sm opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-secondary hover:text-primary transition-colors p-1" title="View Logistics Details">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+</button>
+<button class="bg-primary-container text-on-primary py-1 px-3 rounded-lg font-label-sm text-label-sm hover:bg-primary transition-colors shadow-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="shelves">shelves</span>
+                                            Receive
+                                        </button>
+</div>
+</td>
+</tr>
+<!-- Row 3 (Warning State) -->
+<tr class="border-b border-outline-variant bg-error-container/10 hover:bg-error-container/20 transition-colors group">
+<td class="py-md px-md">
+<div class="flex flex-col">
+<span class="font-data-mono text-data-mono text-on-surface">MEA-BEEF-104</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-mono text-[10px] truncate max-w-[150px]" title="0x9a1...b2c">0x9a1...b2c</span>
+</div>
+</td>
+<td class="py-md px-md">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-lg overflow-hidden shrink-0 border border-outline-variant">
+<img alt="Raw Beef" class="w-full h-full object-cover" data-alt="Close up of fresh raw beef cuts on a dark slate background with dramatic moody lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAR9xh3-LSfVXMTHQGxToEsf6pZrXwFoUAZbHKyeGX8SClXjRVkK9jlzAPGXPp_KLiRRQ7e4imHbRw1is9FV0OGkFn-wUKCmG1CHNSmuZtmUIXOEtdoR6K0HqwCnSSKV_sDoMSIfwfaB_1gfqRdPfiGh4Onug7GZEgaHsEd9BtB1IfxyqZOHtpI5OiVOTpvg7wKGufAV1GFwO5qwGXJcNRajYa6sJGu219ZDYP6nI-U4qMHj5bOO9NeZFBJ5yWNc7ueb2yWhBeoAf-K"/>
+</div>
+<div class="flex flex-col">
+<span class="text-on-surface font-medium">Grade A Angus Beef</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Qty: 250 kg (10 boxes)</span>
+</div>
+</div>
+</td>
+<td class="py-md px-md">
+<div class="flex flex-col">
+<span class="text-on-surface">FastFreight Logistics</span>
+<span class="font-label-sm text-label-sm text-error flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="warning">warning</span>
+                                            Temp Spike: 6°C
+                                        </span>
+</div>
+</td>
+<td class="py-md px-md">
+<div class="flex flex-col">
+<span class="text-on-surface">Today, 10:05 AM</span>
+<span class="font-label-sm text-label-sm text-secondary">Awaiting Entry</span>
+</div>
+</td>
+<td class="py-md px-md">
+<span class="inline-flex items-center gap-1 bg-error-container text-on-error-container px-2 py-1 rounded-md font-label-sm text-label-sm border border-error/20">
+<span class="material-symbols-outlined text-[14px]" data-icon="error">error</span>
+                                        Review Required
+                                    </span>
+</td>
+<td class="py-md px-md text-right">
+<div class="flex items-center justify-end gap-sm opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-secondary hover:text-primary transition-colors p-1" title="View Logistics Details">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+</button>
+<button class="bg-error text-on-error py-1 px-3 rounded-lg font-label-sm text-label-sm hover:bg-error/90 transition-colors shadow-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="rule">rule</span>
+                                            Inspect
+                                        </button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="mt-auto px-lg py-md border-t border-outline-variant flex items-center justify-between bg-surface">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Showing 1 to 3 of 12 batches</span>
+<div class="flex items-center gap-xs">
+<button class="p-1 text-outline hover:text-on-surface transition-colors rounded-DEFAULT border border-transparent hover:border-outline-variant disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-DEFAULT bg-primary-container text-on-primary font-label-sm text-label-sm">1</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-DEFAULT hover:bg-surface-variant text-on-surface font-label-sm text-label-sm transition-colors border border-transparent hover:border-outline-variant">2</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-DEFAULT hover:bg-surface-variant text-on-surface font-label-sm text-label-sm transition-colors border border-transparent hover:border-outline-variant">3</button>
+<button class="p-1 text-outline hover:text-on-surface transition-colors rounded-DEFAULT border border-transparent hover:border-outline-variant">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

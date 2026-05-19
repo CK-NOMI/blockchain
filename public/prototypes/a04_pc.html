@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Blockchain Node Status - Agri-Chain</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-secondary-fixed": "#001a41",
+                        "inverse-primary": "#afc6ff",
+                        "surface-container": "#e5eeff",
+                        "secondary-fixed": "#d8e2ff",
+                        "background": "#f8f9ff",
+                        "secondary": "#3e5e98",
+                        "surface-bright": "#f8f9ff",
+                        "outline-variant": "#c2c6d7",
+                        "tertiary-fixed-dim": "#62df7d",
+                        "surface-variant": "#d3e4fe",
+                        "outline": "#727786",
+                        "on-primary": "#ffffff",
+                        "on-secondary-container": "#2b4c85",
+                        "on-primary-container": "#fdfbff",
+                        "tertiary-fixed": "#7ffc97",
+                        "on-primary-fixed-variant": "#00429a",
+                        "inverse-surface": "#213145",
+                        "surface": "#f8f9ff",
+                        "on-error": "#ffffff",
+                        "primary-container": "#1e6eeb",
+                        "tertiary-container": "#008639",
+                        "primary-fixed-dim": "#afc6ff",
+                        "on-tertiary-fixed-variant": "#005320",
+                        "on-background": "#0b1c30",
+                        "tertiary": "#006a2c",
+                        "on-tertiary-container": "#f2ffee",
+                        "surface-container-high": "#dce9ff",
+                        "on-secondary-fixed-variant": "#24467e",
+                        "surface-dim": "#cbdbf5",
+                        "primary": "#0056c3",
+                        "surface-container-low": "#eff4ff",
+                        "error": "#ba1a1a",
+                        "on-secondary": "#ffffff",
+                        "secondary-container": "#9fbeff",
+                        "on-tertiary-fixed": "#002109",
+                        "error-container": "#ffdad6",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed": "#d9e2ff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-tint": "#0058c9",
+                        "on-tertiary": "#ffffff",
+                        "on-surface-variant": "#424654",
+                        "surface-container-highest": "#d3e4fe",
+                        "secondary-fixed-dim": "#adc7ff",
+                        "on-error-container": "#93000a",
+                        "on-surface": "#0b1c30",
+                        "on-primary-fixed": "#001944"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    spacing: {
+                        "gutter": "20px",
+                        "sm": "12px",
+                        "base": "4px",
+                        "xs": "8px",
+                        "md": "16px",
+                        "margin": "24px",
+                        "xl": "32px",
+                        "lg": "24px"
+                    },
+                    fontFamily: {
+                        "headline-xl": ["Manrope"],
+                        "data-mono": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Manrope"]
+                    },
+                    fontSize: {
+                        "headline-xl": ["24px", { lineHeight: "32px", fontWeight: "700" }],
+                        "data-mono": ["14px", { lineHeight: "20px", fontWeight: "600" }],
+                        "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+                        "label-sm": ["12px", { lineHeight: "16px", letterSpacing: "0.02em", fontWeight: "500" }],
+                        "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+                        "headline-md": ["18px", { lineHeight: "26px", fontWeight: "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        /* Grid system background for topology map */
+        .bg-grid-pattern {
+            background-image: linear-gradient(to right, #c2c6d7 1px, transparent 1px), linear-gradient(to bottom, #c2c6d7 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: center center;
+            opacity: 0.15;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased min-h-screen">
+<!-- TopAppBar -->
+<header class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md fixed top-0 left-0 w-full flex justify-between items-center px-6 h-16 border-b border-slate-200 dark:border-slate-800 z-50">
+<div class="flex items-center gap-4">
+<!-- Mobile Menu Toggle (hidden on lg) -->
+<button class="lg:hidden text-primary">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<span class="font-manrope antialiased tracking-tight text-lg font-bold text-blue-700 dark:text-blue-300 tracking-tighter">
+                Agri-Chain 溯源
+            </span>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden md:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant text-[20px]">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container rounded-full border-none text-sm focus:ring-2 focus:ring-primary-container outline-none w-64 transition-all" placeholder="Search hash, node..." type="text"/>
+</div>
+<button class="text-blue-600 dark:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors p-2 rounded-full active:opacity-80 active:scale-98">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-blue-600 dark:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors p-2 rounded-full active:opacity-80 active:scale-98">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<button class="text-blue-600 dark:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors p-2 rounded-full active:opacity-80 active:scale-98">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<!-- SideNavBar -->
+<nav class="bg-slate-50 dark:bg-slate-950 h-screen w-64 border-r border-slate-200 dark:border-slate-800 hidden lg:flex flex-col fixed left-0 top-0 pt-16 z-40">
+<div class="p-6 border-b border-outline-variant/30 flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center text-on-primary font-bold shadow-sm">
+<span class="material-symbols-outlined icon-fill text-on-primary">local_florist</span>
+</div>
+<div>
+<h2 class="font-manrope text-sm font-medium text-xl font-black text-blue-800 dark:text-blue-200 leading-tight">Agri-Chain Pro</h2>
+<p class="font-label-sm text-label-sm text-outline">Verified Admin Suite</p>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto py-4 flex flex-col gap-1 px-3">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 font-manrope text-sm font-medium hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>工作台</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 font-manrope text-sm font-medium hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+<span>溯源</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 font-manrope text-sm font-medium hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">gavel</span>
+<span>Audits</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 font-manrope text-sm font-medium hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">group</span>
+<span>Management</span>
+</a>
+<!-- Active Tab -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 border-r-4 border-blue-600 font-manrope text-sm font-medium active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined icon-fill">lan</span>
+<span>Node Status</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 font-manrope text-sm font-medium hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">verified_user</span>
+<span>Evidence</span>
+</a>
+</div>
+</nav>
+<!-- Main Canvas -->
+<main class="lg:pl-64 pt-16 pb-20 lg:pb-0 min-h-screen">
+<div class="p-margin max-w-7xl mx-auto">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-margin">
+<div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface mb-1">Blockchain Node Status</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Real-time telemetry and consensus health across the agricultural traceability network.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-4 py-2 bg-surface-container-lowest border border-outline-variant rounded-lg text-primary font-label-sm text-label-sm hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-all">
+<span class="material-symbols-outlined text-[18px]">download</span>
+                        导出日志
+                    </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary-container text-on-primary rounded-lg font-label-sm text-label-sm hover:opacity-90 transition-opacity shadow-[0_4px_12px_rgba(30,110,235,0.2)]">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+                        Provision Node
+                    </button>
+</div>
+</div>
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Global Metrics Banner -->
+<div class="col-span-12 grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col gap-2 relative overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.02)]">
+<div class="absolute -right-4 -top-4 w-16 h-16 bg-tertiary-fixed rounded-full opacity-20 blur-xl"></div>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Current Block Height</span>
+<div class="flex items-baseline gap-2">
+<span class="font-data-mono text-[28px] font-bold text-on-surface">#8,492,103</span>
+</div>
+<div class="flex items-center gap-1 text-tertiary font-label-sm text-[10px]">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span>
+<span>+12 in last min</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col gap-2 shadow-[0_2px_8px_rgba(0,0,0,0.02)]">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Network TPS</span>
+<div class="flex items-baseline gap-2">
+<span class="font-data-mono text-[28px] font-bold text-on-surface">1,245</span>
+<span class="font-label-sm text-outline">tx/s</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden mt-1">
+<div class="bg-primary w-2/3 h-full rounded-full"></div>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col gap-2 shadow-[0_2px_8px_rgba(0,0,0,0.02)]">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Active Nodes</span>
+<div class="flex items-baseline gap-2">
+<span class="font-data-mono text-[28px] font-bold text-on-surface">24</span>
+<span class="font-label-sm text-outline">/ 25 Total</span>
+</div>
+<div class="flex items-center gap-2 mt-1">
+<span class="w-2 h-2 rounded-full bg-tertiary-container animate-pulse"></span>
+<span class="font-label-sm text-[10px] text-tertiary-container">Consensus Healthy</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col gap-2 shadow-[0_2px_8px_rgba(0,0,0,0.02)]">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Last Committment</span>
+<div class="flex items-baseline gap-2">
+<span class="font-data-mono text-[28px] font-bold text-on-surface">2.4s</span>
+<span class="font-label-sm text-outline">ago</span>
+</div>
+<div class="font-data-mono text-[10px] text-outline truncate mt-1">
+                            Hash: 0x9f8a...3b2c
+                        </div>
+</div>
+</div>
+<!-- Topology Map Visualization -->
+<div class="col-span-12 lg:col-span-8 bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col shadow-[0_4px_12px_rgba(0,0,0,0.02)] overflow-hidden">
+<div class="px-lg py-md border-b border-outline-variant/50 flex justify-between items-center bg-surface-bright">
+<h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">hub</span>
+                            Network Topology
+                        </h3>
+<div class="flex gap-2">
+<span class="px-2 py-1 bg-surface-container rounded font-label-sm text-[10px] text-on-surface-variant">Live View</span>
+</div>
+</div>
+<div class="relative h-[400px] w-full bg-surface bg-grid-pattern flex items-center justify-center p-8">
+<!-- Central Hub -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-surface-container-lowest border-2 border-primary-container rounded-full flex flex-col items-center justify-center shadow-[0_0_24px_rgba(30,110,235,0.2)] z-10">
+<span class="material-symbols-outlined text-[32px] text-primary mb-1 icon-fill">link</span>
+<span class="font-label-sm text-[10px] font-bold text-primary">MAINNET</span>
+</div>
+<!-- Connection Lines (Simulated via SVG for precision) -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none" style="z-index: 0;">
+<!-- Center to Top Left -->
+<path class="opacity-60" d="M 50% 50% L 25% 25%" stroke="#c2c6d7" stroke-dasharray="4 4" stroke-width="2"></path>
+<circle class="animate-ping" cx="37.5%" cy="37.5%" fill="#1e6eeb" r="3" style="animation-duration: 3s;"></circle>
+<!-- Center to Top Right -->
+<path class="opacity-60" d="M 50% 50% L 75% 25%" stroke="#c2c6d7" stroke-dasharray="4 4" stroke-width="2"></path>
+<circle class="animate-ping" cx="62.5%" cy="37.5%" fill="#1e6eeb" r="3" style="animation-duration: 2.5s; animation-delay: 0.5s;"></circle>
+<!-- Center to Bottom Left -->
+<path class="opacity-60" d="M 50% 50% L 25% 75%" stroke="#c2c6d7" stroke-dasharray="4 4" stroke-width="2"></path>
+<circle class="animate-ping" cx="37.5%" cy="62.5%" fill="#1e6eeb" r="3" style="animation-duration: 3.5s; animation-delay: 1s;"></circle>
+<!-- Center to Bottom Right -->
+<path class="opacity-40" d="M 50% 50% L 75% 75%" stroke="#ba1a1a" stroke-dasharray="4 4" stroke-width="2"></path>
+</svg>
+<!-- Node: Regulator (Top Left) -->
+<div class="absolute top-[25%] left-[25%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2 z-10 hover:scale-105 transition-transform cursor-pointer group">
+<div class="relative w-12 h-12 bg-surface-container-lowest border border-tertiary-fixed-dim rounded-lg flex items-center justify-center shadow-sm">
+<span class="absolute -top-1 -right-1 w-3 h-3 bg-tertiary-container rounded-full border-2 border-white"></span>
+<span class="material-symbols-outlined text-secondary">account_balance</span>
+</div>
+<div class="bg-white/90 backdrop-blur px-2 py-1 rounded shadow-sm border border-outline-variant/30 text-center">
+<span class="block font-label-sm text-[11px] font-bold text-on-surface">Gov-Node-01</span>
+<span class="block font-data-mono text-[9px] text-outline">Regulator</span>
+</div>
+</div>
+<!-- Node: Processor (Top Right) -->
+<div class="absolute top-[25%] left-[75%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2 z-10 hover:scale-105 transition-transform cursor-pointer">
+<div class="relative w-12 h-12 bg-surface-container-lowest border border-tertiary-fixed-dim rounded-lg flex items-center justify-center shadow-sm">
+<span class="absolute -top-1 -right-1 w-3 h-3 bg-tertiary-container rounded-full border-2 border-white"></span>
+<span class="material-symbols-outlined text-secondary">factory</span>
+</div>
+<div class="bg-white/90 backdrop-blur px-2 py-1 rounded shadow-sm border border-outline-variant/30 text-center">
+<span class="block font-label-sm text-[11px] font-bold text-on-surface">Proc-Hub-East</span>
+<span class="block font-data-mono text-[9px] text-outline">Processor</span>
+</div>
+</div>
+<!-- Node: Logistics (Bottom Left) -->
+<div class="absolute top-[75%] left-[25%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2 z-10 hover:scale-105 transition-transform cursor-pointer">
+<div class="relative w-12 h-12 bg-surface-container-lowest border border-tertiary-fixed-dim rounded-lg flex items-center justify-center shadow-sm">
+<span class="absolute -top-1 -right-1 w-3 h-3 bg-tertiary-container rounded-full border-2 border-white"></span>
+<span class="material-symbols-outlined text-secondary">local_shipping</span>
+</div>
+<div class="bg-white/90 backdrop-blur px-2 py-1 rounded shadow-sm border border-outline-variant/30 text-center">
+<span class="block font-label-sm text-[11px] font-bold text-on-surface">Logi-Fleet-A</span>
+<span class="block font-data-mono text-[9px] text-outline">Logistics</span>
+</div>
+</div>
+<!-- Node: Retail (Bottom Right) - Offline State -->
+<div class="absolute top-[75%] left-[75%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2 z-10 hover:scale-105 transition-transform cursor-pointer opacity-70">
+<div class="relative w-12 h-12 bg-surface-container-lowest border border-error/50 rounded-lg flex items-center justify-center shadow-sm">
+<span class="absolute -top-1 -right-1 w-3 h-3 bg-error rounded-full border-2 border-white"></span>
+<span class="material-symbols-outlined text-outline">storefront</span>
+</div>
+<div class="bg-white/90 backdrop-blur px-2 py-1 rounded shadow-sm border border-outline-variant/30 text-center">
+<span class="block font-label-sm text-[11px] font-bold text-error">Retail-Dist-04</span>
+<span class="block font-data-mono text-[9px] text-outline">Retail (Syncing)</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Recent Node Activity / Logs -->
+<div class="col-span-12 lg:col-span-4 bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col shadow-[0_4px_12px_rgba(0,0,0,0.02)] h-[400px]">
+<div class="px-md py-md border-b border-outline-variant/50 bg-surface-bright flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-on-surface text-[16px]">Network Events</h3>
+<span class="material-symbols-outlined text-outline-variant text-[18px]">more_horiz</span>
+</div>
+<div class="flex-1 overflow-y-auto p-2">
+<ul class="space-y-1">
+<li class="px-3 py-2 rounded-lg hover:bg-surface-container-low transition-colors flex gap-3">
+<span class="material-symbols-outlined text-tertiary-container text-[18px] mt-0.5">check_circle</span>
+<div>
+<p class="font-body-md text-[13px] text-on-surface">Block <span class="font-data-mono">#8492103</span> proposed by <span class="font-medium">Gov-Node-01</span></p>
+<p class="font-label-sm text-[10px] text-outline mt-0.5">12 seconds ago</p>
+</div>
+</li>
+<li class="px-3 py-2 rounded-lg hover:bg-surface-container-low transition-colors flex gap-3">
+<span class="material-symbols-outlined text-primary text-[18px] mt-0.5">sync</span>
+<div>
+<p class="font-body-md text-[13px] text-on-surface">Smart Contract execution successful: <span class="font-data-mono bg-surface-container px-1 rounded text-[11px]">Tx_Lot_99A</span></p>
+<p class="font-label-sm text-[10px] text-outline mt-0.5">45 seconds ago</p>
+</div>
+</li>
+<li class="px-3 py-2 rounded-lg bg-error-container/20 border border-error-container hover:bg-error-container/30 transition-colors flex gap-3 mt-2">
+<span class="material-symbols-outlined text-error text-[18px] mt-0.5">warning</span>
+<div>
+<p class="font-body-md text-[13px] text-on-surface">Heartbeat timeout from <span class="font-medium text-error">Retail-Dist-04</span></p>
+<p class="font-label-sm text-[10px] text-outline mt-0.5">2 mins ago</p>
+</div>
+</li>
+<li class="px-3 py-2 rounded-lg hover:bg-surface-container-low transition-colors flex gap-3 mt-2">
+<span class="material-symbols-outlined text-tertiary-container text-[18px] mt-0.5">check_circle</span>
+<div>
+<p class="font-body-md text-[13px] text-on-surface">Block <span class="font-data-mono">#8492102</span> finalized. 48 signatures.</p>
+<p class="font-label-sm text-[10px] text-outline mt-0.5">3 mins ago</p>
+</div>
+</li>
+<li class="px-3 py-2 rounded-lg hover:bg-surface-container-low transition-colors flex gap-3">
+<span class="material-symbols-outlined text-secondary text-[18px] mt-0.5">info</span>
+<div>
+<p class="font-body-md text-[13px] text-on-surface">New peer discovered: <span class="font-data-mono text-[11px]">192.168.1.104</span></p>
+<p class="font-label-sm text-[10px] text-outline mt-0.5">15 mins ago</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<!-- Detailed Node Cards (Bento style row) -->
+<div class="col-span-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-2">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-shadow">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-surface-container rounded-lg flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">account_balance</span>
+</div>
+<div>
+<h4 class="font-headline-md text-[15px] text-on-surface leading-tight">Gov-Node-01</h4>
+<span class="font-label-sm text-outline text-[11px]">Regulator Authority</span>
+</div>
+</div>
+<span class="px-2 py-0.5 bg-tertiary-container/10 text-tertiary-container border border-tertiary-container/20 rounded font-label-sm text-[10px] flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary-container"></span> Online
+                            </span>
+</div>
+<div class="space-y-2 border-t border-outline-variant/30 pt-3">
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-on-surface-variant">Uptime</span>
+<span class="font-data-mono text-sm">99.99%</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-on-surface-variant">Last Synced</span>
+<span class="font-data-mono text-sm">#8492103</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-on-surface-variant">Latency</span>
+<span class="font-data-mono text-sm text-tertiary-container">12ms</span>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-shadow">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-surface-container rounded-lg flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">factory</span>
+</div>
+<div>
+<h4 class="font-headline-md text-[15px] text-on-surface leading-tight">Proc-Hub-East</h4>
+<span class="font-label-sm text-outline text-[11px]">Processor Layer</span>
+</div>
+</div>
+<span class="px-2 py-0.5 bg-tertiary-container/10 text-tertiary-container border border-tertiary-container/20 rounded font-label-sm text-[10px] flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary-container"></span> Online
+                            </span>
+</div>
+<div class="space-y-2 border-t border-outline-variant/30 pt-3">
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-on-surface-variant">Uptime</span>
+<span class="font-data-mono text-sm">99.95%</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-on-surface-variant">Last Synced</span>
+<span class="font-data-mono text-sm">#8492103</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-on-surface-variant">Latency</span>
+<span class="font-data-mono text-sm text-tertiary-container">18ms</span>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-shadow">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-surface-container rounded-lg flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">local_shipping</span>
+</div>
+<div>
+<h4 class="font-headline-md text-[15px] text-on-surface leading-tight">Logi-Fleet-A</h4>
+<span class="font-label-sm text-outline text-[11px]">Logistics Network</span>
+</div>
+</div>
+<span class="px-2 py-0.5 bg-tertiary-container/10 text-tertiary-container border border-tertiary-container/20 rounded font-label-sm text-[10px] flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary-container"></span> Online
+                            </span>
+</div>
+<div class="space-y-2 border-t border-outline-variant/30 pt-3">
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-on-surface-variant">Uptime</span>
+<span class="font-data-mono text-sm">99.80%</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-on-surface-variant">Last Synced</span>
+<span class="font-data-mono text-sm">#8492102</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-on-surface-variant">Latency</span>
+<span class="font-data-mono text-sm text-primary">45ms</span>
+</div>
+</div>
+</div>
+<!-- Card 4 (Degraded State) -->
+<div class="bg-surface-container-lowest border border-error/40 rounded-xl p-md relative overflow-hidden shadow-[0_4px_12px_rgba(186,26,26,0.05)]">
+<div class="absolute top-0 left-0 w-1 h-full bg-error"></div>
+<div class="flex justify-between items-start mb-4 pl-2">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-error-container/20 rounded-lg flex items-center justify-center text-error">
+<span class="material-symbols-outlined">storefront</span>
+</div>
+<div>
+<h4 class="font-headline-md text-[15px] text-on-surface leading-tight">Retail-Dist-04</h4>
+<span class="font-label-sm text-outline text-[11px]">Retail Edge Node</span>
+</div>
+</div>
+<span class="px-2 py-0.5 bg-error-container text-on-error-container border border-error/30 rounded font-label-sm text-[10px] flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-error animate-pulse"></span> Syncing
+                            </span>
+</div>
+<div class="space-y-2 border-t border-outline-variant/30 pt-3 pl-2">
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-on-surface-variant">Uptime</span>
+<span class="font-data-mono text-sm text-error">82.40%</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-on-surface-variant">Last Synced</span>
+<span class="font-data-mono text-sm">#8492001 <span class="text-error text-[10px] ml-1">(-102)</span></span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-on-surface-variant">Latency</span>
+<span class="font-data-mono text-sm text-error">Timeout</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 pb-safe bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 font-manrope text-[10px] uppercase tracking-widest font-bold border-t border-slate-200 dark:border-slate-800 rounded-t-xl shadow-[0_-4px_12px_rgba(0,0,0,0.05)]">
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 p-2 active:bg-slate-100 dark:active:bg-slate-800 rounded-xl transition-colors" href="#">
+<span class="material-symbols-outlined mb-1">search</span>
+<span>Search</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 p-2 active:bg-slate-100 dark:active:bg-slate-800 rounded-xl transition-colors" href="#">
+<span class="material-symbols-outlined mb-1">history</span>
+<span>Timeline</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 p-2 active:bg-slate-100 dark:active:bg-slate-800 rounded-xl transition-colors" href="#">
+<span class="material-symbols-outlined mb-1">qr_code_scanner</span>
+<span>Verify</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 p-2 active:bg-slate-100 dark:active:bg-slate-800 rounded-xl transition-colors" href="#">
+<span class="material-symbols-outlined mb-1">rate_review</span>
+<span>Feedback</span>
+</a>
+</nav>
+</body></html>

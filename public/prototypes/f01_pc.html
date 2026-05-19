@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AgriChain 溯源 - F01 农户工作台</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-highest": "#d3e4fe",
+                        "on-tertiary-fixed": "#002109",
+                        "inverse-surface": "#213145",
+                        "on-error": "#ffffff",
+                        "on-tertiary-container": "#f2ffee",
+                        "on-secondary": "#ffffff",
+                        "on-primary-container": "#fdfbff",
+                        "primary": "#0056c3",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface": "#f8f9ff",
+                        "surface-container-high": "#dce9ff",
+                        "on-surface-variant": "#424654",
+                        "on-background": "#0b1c30",
+                        "primary-fixed": "#d9e2ff",
+                        "surface-variant": "#d3e4fe",
+                        "on-primary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "surface-dim": "#cbdbf5",
+                        "inverse-primary": "#afc6ff",
+                        "outline-variant": "#c2c6d7",
+                        "secondary": "#3e5e98",
+                        "surface-tint": "#0058c9",
+                        "surface-container": "#e5eeff",
+                        "primary-container": "#1e6eeb",
+                        "error": "#ba1a1a",
+                        "secondary-fixed-dim": "#adc7ff",
+                        "primary-fixed-dim": "#afc6ff",
+                        "tertiary-fixed-dim": "#62df7d",
+                        "secondary-container": "#9fbeff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#0b1c30",
+                        "on-secondary-fixed-variant": "#24467e",
+                        "on-tertiary-fixed-variant": "#005320",
+                        "on-primary-fixed": "#001944",
+                        "on-secondary-container": "#2b4c85",
+                        "outline": "#727786",
+                        "on-secondary-fixed": "#001a41",
+                        "tertiary": "#006a2c",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed-variant": "#00429a",
+                        "secondary-fixed": "#d8e2ff",
+                        "surface-container-low": "#eff4ff",
+                        "tertiary-container": "#008639",
+                        "tertiary-fixed": "#7ffc97",
+                        "surface-bright": "#f8f9ff",
+                        "error-container": "#ffdad6",
+                        "background": "#f8f9ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "lg": "24px",
+                        "gutter": "20px",
+                        "sm": "12px",
+                        "base": "4px",
+                        "xs": "8px",
+                        "margin": "24px",
+                        "xl": "32px",
+                        "md": "16px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "data-mono": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-xl": ["Manrope"],
+                        "headline-md": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "data-mono": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "headline-xl": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "headline-md": ["18px", { "lineHeight": "26px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    </style>
+</head>
+<body class="bg-background text-on-surface min-h-screen flex">
+<!-- SideNavBar (Shared Component JSON) -->
+<aside class="bg-white dark:bg-slate-900 h-screen w-64 fixed left-0 top-0 border-r border-slate-200 dark:border-slate-800 flat no shadows flex flex-col py-4 z-40 hidden md:flex">
+<div class="px-6 mb-8 flex flex-col items-start gap-4">
+<div class="text-xl font-bold text-blue-700 dark:text-blue-500 font-headline-xl">Industrial Trace</div>
+<div class="flex items-center gap-3 w-full p-3 bg-surface-container-low rounded-xl">
+<img alt="User Profile" class="w-10 h-10 rounded-full object-cover" data-alt="Portrait of a male farmer with slightly weathered face, wearing a casual work shirt, soft natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLHjsY0bUkenyKNPsgUA0o_6bMSxLeuCkA26203YMv3peAWSMtSu56JG80-o6-SMVxDlWWzGRZM02Xs1Rn8zCj8tStSRD82B5pNLmAwrRZJPOMBKfjEx7-DSlMa2X12gOisHrqN_dd_qlBjhZ6jQFKPGnz-xtZfn3twHwFqBkWhZX7tCgP_ub7tOaAZUbNUp9F2Qu4hhz4BN5JjyzxO30ebkerQDGuh7C5yvI2aK8xBPy0QeXnPLBC_6dIKngkhyBbIW8QNxawp4IM"/>
+<div class="flex flex-col">
+<span class="font-body-md text-on-surface font-semibold">Farmer</span>
+<span class="font-label-sm text-outline">V3.2.0-Alpha</span>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-2">
+<!-- Active Tab: 工作台 -->
+<a class="bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 border-r-4 border-blue-600 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-200 ease-in-out font-sans text-sm font-semibold flex items-center gap-3 p-3 rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+                工作台
+            </a>
+<a class="text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-200 ease-in-out font-sans text-sm font-semibold flex items-center gap-3 p-3 rounded-lg" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+                Batch Management
+            </a>
+<a class="text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-200 ease-in-out font-sans text-sm font-semibold flex items-center gap-3 p-3 rounded-lg" href="#">
+<span class="material-symbols-outlined">agriculture</span>
+                Farm Records
+            </a>
+<a class="text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-200 ease-in-out font-sans text-sm font-semibold flex items-center gap-3 p-3 rounded-lg" href="#">
+<span class="material-symbols-outlined">verified</span>
+                Quality Audit
+            </a>
+<a class="text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-200 ease-in-out font-sans text-sm font-semibold flex items-center gap-3 p-3 rounded-lg" href="#">
+<span class="material-symbols-outlined">settings</span>
+                系统设置
+            </a>
+</nav>
+<div class="p-4 mt-auto">
+<button class="w-full bg-primary-container text-on-primary-container font-body-md font-semibold py-3 rounded-xl shadow-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-tertiary-fixed-dim" style="font-variation-settings: 'FILL' 1;">cloud_upload</span>
+                提交上链
+            </button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-64 flex flex-col min-h-screen">
+<!-- TopAppBar (Shared Component JSON) -->
+<header class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md docked full-width top-0 sticky z-50 border-b border-slate-200 dark:border-slate-800 shadow-sm flex justify-between items-center w-full px-6 h-16">
+<div class="flex items-center gap-4">
+<button class="md:hidden text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer active:opacity-80 p-2 rounded-full">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="text-lg font-black text-blue-700 dark:text-blue-400 tracking-tighter md:hidden">AgriChain 溯源</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex items-center bg-surface-container px-3 py-1.5 rounded-full border border-outline-variant focus-within:border-primary-container focus-within:ring-2 focus-within:ring-primary-container/20 transition-all">
+<span class="material-symbols-outlined text-outline text-sm mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md text-on-surface w-48 placeholder:text-outline p-0" placeholder="Search batch ID..." type="text"/>
+</div>
+<div class="flex items-center gap-2">
+<button class="text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer active:opacity-80 p-2 rounded-full relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full border-2 border-surface-container-lowest"></span>
+</button>
+<button class="text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer active:opacity-80 p-2 rounded-full hidden sm:block">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<button class="text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer active:opacity-80 p-2 rounded-full md:hidden">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<!-- 工作台 Canvas -->
+<div class="p-6 md:p-8 lg:p-10 space-y-8 max-w-7xl mx-auto w-full">
+<!-- Welcome Banner & Quick Actions (Bento Layout Top) -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Welcome Card -->
+<div class="lg:col-span-2 bg-surface-container-lowest rounded-[20px] p-6 border border-outline-variant/30 shadow-[0_4px_24px_rgba(0,0,0,0.02)] relative overflow-hidden flex flex-col justify-center min-h-[160px]">
+<div class="absolute right-0 top-0 w-1/2 h-full bg-gradient-to-l from-tertiary-container/10 to-transparent pointer-events-none"></div>
+<div class="absolute -right-10 -bottom-10 opacity-10">
+<span class="material-symbols-outlined text-[160px] text-tertiary">eco</span>
+</div>
+<div class="relative z-10 space-y-2">
+<h1 class="font-headline-xl text-on-surface">欢迎回来, 张三!</h1>
+<p class="font-body-md text-on-surface-variant max-w-md">Your farm data is synchronized and secured on the blockchain. System operation is nominal.</p>
+</div>
+</div>
+<!-- Quick Actions -->
+<div class="bg-surface-container-lowest rounded-[20px] p-6 border border-outline-variant/30 shadow-[0_4px_24px_rgba(0,0,0,0.02)] flex flex-col gap-4">
+<h2 class="font-headline-md text-on-surface mb-2">Quick Actions</h2>
+<button class="w-full bg-primary-container text-on-primary-container font-body-md font-semibold py-3 px-4 rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] hover:shadow-md transition-all flex items-center justify-between group">
+<div class="flex items-center gap-3">
+<div class="bg-white/20 p-1.5 rounded-lg">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">add_box</span>
+</div>
+                            Create New Batch
+                        </div>
+<span class="material-symbols-outlined text-white/70 group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+<button class="w-full bg-surface-container text-primary font-body-md font-semibold py-3 px-4 rounded-xl border border-primary/20 hover:bg-surface-container-high transition-all flex items-center justify-between group">
+<div class="flex items-center gap-3">
+<div class="bg-primary/10 p-1.5 rounded-lg text-primary">
+<span class="material-symbols-outlined">edit_document</span>
+</div>
+                            Entry Records
+                        </div>
+<span class="material-symbols-outlined text-primary/70 group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Stats Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Stat Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-5 border border-outline-variant/30 shadow-[0_4px_12px_rgba(0,0,0,0.02)] flex items-center gap-4 hover:-translate-y-1 transition-transform duration-300">
+<div class="w-12 h-12 rounded-full bg-secondary-container/30 flex items-center justify-center flex-shrink-0 text-on-secondary-container">
+<span class="material-symbols-outlined text-[28px]">format_list_bulleted</span>
+</div>
+<div>
+<p class="font-label-sm text-on-surface-variant uppercase tracking-wider mb-1">Total Batches</p>
+<p class="font-headline-xl text-on-surface">1,248</p>
+</div>
+</div>
+<!-- Stat Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-5 border border-outline-variant/30 shadow-[0_4px_12px_rgba(0,0,0,0.02)] flex items-center gap-4 hover:-translate-y-1 transition-transform duration-300">
+<div class="w-12 h-12 rounded-full bg-error-container/30 flex items-center justify-center flex-shrink-0 text-on-error-container">
+<span class="material-symbols-outlined text-[28px]">pending_actions</span>
+</div>
+<div>
+<p class="font-label-sm text-on-surface-variant uppercase tracking-wider mb-1">待录入</p>
+<p class="font-headline-xl text-on-surface">12</p>
+</div>
+</div>
+<!-- Stat Card 3 -->
+<div class="bg-surface-container-lowest rounded-xl p-5 border border-outline-variant/30 shadow-[0_4px_12px_rgba(0,0,0,0.02)] flex items-center gap-4 hover:-translate-y-1 transition-transform duration-300">
+<div class="w-12 h-12 rounded-full bg-tertiary-container/20 flex items-center justify-center flex-shrink-0 text-tertiary">
+<span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<div>
+<p class="font-label-sm text-on-surface-variant uppercase tracking-wider mb-1">On-chain Count</p>
+<p class="font-headline-xl text-on-surface flex items-baseline gap-2">
+                            986
+                            <span class="font-body-md text-tertiary font-medium text-sm flex items-center"><span class="material-symbols-outlined text-sm">trending_up</span> 4.2%</span>
+</p>
+</div>
+</div>
+</div>
+<!-- Recent Batches Table Card -->
+<div class="bg-surface-container-lowest rounded-[20px] border border-outline-variant/30 shadow-[0_4px_24px_rgba(0,0,0,0.02)] overflow-hidden">
+<div class="p-6 border-b border-outline-variant/30 flex justify-between items-center">
+<h2 class="font-headline-md text-on-surface">Recent Batches</h2>
+<button class="font-label-sm text-primary font-semibold hover:underline flex items-center gap-1">
+                        View All <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant/30">
+<th class="py-4 px-6 font-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Batch ID</th>
+<th class="py-4 px-6 font-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Product</th>
+<th class="py-4 px-6 font-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Status</th>
+<th class="py-4 px-6 font-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Time</th>
+<th class="py-4 px-6 font-label-sm text-on-surface-variant uppercase tracking-wider font-semibold text-right">Action</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-on-surface">
+<tr class="border-b border-outline-variant/10 hover:bg-surface-container-lowest transition-colors group">
+<td class="py-4 px-6 font-data-mono text-primary">#BCH-8821</td>
+<td class="py-4 px-6">Organic Tomatoes</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-tertiary-container/10 text-tertiary font-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span> On-chain
+                                    </span>
+</td>
+<td class="py-4 px-6 text-on-surface-variant">Today, 09:41 AM</td>
+<td class="py-4 px-6 text-right">
+<button class="text-outline hover:text-primary transition-colors p-1 rounded-md hover:bg-primary/10">
+<span class="material-symbols-outlined text-xl">more_horiz</span>
+</button>
+</td>
+</tr>
+<tr class="border-b border-outline-variant/10 hover:bg-surface-container-lowest transition-colors bg-surface-container-lowest/50 group">
+<td class="py-4 px-6 font-data-mono text-primary">#BCH-8820</td>
+<td class="py-4 px-6">Green Apples</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary-container/20 text-on-secondary-container font-label-sm border border-secondary-container/50">
+<span class="material-symbols-outlined text-[14px] animate-spin">sync</span> Processing
+                                    </span>
+</td>
+<td class="py-4 px-6 text-on-surface-variant">Yesterday, 14:22 PM</td>
+<td class="py-4 px-6 text-right">
+<button class="text-outline hover:text-primary transition-colors p-1 rounded-md hover:bg-primary/10">
+<span class="material-symbols-outlined text-xl">more_horiz</span>
+</button>
+</td>
+</tr>
+<tr class="border-b border-outline-variant/10 hover:bg-surface-container-lowest transition-colors group">
+<td class="py-4 px-6 font-data-mono text-primary">#BCH-8819</td>
+<td class="py-4 px-6">Premium Wheat</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-tertiary-container/10 text-tertiary font-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span> On-chain
+                                    </span>
+</td>
+<td class="py-4 px-6 text-on-surface-variant">Oct 24, 11:05 AM</td>
+<td class="py-4 px-6 text-right">
+<button class="text-outline hover:text-primary transition-colors p-1 rounded-md hover:bg-primary/10">
+<span class="material-symbols-outlined text-xl">more_horiz</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Shared Component JSON) - Mobile Only -->
+<nav class="md:hidden bg-white/90 dark:bg-slate-900/90 backdrop-blur-lg fixed bottom-0 w-full z-50 rounded-t-xl border-t border-slate-200 dark:border-slate-800 shadow-[0_-4px_12px_rgba(0,0,0,0.05)] left-0 flex justify-around items-center px-4 pt-2 pb-safe-offset-2 h-16">
+<a class="flex flex-col items-center justify-center text-blue-600 dark:text-blue-400 bg-blue-50/50 dark:bg-blue-900/30 rounded-xl px-3 py-1 tap-highlight-transparent scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="text-[10px] font-bold uppercase tracking-widest mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 active:bg-slate-100 dark:active:bg-slate-800 rounded-xl px-3 py-1 tap-highlight-transparent scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined text-xl">qr_code_scanner</span>
+<span class="text-[10px] font-bold uppercase tracking-widest mt-1">Scan QR</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 active:bg-slate-100 dark:active:bg-slate-800 rounded-xl px-3 py-1 tap-highlight-transparent scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined text-xl">verified_user</span>
+<span class="text-[10px] font-bold uppercase tracking-widest mt-1">Verify</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 active:bg-slate-100 dark:active:bg-slate-800 rounded-xl px-3 py-1 tap-highlight-transparent scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined text-xl">person</span>
+<span class="text-[10px] font-bold uppercase tracking-widest mt-1">Profile</span>
+</a>
+</nav>
+</body></html>

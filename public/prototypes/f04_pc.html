@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AgriTrace - My Batch List</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed-variant": "#005320",
+                        "on-surface": "#0b1c30",
+                        "surface-container": "#e5eeff",
+                        "surface-container-highest": "#d3e4fe",
+                        "secondary-fixed": "#d8e2ff",
+                        "on-background": "#0b1c30",
+                        "surface-variant": "#d3e4fe",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#eff4ff",
+                        "surface": "#f8f9ff",
+                        "primary-fixed": "#d9e2ff",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed": "#002109",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed-dim": "#adc7ff",
+                        "on-secondary-fixed-variant": "#24467e",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-dim": "#cbdbf5",
+                        "on-primary-fixed": "#001944",
+                        "tertiary": "#006a2c",
+                        "tertiary-container": "#008639",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#fdfbff",
+                        "secondary": "#3e5e98",
+                        "inverse-primary": "#afc6ff",
+                        "on-primary-fixed-variant": "#00429a",
+                        "surface-container-high": "#dce9ff",
+                        "secondary-container": "#9fbeff",
+                        "surface-tint": "#0058c9",
+                        "inverse-surface": "#213145",
+                        "on-error": "#ffffff",
+                        "outline": "#727786",
+                        "background": "#f8f9ff",
+                        "outline-variant": "#c2c6d7",
+                        "error": "#ba1a1a",
+                        "primary-fixed-dim": "#afc6ff",
+                        "tertiary-fixed-dim": "#62df7d",
+                        "on-primary": "#ffffff",
+                        "surface-bright": "#f8f9ff",
+                        "tertiary-fixed": "#7ffc97",
+                        "on-tertiary-container": "#f2ffee",
+                        "on-secondary-fixed": "#001a41",
+                        "on-surface-variant": "#424654",
+                        "on-secondary-container": "#2b4c85",
+                        "primary-container": "#1e6eeb",
+                        "primary": "#0056c3",
+                        "on-error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin": "24px",
+                        "gutter": "20px",
+                        "xl": "32px",
+                        "sm": "12px",
+                        "lg": "24px",
+                        "md": "16px",
+                        "base": "4px",
+                        "xs": "8px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "data-mono": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-xl": ["Manrope"],
+                        "headline-md": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "data-mono": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-xl": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "headline-md": ["18px", { "lineHeight": "26px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background h-screen flex overflow-hidden">
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 flex flex-col h-full z-40 bg-slate-50 dark:bg-slate-950 docked left-0 h-screen w-64 border-r border-slate-200 dark:border-slate-800 flat no shadows hidden md:flex">
+<div class="p-6 border-b border-slate-200 dark:border-slate-800">
+<div class="text-lg font-bold text-blue-800 dark:text-blue-200 font-manrope text-sm tracking-tight mb-1">AgriTrace Global</div>
+<div class="text-xs text-slate-500 font-manrope">Industrial Supply Chain</div>
+</div>
+<div class="flex-1 overflow-y-auto py-4">
+<ul class="space-y-1">
+<li><a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200 font-manrope text-sm tracking-tight" href="#"><span class="material-symbols-outlined text-[20px]">dashboard</span> 工作台</a></li>
+<li><a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200 font-manrope text-sm tracking-tight" href="#"><span class="material-symbols-outlined text-[20px]">hub</span> 溯源节点</a></li>
+<li><a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200 font-manrope text-sm tracking-tight" href="#"><span class="material-symbols-outlined text-[20px]">verified_user</span> Quality Audits</a></li>
+<li><a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200 font-manrope text-sm tracking-tight" href="#"><span class="material-symbols-outlined text-[20px]">gavel</span> Compliance Panel</a></li>
+<li><a class="flex items-center gap-3 px-4 py-3 text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-900/20 border-r-4 border-blue-600 dark:border-blue-400 font-semibold font-manrope text-sm tracking-tight" href="#"><span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">inventory_2</span> 库存</a></li>
+<li><a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200 font-manrope text-sm tracking-tight" href="#"><span class="material-symbols-outlined text-[20px]">local_shipping</span> Logistics</a></li>
+</ul>
+</div>
+<div class="p-4 border-t border-slate-200 dark:border-slate-800">
+<button class="w-full mb-4 py-2 bg-primary-container text-on-primary-container rounded font-manrope text-sm tracking-tight font-medium hover:bg-primary hover:text-on-primary transition-colors shadow-sm">Verify Block</button>
+<ul class="space-y-1">
+<li><a class="flex items-center gap-3 px-4 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200 font-manrope text-sm tracking-tight" href="#"><span class="material-symbols-outlined text-[18px]">help</span> Support</a></li>
+<li><a class="flex items-center gap-3 px-4 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200 font-manrope text-sm tracking-tight" href="#"><span class="material-symbols-outlined text-[18px]">logout</span> Sign Out</a></li>
+</ul>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col min-w-0 md:ml-64 bg-background">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center px-6 h-16 w-full sticky top-0 z-50 bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 font-manrope text-sm font-medium docked full-width top-0 border-b border-slate-200 dark:border-slate-800 flat no shadows">
+<div class="flex items-center gap-4">
+<span class="text-xl font-black text-blue-700 dark:text-blue-400 md:hidden">AgriTrace</span>
+<!-- Search on right layout implies search might be here or right, let's put it right as per config -->
+</div>
+<div class="flex items-center gap-6">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]">search</span>
+<input class="pl-9 pr-4 py-1.5 bg-slate-100 dark:bg-slate-800 border-none rounded-full text-sm focus:ring-2 focus:ring-blue-500 w-64" placeholder="Search on-chain data..." type="text"/>
+</div>
+<button class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors px-3 py-1.5 rounded-full border border-slate-200 dark:border-slate-700">Switch Role</button>
+<div class="flex items-center gap-3 border-l border-slate-200 dark:border-slate-700 pl-4">
+<button class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors p-1.5 rounded-full text-slate-500 dark:text-slate-400"><span class="material-symbols-outlined text-[20px]">notifications</span></button>
+<button class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors p-1.5 rounded-full text-slate-500 dark:text-slate-400"><span class="material-symbols-outlined text-[20px]">settings</span></button>
+<div class="w-8 h-8 rounded-full bg-slate-200 overflow-hidden ml-2 border border-slate-300">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="professional headshot of an agricultural manager in a bright office" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFpNupFo0qT_Y5X-fWTQmK2I5Vt4jX1jePg11e14MJFgP-VFBttjnfGMQecE6hIatx3dcHhq-BR1DZZYOeTee_yUGcG-I8W0BBSuGrl_8GNdKkS_E3_4aLDYJytTsE885vleBQgxvATe4QkuDALv7oQ8GT0CfCZCuu8Uan7yAWuqcw45yzy6zDRUXdh3wTnlL5MfeBSY2KRXT3Ij4GI0Rje2TMtAwiLExPnDzI3SQzQaZevZaeSHwjSlEUmqzCo2mjjs8czt8VmKbz"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Canvas -->
+<main class="flex-1 overflow-auto p-lg">
+<div class="max-w-7xl mx-auto space-y-lg">
+<!-- Header -->
+<div class="flex items-center justify-between">
+<div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface">Batch Management</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Manage and trace your agricultural product batches.</p>
+</div>
+<button class="bg-primary hover:bg-primary-fixed-dim text-on-primary font-body-md text-body-md py-2 px-4 rounded-lg shadow-sm flex items-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-[18px]">add</span> Create New Batch
+                    </button>
+</div>
+<!-- Filters Card -->
+<div class="bg-surface border border-outline-variant rounded-xl p-md shadow-sm">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-md">
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1">Batch ID</label>
+<input class="w-full border-outline-variant rounded-lg font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary h-10" placeholder="e.g. BATCH-2023-..." type="text"/>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1">Product</label>
+<select class="w-full border-outline-variant rounded-lg font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary h-10 bg-surface">
+<option>All Products</option>
+<option>Organic Wheat</option>
+<option>Premium Soybeans</option>
+</select>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1">Status</label>
+<select class="w-full border-outline-variant rounded-lg font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary h-10 bg-surface">
+<option>All Statuses</option>
+<option>Harvested</option>
+<option>In Transit</option>
+<option>Processed</option>
+</select>
+</div>
+<div class="flex items-end gap-sm">
+<button class="flex-1 bg-surface-container-high hover:bg-surface-dim text-on-surface font-body-md text-body-md h-10 rounded-lg transition-colors border border-outline-variant">Reset</button>
+<button class="flex-1 bg-primary hover:bg-primary-fixed-dim text-on-primary font-body-md text-body-md h-10 rounded-lg transition-colors shadow-sm">Filter</button>
+</div>
+</div>
+</div>
+<!-- Data Table Card -->
+<div class="bg-surface border border-outline-variant rounded-xl shadow-sm overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-lowest border-b border-outline-variant">
+<th class="py-3 px-4 font-label-sm text-label-sm text-on-surface-variant font-semibold">BatchID</th>
+<th class="py-3 px-4 font-label-sm text-label-sm text-on-surface-variant font-semibold">Product</th>
+<th class="py-3 px-4 font-label-sm text-label-sm text-on-surface-variant font-semibold">Origin</th>
+<th class="py-3 px-4 font-label-sm text-label-sm text-on-surface-variant font-semibold">Current Status</th>
+<th class="py-3 px-4 font-label-sm text-label-sm text-on-surface-variant font-semibold">On-chain</th>
+<th class="py-3 px-4 font-label-sm text-label-sm text-on-surface-variant font-semibold">Created Time</th>
+<th class="py-3 px-4 font-label-sm text-label-sm text-on-surface-variant font-semibold text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md text-on-surface divide-y divide-outline-variant">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-3 px-4 font-data-mono text-data-mono text-primary">BAT-8842-A</td>
+<td class="py-3 px-4 font-medium">Organic Wheat</td>
+<td class="py-3 px-4 text-on-surface-variant">North Farm, Sector 4</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-surface-container-high text-on-surface text-xs font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> In Transit
+                                        </span>
+</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-tertiary-container text-on-tertiary-container text-xs font-medium">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> Verified
+                                        </span>
+</td>
+<td class="py-3 px-4 text-on-surface-variant">2023-10-24 08:30</td>
+<td class="py-3 px-4 text-right space-x-2">
+<button class="text-primary hover:text-on-primary-fixed-variant text-sm font-medium">View Detail</button>
+<button class="text-primary hover:text-on-primary-fixed-variant text-sm font-medium">Timeline</button>
+</td>
+</tr>
+<!-- Row 2 (Anomaly) -->
+<tr class="hover:bg-surface-container-low transition-colors bg-error-container/10">
+<td class="py-3 px-4 font-data-mono text-data-mono text-primary flex items-center gap-2">
+                                        BAT-7721-C
+                                        <span class="material-symbols-outlined text-[16px] text-error" title="Temperature Anomaly">warning</span>
+</td>
+<td class="py-3 px-4 font-medium">Premium Soybeans</td>
+<td class="py-3 px-4 text-on-surface-variant">East Silo, Yard B</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-surface-container-high text-on-surface text-xs font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span> 待处理 Quality
+                                        </span>
+</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-surface-container text-on-surface-variant text-xs font-medium">
+<span class="material-symbols-outlined text-[14px]">sync</span> Syncing
+                                        </span>
+</td>
+<td class="py-3 px-4 text-on-surface-variant">2023-10-23 14:15</td>
+<td class="py-3 px-4 text-right space-x-2">
+<button class="text-primary hover:text-on-primary-fixed-variant text-sm font-medium">View Detail</button>
+<button class="text-secondary hover:text-on-secondary-fixed-variant text-sm font-medium">Continue Entry</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination (simplified) -->
+<div class="px-4 py-3 border-t border-outline-variant flex items-center justify-between bg-surface-container-lowest">
+<span class="font-body-md text-body-md text-on-surface-variant">Showing 1 to 2 of 45 batches</span>
+<div class="flex gap-1">
+<button class="px-3 py-1 border border-outline-variant rounded hover:bg-surface-container text-sm text-on-surface">Prev</button>
+<button class="px-3 py-1 border border-outline-variant rounded bg-primary text-on-primary text-sm">1</button>
+<button class="px-3 py-1 border border-outline-variant rounded hover:bg-surface-container text-sm text-on-surface">2</button>
+<button class="px-3 py-1 border border-outline-variant rounded hover:bg-surface-container text-sm text-on-surface">Next</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

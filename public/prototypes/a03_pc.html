@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>User &amp; Role Management - Agri-Chain 溯源</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-surface": "#213145",
+                        "on-secondary-fixed": "#001a41",
+                        "surface-tint": "#0058c9",
+                        "on-background": "#0b1c30",
+                        "on-tertiary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-primary-fixed": "#001944",
+                        "inverse-primary": "#afc6ff",
+                        "surface-dim": "#cbdbf5",
+                        "outline": "#727786",
+                        "surface-container-low": "#eff4ff",
+                        "surface-container-high": "#dce9ff",
+                        "secondary-fixed": "#d8e2ff",
+                        "on-secondary-fixed-variant": "#24467e",
+                        "error-container": "#ffdad6",
+                        "on-primary-container": "#fdfbff",
+                        "primary-fixed-dim": "#afc6ff",
+                        "secondary-container": "#9fbeff",
+                        "primary": "#0056c3",
+                        "on-error-container": "#93000a",
+                        "inverse-on-surface": "#eaf1ff",
+                        "outline-variant": "#c2c6d7",
+                        "tertiary-fixed-dim": "#62df7d",
+                        "surface-container-highest": "#d3e4fe",
+                        "on-tertiary-container": "#f2ffee",
+                        "on-primary-fixed-variant": "#00429a",
+                        "on-error": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "primary-container": "#1e6eeb",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary": "#006a2c",
+                        "secondary-fixed-dim": "#adc7ff",
+                        "on-secondary": "#ffffff",
+                        "surface-bright": "#f8f9ff",
+                        "surface-variant": "#d3e4fe",
+                        "on-tertiary-fixed": "#002109",
+                        "on-surface": "#0b1c30",
+                        "on-tertiary-fixed-variant": "#005320",
+                        "primary-fixed": "#d9e2ff",
+                        "tertiary-fixed": "#7ffc97",
+                        "secondary": "#3e5e98",
+                        "tertiary-container": "#008639",
+                        "surface": "#f8f9ff",
+                        "on-surface-variant": "#424654",
+                        "surface-container": "#e5eeff",
+                        "on-secondary-container": "#2b4c85",
+                        "background": "#f8f9ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "base": "4px",
+                        "md": "16px",
+                        "lg": "24px",
+                        "margin": "24px",
+                        "sm": "12px",
+                        "gutter": "20px",
+                        "xl": "32px",
+                        "xs": "8px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Inter"],
+                        "headline-xl": ["Manrope"],
+                        "headline-md": ["Manrope"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "data-mono": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "headline-xl": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "headline-md": ["18px", { "lineHeight": "26px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "data-mono": ["14px", { "lineHeight": "20px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex">
+<nav class="bg-white dark:bg-slate-950 text-blue-600 dark:text-blue-400 font-manrope text-sm font-medium h-screen w-64 fixed left-0 top-0 border-r border-slate-200 dark:border-slate-800 flex flex-col h-full py-4 z-40 pt-20 shadow-[0_0_0_0_transparent]">
+<div class="px-6 pb-6">
+<h2 class="text-lg font-bold text-slate-900 dark:text-white">Agri-Chain</h2>
+<p class="text-xs text-slate-500 font-label-sm">Management Portal</p>
+</div>
+<div class="flex-1 overflow-y-auto px-4 space-y-2">
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 hover:bg-slate-50 dark:hover:bg-slate-900 transition-all ease-in-out duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                工作台
+            </a>
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 hover:bg-slate-50 dark:hover:bg-slate-900 transition-all ease-in-out duration-200" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+                溯源
+            </a>
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 hover:bg-slate-50 dark:hover:bg-slate-900 transition-all ease-in-out duration-200" href="#">
+<span class="material-symbols-outlined">agriculture</span>
+                Farmer Network
+            </a>
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 hover:bg-slate-50 dark:hover:bg-slate-900 transition-all ease-in-out duration-200" href="#">
+<span class="material-symbols-outlined">local_shipping</span>
+                Logistics
+            </a>
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 hover:bg-slate-50 dark:hover:bg-slate-900 transition-all ease-in-out duration-200" href="#">
+<span class="material-symbols-outlined">fact_check</span>
+                Quality Audits
+            </a>
+</div>
+<div class="px-4 border-t border-slate-200 dark:border-slate-800 pt-4 space-y-2">
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 hover:bg-slate-50 dark:hover:bg-slate-900 transition-all ease-in-out duration-200" href="#">
+<span class="material-symbols-outlined">help_outline</span>
+                Help Center
+            </a>
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 hover:bg-slate-50 dark:hover:bg-slate-900 transition-all ease-in-out duration-200" href="#">
+<span class="material-symbols-outlined">logout</span>
+                Log Out
+            </a>
+</div>
+</nav>
+<header class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md text-blue-600 dark:text-blue-400 font-manrope antialiased fixed top-0 w-full z-50 border-b border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none flex justify-between items-center px-6 h-16 w-full pl-[272px]">
+<div class="text-xl font-black tracking-tight text-blue-700 dark:text-blue-400">Agri-Chain 溯源</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden md:block text-slate-600 dark:text-slate-400">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-sm">search</span>
+<input class="pl-9 pr-4 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-inter" placeholder="Search resources..." type="text"/>
+</div>
+<button class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors p-2 rounded-full active:scale-95 duration-150 flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-500 dark:text-slate-400">notifications</span>
+</button>
+<button class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors p-2 rounded-full active:scale-95 duration-150 flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-500 dark:text-slate-400">verified_user</span>
+</button>
+<button class="bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors p-2 rounded-full active:scale-95 duration-150 flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full border-2 border-white shadow-sm overflow-hidden flex-shrink-0 ml-2">
+<img alt="Manager Avatar" class="w-full h-full object-cover" data-alt="professional headshot of an agricultural manager in a bright office" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNbvpisvqOSNSUpbi00_0OYM_Qq3YZCKpJaAWWRYNy_kjApHk2cykYqQk-eJbRv5wYxsFKC4X6ou82kOv4i5ruXIlqrf8Tkb-NUB59YPHlL9F1kmAjohk8OmyYuFXFjkQ-akEvi9C4_Qe7_IdI6LbIQPKwrks3XSh9RT2opl_T7MlW3v0MhtVgvs6SggsvTHaZsD7dEog2UEVy98RXsAGITr26-JK_06v5o0czF7gc4piVmbPGyITmHGd7sBQDwTVHX7UpK8vegSwV"/>
+</div>
+</div>
+</header>
+<main class="flex-1 ml-64 pt-20 px-lg pb-lg">
+<div class="max-w-7xl mx-auto">
+<div class="mb-margin">
+<h1 class="font-headline-xl text-headline-xl text-on-background mb-xs">系统用户与角色管理</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">管理平台所有操作人员的访问权限、组织归属及账号状态，确保数据溯源链的安全性。</p>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg mb-margin shadow-[0_4px_12px_rgba(0,0,0,0.02)]">
+<div class="flex flex-wrap items-end gap-md">
+<div class="flex flex-col gap-base flex-1 min-w-[200px]">
+<label class="font-label-sm text-label-sm text-on-surface-variant">用户名 / 手机号</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[18px]">person_search</span>
+<input class="w-full h-10 pl-9 pr-sm border border-outline-variant rounded-lg font-body-md text-body-md bg-surface-container-lowest text-on-surface focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-shadow" placeholder="输入关键字查询" type="text"/>
+</div>
+</div>
+<div class="flex flex-col gap-base flex-1 min-w-[150px]">
+<label class="font-label-sm text-label-sm text-on-surface-variant">系统角色</label>
+<select class="w-full h-10 px-sm border border-outline-variant rounded-lg font-body-md text-body-md bg-surface-container-lowest text-on-surface focus:ring-2 focus:ring-primary focus:border-primary outline-none appearance-none">
+<option value="">全部角色</option>
+<option value="admin">系统管理员</option>
+<option value="inspector">质检员</option>
+<option value="logistics">物流调度员</option>
+<option value="farmer">农场负责人</option>
+</select>
+</div>
+<div class="flex flex-col gap-base flex-1 min-w-[150px]">
+<label class="font-label-sm text-label-sm text-on-surface-variant">账号状态</label>
+<select class="w-full h-10 px-sm border border-outline-variant rounded-lg font-body-md text-body-md bg-surface-container-lowest text-on-surface focus:ring-2 focus:ring-primary focus:border-primary outline-none appearance-none">
+<option value="">全部状态</option>
+<option value="active">正常启用</option>
+<option value="disabled">已停用</option>
+</select>
+</div>
+<div class="flex gap-sm">
+<button class="h-10 px-lg rounded-lg font-label-sm text-label-sm bg-surface-container border border-outline-variant text-on-surface hover:bg-surface-variant transition-colors flex items-center justify-center">
+                            重置
+                        </button>
+<button class="h-10 px-lg rounded-lg font-label-sm text-label-sm bg-primary-container text-on-primary hover:bg-surface-tint transition-colors shadow-sm flex items-center justify-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">search</span>
+                            查询
+                        </button>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.02)] overflow-hidden flex flex-col">
+<div class="px-lg py-sm border-b border-outline-variant flex justify-between items-center bg-surface/50">
+<h3 class="font-headline-md text-headline-md text-on-surface">用户列表</h3>
+<button class="h-9 px-md rounded-lg font-label-sm text-label-sm bg-primary text-on-primary hover:bg-surface-tint transition-colors shadow-sm flex items-center justify-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">person_add</span>
+                        新增用户
+                    </button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse min-w-[1000px]">
+<thead>
+<tr class="bg-surface border-b border-outline-variant">
+<th class="py-md px-lg font-label-sm text-label-sm text-on-surface-variant font-medium">用户名</th>
+<th class="py-md px-lg font-label-sm text-label-sm text-on-surface-variant font-medium">系统角色</th>
+<th class="py-md px-lg font-label-sm text-label-sm text-on-surface-variant font-medium">所属单位</th>
+<th class="py-md px-lg font-label-sm text-label-sm text-on-surface-variant font-medium">联系手机号</th>
+<th class="py-md px-lg font-label-sm text-label-sm text-on-surface-variant font-medium">当前状态</th>
+<th class="py-md px-lg font-label-sm text-label-sm text-on-surface-variant font-medium">最近登录时间</th>
+<th class="py-md px-lg font-label-sm text-label-sm text-on-surface-variant font-medium">操作</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md text-on-surface">
+<tr class="border-b border-outline-variant hover:bg-surface-container-low transition-colors">
+<td class="py-md px-lg">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-primary-fixed text-on-primary-fixed flex items-center justify-center font-bold text-sm">W</div>
+<span class="font-medium text-on-background">wang_admin</span>
+</div>
+</td>
+<td class="py-md px-lg">
+<span class="inline-flex items-center px-2 py-1 rounded border border-secondary-container bg-surface-container-lowest text-on-secondary-container font-label-sm text-[11px]">系统管理员</span>
+</td>
+<td class="py-md px-lg text-on-surface-variant">集团总部信息中心</td>
+<td class="py-md px-lg font-data-mono">138****9012</td>
+<td class="py-md px-lg">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-tertiary-container/10 text-tertiary-container font-label-sm text-[11px]">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span> 正常启用
+                                    </span>
+</td>
+<td class="py-md px-lg font-data-mono text-on-surface-variant text-sm">2023-10-24 08:30:12</td>
+<td class="py-md px-lg">
+<div class="flex gap-sm">
+<button class="text-primary hover:text-on-primary-fixed-variant font-label-sm transition-colors">编辑角色</button>
+<button class="text-error hover:text-on-error-container font-label-sm transition-colors">停用</button>
+<button class="text-secondary hover:text-on-secondary-fixed-variant font-label-sm transition-colors">重置密码</button>
+</div>
+</td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-container-low transition-colors">
+<td class="py-md px-lg">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center font-bold text-sm">L</div>
+<span class="font-medium text-on-background">li_inspector</span>
+</div>
+</td>
+<td class="py-md px-lg">
+<span class="inline-flex items-center px-2 py-1 rounded border border-outline-variant bg-surface-container-lowest text-on-surface-variant font-label-sm text-[11px]">质检员</span>
+</td>
+<td class="py-md px-lg text-on-surface-variant">华北区品控部</td>
+<td class="py-md px-lg font-data-mono">139****4567</td>
+<td class="py-md px-lg">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-tertiary-container/10 text-tertiary-container font-label-sm text-[11px]">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span> 正常启用
+                                    </span>
+</td>
+<td class="py-md px-lg font-data-mono text-on-surface-variant text-sm">2023-10-23 14:15:00</td>
+<td class="py-md px-lg">
+<div class="flex gap-sm">
+<button class="text-primary hover:text-on-primary-fixed-variant font-label-sm transition-colors">编辑角色</button>
+<button class="text-error hover:text-on-error-container font-label-sm transition-colors">停用</button>
+<button class="text-secondary hover:text-on-secondary-fixed-variant font-label-sm transition-colors">重置密码</button>
+</div>
+</td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-container-low transition-colors bg-surface-container-lowest/50">
+<td class="py-md px-lg">
+<div class="flex items-center gap-sm opacity-60">
+<div class="w-8 h-8 rounded-full bg-outline-variant text-on-surface flex items-center justify-center font-bold text-sm">Z</div>
+<span class="font-medium text-on-background">zhang_logistics</span>
+</div>
+</td>
+<td class="py-md px-lg opacity-60">
+<span class="inline-flex items-center px-2 py-1 rounded border border-outline-variant bg-surface-container-lowest text-on-surface-variant font-label-sm text-[11px]">物流调度员</span>
+</td>
+<td class="py-md px-lg text-on-surface-variant opacity-60">冷链运输分公司</td>
+<td class="py-md px-lg font-data-mono opacity-60">135****8899</td>
+<td class="py-md px-lg">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-error-container/20 text-error font-label-sm text-[11px]">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span> 已停用
+                                    </span>
+</td>
+<td class="py-md px-lg font-data-mono text-on-surface-variant text-sm opacity-60">2023-09-15 09:20:45</td>
+<td class="py-md px-lg">
+<div class="flex gap-sm">
+<button class="text-primary hover:text-on-primary-fixed-variant font-label-sm transition-colors">编辑角色</button>
+<button class="text-tertiary hover:text-tertiary-container font-label-sm transition-colors">启用</button>
+<button class="text-secondary hover:text-on-secondary-fixed-variant font-label-sm transition-colors">重置密码</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-md px-lg">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center font-bold text-sm">C</div>
+<span class="font-medium text-on-background">chen_farmer</span>
+</div>
+</td>
+<td class="py-md px-lg">
+<span class="inline-flex items-center px-2 py-1 rounded border border-outline-variant bg-surface-container-lowest text-on-surface-variant font-label-sm text-[11px]">农场负责人</span>
+</td>
+<td class="py-md px-lg text-on-surface-variant">一号生态示范园</td>
+<td class="py-md px-lg font-data-mono">137****3321</td>
+<td class="py-md px-lg">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-tertiary-container/10 text-tertiary-container font-label-sm text-[11px]">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span> 正常启用
+                                    </span>
+</td>
+<td class="py-md px-lg font-data-mono text-on-surface-variant text-sm">2023-10-24 10:05:33</td>
+<td class="py-md px-lg">
+<div class="flex gap-sm">
+<button class="text-primary hover:text-on-primary-fixed-variant font-label-sm transition-colors">编辑角色</button>
+<button class="text-error hover:text-on-error-container font-label-sm transition-colors">停用</button>
+<button class="text-secondary hover:text-on-secondary-fixed-variant font-label-sm transition-colors">重置密码</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-4 border-t border-outline-variant flex items-center justify-between bg-surface-container-lowest">
+<span class="font-label-sm text-on-surface-variant">共 42 条记录</span>
+<div class="flex items-center gap-2">
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant text-on-surface-variant hover:bg-surface-container transition-colors disabled:opacity-50">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded bg-primary text-on-primary font-label-sm">1</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant text-on-surface hover:bg-surface-container transition-colors font-label-sm">2</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant text-on-surface hover:bg-surface-container transition-colors font-label-sm">3</button>
+<span class="text-on-surface-variant px-1">...</span>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant text-on-surface hover:bg-surface-container transition-colors font-label-sm">5</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant text-on-surface-variant hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

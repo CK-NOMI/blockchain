@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Agri-Chain - QR Code Generation &amp; Display</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-background": "#0b1c30",
+                    "surface": "#f8f9ff",
+                    "on-error": "#ffffff",
+                    "primary-container": "#1e6eeb",
+                    "tertiary-container": "#008639",
+                    "primary-fixed-dim": "#afc6ff",
+                    "on-tertiary-fixed-variant": "#005320",
+                    "tertiary": "#006a2c",
+                    "on-tertiary-container": "#f2ffee",
+                    "surface-container-high": "#dce9ff",
+                    "on-secondary-fixed-variant": "#24467e",
+                    "surface-bright": "#f8f9ff",
+                    "outline-variant": "#c2c6d7",
+                    "on-secondary-fixed": "#001a41",
+                    "inverse-primary": "#afc6ff",
+                    "surface-container": "#e5eeff",
+                    "secondary-fixed": "#d8e2ff",
+                    "background": "#f8f9ff",
+                    "secondary": "#3e5e98",
+                    "tertiary-fixed": "#7ffc97",
+                    "on-primary-fixed-variant": "#00429a",
+                    "inverse-surface": "#213145",
+                    "tertiary-fixed-dim": "#62df7d",
+                    "surface-variant": "#d3e4fe",
+                    "outline": "#727786",
+                    "on-primary": "#ffffff",
+                    "on-secondary-container": "#2b4c85",
+                    "on-primary-container": "#fdfbff",
+                    "primary-fixed": "#d9e2ff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "surface-tint": "#0058c9",
+                    "on-tertiary": "#ffffff",
+                    "on-surface-variant": "#424654",
+                    "surface-container-lowest": "#ffffff",
+                    "on-surface": "#0b1c30",
+                    "on-primary-fixed": "#001944",
+                    "surface-container-highest": "#d3e4fe",
+                    "secondary-fixed-dim": "#adc7ff",
+                    "on-error-container": "#93000a",
+                    "surface-container-low": "#eff4ff",
+                    "error": "#ba1a1a",
+                    "surface-dim": "#cbdbf5",
+                    "primary": "#0056c3",
+                    "secondary-container": "#9fbeff",
+                    "on-tertiary-fixed": "#002109",
+                    "error-container": "#ffdad6",
+                    "on-secondary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "sm": "12px",
+                    "gutter": "20px",
+                    "xs": "8px",
+                    "base": "4px",
+                    "xl": "32px",
+                    "md": "16px",
+                    "margin": "24px",
+                    "lg": "24px"
+            },
+            "fontFamily": {
+                    "data-mono": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-md": ["Manrope"],
+                    "headline-xl": ["Manrope"]
+            },
+            "fontSize": {
+                    "data-mono": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                    "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                    "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                    "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                    "headline-md": ["18px", { "lineHeight": "26px", "fontWeight": "600" }],
+                    "headline-xl": ["24px", { "lineHeight": "32px", "fontWeight": "700" }]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface antialiased font-body-md min-h-screen">
+<!-- SideNavBar Container -->
+<aside class="bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 h-screen w-64 fixed left-0 top-0 flex flex-col h-full py-4 z-50">
+<!-- Header -->
+<div class="px-6 pb-6 border-b border-slate-200 dark:border-slate-800 mb-4 flex items-center gap-sm">
+<div class="w-8 h-8 rounded bg-primary flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined">hub</span>
+</div>
+<div>
+<h1 class="text-lg font-black text-blue-700 dark:text-blue-500 font-headline-md tracking-tight leading-none">Agri-Chain Central</h1>
+<span class="font-label-sm text-label-sm text-slate-500">Verified Nodes</span>
+</div>
+</div>
+<!-- Navigation Links -->
+<div class="flex-1 overflow-y-auto px-4 flex flex-col gap-base">
+<!-- Inactive -->
+<a class="flex items-center gap-sm px-4 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:pl-2 transition-all duration-200 font-manrope text-sm font-label-sm text-label-sm" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                Overview
+            </a>
+<!-- Inactive -->
+<a class="flex items-center gap-sm px-4 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:pl-2 transition-all duration-200 font-manrope text-sm font-label-sm text-label-sm" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+                库存管理
+            </a>
+<!-- Active -->
+<a class="flex items-center gap-sm px-4 py-3 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 font-bold border-r-4 border-blue-600 Active: scale-95 duration-75 font-manrope text-sm font-label-sm text-label-sm" href="#">
+<span class="material-symbols-outlined fill">qr_code_2</span>
+                QR Generation
+            </a>
+<!-- Inactive -->
+<a class="flex items-center gap-sm px-4 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:pl-2 transition-all duration-200 font-manrope text-sm font-label-sm text-label-sm" href="#">
+<span class="material-symbols-outlined">verified_user</span>
+                Audit Logs
+            </a>
+<!-- Inactive -->
+<a class="flex items-center gap-sm px-4 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:pl-2 transition-all duration-200 font-manrope text-sm font-label-sm text-label-sm" href="#">
+<span class="material-symbols-outlined">gpp_maybe</span>
+                Risk Assessment
+            </a>
+<!-- Inactive -->
+<a class="flex items-center gap-sm px-4 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:pl-2 transition-all duration-200 font-manrope text-sm font-label-sm text-label-sm" href="#">
+<span class="material-symbols-outlined">settings</span>
+                系统设置
+            </a>
+</div>
+<!-- CTA & Footer -->
+<div class="px-4 mt-auto flex flex-col gap-4">
+<button class="w-full bg-primary-container text-on-primary-container py-2 rounded-lg font-label-sm text-label-sm flex items-center justify-center gap-xs shadow-sm">
+<span class="material-symbols-outlined" style="font-size: 18px;">add</span>
+                New 溯源 Batch
+            </button>
+<div class="border-t border-slate-200 dark:border-slate-800 pt-4 flex flex-col gap-base">
+<a class="flex items-center gap-sm px-4 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:pl-2 transition-all duration-200 font-manrope text-sm font-label-sm text-label-sm" href="#">
+<span class="material-symbols-outlined">contact_support</span>
+                    Support
+                </a>
+<a class="flex items-center gap-sm px-4 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:pl-2 transition-all duration-200 font-manrope text-sm font-label-sm text-label-sm" href="#">
+<span class="material-symbols-outlined">logout</span>
+                    Sign Out
+                </a>
+</div>
+</div>
+</aside>
+<!-- Main Content Wrapper (offset by SideNav width) -->
+<div class="ml-64 flex flex-col min-h-screen">
+<!-- TopNavBar Container -->
+<header class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md docked full-width top-0 sticky z-40 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center w-full px-6 py-3 flat no shadows">
+<div class="flex items-center gap-xl">
+<!-- Navigation Links -->
+<nav class="flex items-center gap-6">
+<!-- Inactive -->
+<a class="text-slate-500 dark:text-slate-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors font-manrope text-sm font-medium font-label-sm text-label-sm" href="#">工作台</a>
+<!-- Active -->
+<a class="text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 pb-1 Active: opacity-80 transition-opacity font-manrope text-sm font-medium font-label-sm text-label-sm" href="#">溯源</a>
+<!-- Inactive -->
+<a class="text-slate-500 dark:text-slate-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors font-manrope text-sm font-medium font-label-sm text-label-sm" href="#">Audits</a>
+<!-- Inactive -->
+<a class="text-slate-500 dark:text-slate-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors font-manrope text-sm font-medium font-label-sm text-label-sm" href="#">库存</a>
+</nav>
+</div>
+<!-- Trailing Actions & Search -->
+<div class="flex items-center gap-md">
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-sm">search</span>
+<input class="pl-10 pr-4 py-1.5 bg-surface-container rounded-full border-transparent focus:border-primary focus:ring-1 focus:ring-primary text-sm w-64 transition-all" placeholder="Search Batch ID..." type="text"/>
+</div>
+<button class="text-slate-500 hover:text-primary transition-colors flex items-center justify-center w-8 h-8 rounded-full hover:bg-surface-container">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-slate-500 hover:text-primary transition-colors flex items-center justify-center w-8 h-8 rounded-full hover:bg-surface-container">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-secondary-fixed overflow-hidden border border-outline-variant cursor-pointer ml-2">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="Professional corporate headshot of a person looking forward, neutral lighting, subtle blue background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWrDgu1u35tnRSQzAtq0Iamef7f9E4MF2iIQe36d2SpTED2tr3nNqgGLQHaJe7LjDK00zvzdyFzgh2NMM2ScrHgesCQDJ5IRg4Ni0q4LzI4kcTwP5MtDuI5r2tcrueC6Lu7nnSRxEjYb-TYCO3sXB_M1konQGf71hmb8dtL-i7b5U5CQCBIacy4E8glME25rrjSUHXq0tj7-QF2FtAP2iN0rO_zoa2vMCyINMSo0aGc5aoFDcf3r-YCasjy54IwJ_oeOaBkX0iaWZa"/>
+</div>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 p-margin overflow-y-auto">
+<!-- Page Header -->
+<div class="mb-margin flex items-center justify-between">
+<div>
+<h2 class="font-headline-xl text-headline-xl text-on-surface mb-1">Batch QR Code Display</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Review and export traceability identifiers for Batch deployment.</p>
+</div>
+<div class="flex items-center gap-xs text-on-surface-variant bg-surface-container px-sm py-xs rounded-full">
+<span class="material-symbols-outlined fill text-tertiary" style="font-size: 16px;">verified</span>
+<span class="font-label-sm text-label-sm">Blockchain Synced</span>
+</div>
+</div>
+<!-- Content Grid (Split Layout) -->
+<div class="grid grid-cols-12 gap-margin">
+<!-- Left Column: Details & Preview (8 cols) -->
+<div class="col-span-12 lg:col-span-8 flex flex-col gap-margin">
+<!-- Batch Summary Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg flex flex-col">
+<div class="flex items-center justify-between mb-md pb-sm border-b border-outline-variant/50">
+<h3 class="font-headline-md text-headline-md text-on-surface">Product Summary</h3>
+<div class="flex items-center gap-xs">
+<span class="font-label-sm text-label-sm text-outline">BatchID:</span>
+<span class="font-data-mono text-data-mono text-primary bg-primary-fixed/30 px-2 py-0.5 rounded">BTH-202310-994A</span>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-md">
+<div>
+<span class="block font-label-sm text-label-sm text-outline mb-1">Product Category</span>
+<span class="block font-body-md text-body-md text-on-surface font-medium">Premium Organic Fuji Apples</span>
+</div>
+<div>
+<span class="block font-label-sm text-label-sm text-outline mb-1">Harvest Date</span>
+<span class="block font-body-md text-body-md text-on-surface">Oct 12, 2023</span>
+</div>
+<div>
+<span class="block font-label-sm text-label-sm text-outline mb-1">Origin Facility</span>
+<span class="block font-body-md text-body-md text-on-surface">GreenValley Orchards, Sec 4</span>
+</div>
+<div>
+<span class="block font-label-sm text-label-sm text-outline mb-1">Total Volume</span>
+<span class="block font-body-md text-body-md text-on-surface">2,500 kg (500 crates)</span>
+</div>
+<div>
+<span class="block font-label-sm text-label-sm text-outline mb-1">Quality Inspector</span>
+<span class="block font-body-md text-body-md text-on-surface">Dr. A. Mercer</span>
+</div>
+<div>
+<span class="block font-label-sm text-label-sm text-outline mb-1">Smart Contract</span>
+<div class="flex items-center gap-1">
+<span class="block font-data-mono text-data-mono text-secondary truncate w-24">0x7F...3B9A</span>
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-primary" style="font-size: 16px;">content_copy</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Public 溯源 Preview Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg flex flex-col flex-1">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-md">公众溯源门户</h3>
+<!-- Link Share Box -->
+<div class="flex items-center gap-sm mb-lg">
+<div class="flex-1 bg-surface flex items-center border border-outline-variant rounded-lg px-sm py-2">
+<span class="material-symbols-outlined text-outline mr-sm" style="font-size: 18px;">link</span>
+<input class="bg-transparent border-none p-0 w-full font-data-mono text-data-mono text-on-surface-variant focus:ring-0" readonly="" type="text" value="https://trace.agri-chain.com/verify/BTH-202310-994A"/>
+</div>
+<button class="bg-secondary-container text-on-secondary-container px-md py-2 rounded-lg font-label-sm text-label-sm font-medium hover:bg-secondary-fixed transition-colors flex items-center gap-xs">
+<span class="material-symbols-outlined" style="font-size: 18px;">content_copy</span>
+                                Copy URL
+                            </button>
+</div>
+<!-- H5 Mockup Area -->
+<div class="flex-1 bg-surface rounded-lg border border-outline-variant/50 flex items-center justify-center p-md relative overflow-hidden">
+<!-- Background purely decorative -->
+<div class="absolute inset-0 bg-gradient-to-br from-surface to-surface-container-high opacity-50"></div>
+<!-- Mock Mobile Device Frame -->
+<div class="relative w-64 h-96 bg-white rounded-[2rem] border-8 border-slate-800 shadow-xl overflow-hidden flex flex-col">
+<!-- H5 Header -->
+<div class="bg-primary text-white p-4 flex flex-col items-center justify-center text-center">
+<span class="material-symbols-outlined mb-1" style="font-size: 24px;">verified</span>
+<span class="font-label-sm text-label-sm font-bold tracking-wider">VERIFIED GENUINE</span>
+</div>
+<!-- H5 Content Mock -->
+<div class="p-4 flex flex-col gap-4">
+<div class="w-full h-24 rounded-lg bg-surface-container-highest bg-cover bg-center" data-alt="Close-up of fresh red organic apples in a wooden crate under bright natural sunlight, shallow depth of field" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCJiLCwC6yaV747p3qw5BdE8dUvZSnSExwYHgNW9ZxCGnTNYZNS9Ud4GbVqJT7l0SW3-8eY7cEHMP5uN7SGUCoA9mly1lkY8zVa4iLFV2xCa66wu14ySOMz2gdhm7eQZURAWrDUmeYSqXoZt2DqoMZsmupPd8CQ3DhrmOPaDWv4ylgm2dkb-Cz23S1HqHXtOnhIBh9Pd3ivX_rio7-b7oK7WGrdy6aEg3Shnool0q5m_JF5Er5JLPCtZBIp3cD6DaEJbm35J_7S22x5');"></div>
+<div>
+<div class="h-4 w-3/4 bg-slate-200 rounded mb-2"></div>
+<div class="h-3 w-1/2 bg-slate-100 rounded"></div>
+</div>
+<div class="border-t border-slate-100 pt-3 mt-2">
+<!-- Mock Timeline -->
+<div class="flex gap-2 mb-3">
+<div class="w-2 h-2 rounded-full bg-tertiary mt-1"></div>
+<div class="h-3 w-full bg-slate-100 rounded"></div>
+</div>
+<div class="flex gap-2">
+<div class="w-2 h-2 rounded-full bg-primary mt-1"></div>
+<div class="h-3 w-4/5 bg-slate-100 rounded"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: QR Code Terminal (4 cols) -->
+<div class="col-span-12 lg:col-span-4 flex flex-col">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg flex flex-col items-center sticky top-margin">
+<div class="text-center mb-md">
+<h3 class="font-headline-md text-headline-md text-on-surface">溯源 QR</h3>
+<p class="font-label-sm text-label-sm text-outline mt-1">Ready for packaging application</p>
+</div>
+<!-- The QR Image -->
+<div class="bg-white p-sm rounded-xl border border-outline-variant shadow-[0px_4px_12px_rgba(0,0,0,0.05)] mb-lg relative group">
+<!-- Scanning line aesthetic -->
+<div class="absolute inset-x-0 top-1/2 h-[2px] bg-primary/40 -translate-y-1/2 hidden group-hover:block shadow-[0_0_8px_rgba(30,110,235,0.8)]"></div>
+<img alt="QR Code" class="w-48 h-48 object-contain mix-blend-multiply" data-alt="High density black and white square QR code for agricultural batch scanning, centered on a pure white background, crisp geometric patterns" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0cnrZ8VdV_NkcrMPVfQLFVt5dsjWGuLz_G6G6OTN4FBhLmRd1PhlS59brTHFQxkdXMruLeERPOag1YtyvXw8sm8npg4WY1PMXSXvrNeOTSzPibV4ua_rbTGHuPgRZ0SWlgtVYxWjpA9qUWdq6zgHUiRMKLnsVFcWeZgob7MsXoTAqW65xLS5W7SxLeG8iXtbztZaYUXJ-LtZ0mKrPG2-CyQE0Z71V8qTYpovQEsPbPMeYmmcjd6QyeMfuKIm_qLg_XYpedXDU0V5h"/>
+</div>
+<!-- Primary Actions -->
+<div class="w-full flex flex-col gap-sm">
+<button class="w-full bg-primary text-on-primary py-3 rounded-lg font-label-sm text-label-sm font-semibold hover:bg-surface-tint transition-colors flex items-center justify-center gap-2 shadow-sm">
+<span class="material-symbols-outlined" style="font-size: 20px;">download</span>
+                                Download Package (ZIP)
+                            </button>
+<button class="w-full border-2 border-primary text-primary bg-transparent py-2.5 rounded-lg font-label-sm text-label-sm font-semibold hover:bg-primary-fixed/20 transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" style="font-size: 20px;">print</span>
+                                Print Label directly
+                            </button>
+</div>
+<!-- Specs -->
+<div class="w-full mt-lg pt-md border-t border-outline-variant/50 flex flex-col gap-xs">
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-label-sm text-outline">Format Supported</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">PNG, SVG, PDF</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-label-sm text-outline">Error Correction</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Level H (30%)</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

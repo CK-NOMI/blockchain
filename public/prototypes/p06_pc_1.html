@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>退出确认 - Agri-Chain</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-dim": "#cbdbf5",
+                        "secondary-fixed-dim": "#adc7ff",
+                        "tertiary": "#006a2c",
+                        "secondary-fixed": "#d8e2ff",
+                        "on-secondary-fixed-variant": "#24467e",
+                        "secondary-container": "#9fbeff",
+                        "surface": "#f8f9ff",
+                        "on-primary": "#ffffff",
+                        "surface-variant": "#d3e4fe",
+                        "primary-container": "#1e6eeb",
+                        "error": "#ba1a1a",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#fdfbff",
+                        "inverse-primary": "#afc6ff",
+                        "outline-variant": "#c2c6d7",
+                        "inverse-surface": "#213145",
+                        "tertiary-container": "#008639",
+                        "outline": "#727786",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed-variant": "#00429a",
+                        "on-tertiary-fixed-variant": "#005320",
+                        "on-error-container": "#93000a",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-container": "#f2ffee",
+                        "on-error": "#ffffff",
+                        "surface-container": "#e5eeff",
+                        "on-primary-fixed": "#001944",
+                        "surface-container-highest": "#d3e4fe",
+                        "on-secondary-fixed": "#001a41",
+                        "on-surface": "#0b1c30",
+                        "tertiary-fixed": "#7ffc97",
+                        "surface-tint": "#0058c9",
+                        "surface-container-low": "#eff4ff",
+                        "secondary": "#3e5e98",
+                        "background": "#f8f9ff",
+                        "primary-fixed": "#d9e2ff",
+                        "primary": "#0056c3",
+                        "surface-container-high": "#dce9ff",
+                        "on-background": "#0b1c30",
+                        "surface-bright": "#f8f9ff",
+                        "on-surface-variant": "#424654",
+                        "primary-fixed-dim": "#afc6ff",
+                        "on-secondary-container": "#2b4c85",
+                        "on-tertiary-fixed": "#002109",
+                        "inverse-on-surface": "#eaf1ff",
+                        "tertiary-fixed-dim": "#62df7d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin": "24px",
+                        "md": "16px",
+                        "xs": "8px",
+                        "gutter": "20px",
+                        "xl": "32px",
+                        "sm": "12px",
+                        "base": "4px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Inter"],
+                        "headline-xl": ["Manrope"],
+                        "body-md": ["Inter"],
+                        "data-mono": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "headline-xl": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "data-mono": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-md": ["18px", { "lineHeight": "26px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: theme('colors.background'); }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-surface to-surface-container-high p-margin">
+<!-- TopNavBar Suppressed: Transactional/Task-Focused Page -->
+<!-- SideNavBar Suppressed: Transactional/Task-Focused Page -->
+<main class="w-full max-w-md">
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-xl shadow-[0px_8px_24px_rgba(0,0,0,0.04)] flex flex-col items-center text-center">
+<!-- Security Icon -->
+<div class="w-16 h-16 rounded-full bg-error-container flex items-center justify-center mb-lg">
+<span class="material-symbols-outlined text-on-error-container text-[32px]" style="font-variation-settings: 'FILL' 1;">logout</span>
+</div>
+<!-- Headline -->
+<h1 class="font-headline-xl text-headline-xl text-on-surface mb-xs">Log Out of Agri-Chain?</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mb-xl">You are about to securely end your current session. Please confirm your action below.</p>
+<!-- User Profile Summary -->
+<div class="bg-surface-container-low w-full rounded-lg p-md mb-xl border border-outline-variant/20 flex items-center gap-md">
+<img alt="Quality Inspector Profile" class="w-12 h-12 rounded-full object-cover border-2 border-surface-container-lowest" data-alt="professional portrait of male agricultural quality inspector in field uniform" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfm86YyDeBAI9ZCDO3ABTLsmy1s5m2KiWVhsHNzkS5TlyQeWQmXNWHRQQzAv50YqlVKUDJ8EpC3Ld1_2VrYxhcooHKuiGPfWFlfXSzJNqPT-PNGuEVfoiF_zPKlo-ey_O-jC5PFXeLVJyg4ck7d22p2TWxDwZdxYD3gC8s6xNpXz4xS6R8k3KXnz_uTtNP5ojrq2B1Tog-B-ghD5GkJ0XN2z2FC8_gAvcHOi-hCIHZaphqv7pD05tz1Ndin2HMGL92_LHT0vAdE6hi"/>
+<div class="text-left">
+<p class="font-headline-md text-headline-md text-on-surface">J. Harrison</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]">verified_user</span>
+                        Senior Quality Auditor
+                    </p>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="w-full flex flex-col gap-sm">
+<button class="w-full bg-error text-on-error font-data-mono text-data-mono py-sm rounded-lg hover:bg-on-error-container transition-colors duration-200 flex items-center justify-center gap-xs">
+<span class="material-symbols-outlined text-[20px]">exit_to_app</span>
+                    确认退出登录
+                </button>
+<button class="w-full border border-primary text-primary font-data-mono text-data-mono py-sm rounded-lg hover:bg-surface-container-low transition-colors duration-200">
+                    取消 / 返回工作台
+                </button>
+</div>
+<!-- Security Notice -->
+<div class="mt-lg pt-lg border-t border-outline-variant/20 w-full flex items-center justify-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+<span class="font-label-sm text-label-sm">Secure 溯源 Session</span>
+</div>
+</div>
+</main>
+</body></html>
