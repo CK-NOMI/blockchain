@@ -65,7 +65,22 @@ const route = useRoute()
 const router = useRouter()
 const authStore = useAuthStore()
 
-const role = computed(() => authStore.role || route.meta.role || 'FARMER')
+function roleFromPath(path) {
+  const p = String(path || '').toLowerCase()
+  if (p.startsWith('/retail')) return 'RETAIL'
+  if (p.startsWith('/admin')) return 'ADMIN'
+  if (p.startsWith('/farmer')) return 'FARMER'
+  if (p.startsWith('/processor')) return 'PROCESSOR'
+  if (p.startsWith('/regulator')) return 'REGULATOR'
+  if (p.startsWith('/logistics')) return 'LOGISTICS'
+  return ''
+}
+
+const role = computed(() => {
+  const fromPath = roleFromPath(route.path)
+  if (fromPath) return fromPath
+  return authStore.role || route.meta.role || 'FARMER'
+})
 const userName = computed(() => authStore.user?.username || 'unknown')
 const roleLabel = computed(() => ROLE_LABELS[role.value] || 'Visitor')
 const menus = computed(() => roleMenus[role.value] || [])

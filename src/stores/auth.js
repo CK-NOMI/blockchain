@@ -18,6 +18,11 @@ export const useAuthStore = defineStore('auth', () => {
     if (user.value?.role) localStorage.setItem('user', JSON.stringify(user.value))
   }
 
+  const refreshFromStorage = () => {
+    token.value = localStorage.getItem('token') || ''
+    user.value = JSON.parse(localStorage.getItem('user') || '{}')
+  }
+
   const clear = () => {
     token.value = ''
     user.value = {}
@@ -71,5 +76,6 @@ export const useAuthStore = defineStore('auth', () => {
     register,
     logout,
     clear,
+    refreshFromStorage,
   }
 })
