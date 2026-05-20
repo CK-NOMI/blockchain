@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+
+<html class="light" lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>待加工批次列表 - AgriTrace Pro</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-smoothing: antialiased;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#d9e2ff",
+                        "tertiary-fixed-dim": "#62df7d",
+                        "primary": "#0056c3",
+                        "surface": "#f8f9ff",
+                        "secondary-fixed-dim": "#adc7ff",
+                        "primary-fixed-dim": "#afc6ff",
+                        "on-tertiary-container": "#f2ffee",
+                        "surface-bright": "#f8f9ff",
+                        "secondary-container": "#9fbeff",
+                        "surface-container-highest": "#d3e4fe",
+                        "tertiary-container": "#008639",
+                        "surface-variant": "#d3e4fe",
+                        "surface-container-high": "#dce9ff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-container": "#2b4c85",
+                        "secondary": "#3e5e98",
+                        "on-surface-variant": "#424654",
+                        "surface-container": "#e5eeff",
+                        "on-surface": "#0b1c30",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#7ffc97",
+                        "on-tertiary-fixed-variant": "#005320",
+                        "on-primary-container": "#fdfbff",
+                        "error-container": "#ffdad6",
+                        "on-tertiary": "#ffffff",
+                        "background": "#f8f9ff",
+                        "surface-dim": "#cbdbf5",
+                        "on-error": "#ffffff",
+                        "primary-container": "#1e6eeb",
+                        "on-secondary-fixed-variant": "#24467e",
+                        "on-primary-fixed-variant": "#00429a",
+                        "on-primary-fixed": "#001944",
+                        "surface-tint": "#0058c9",
+                        "inverse-primary": "#afc6ff",
+                        "on-tertiary-fixed": "#002109",
+                        "on-primary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "secondary-fixed": "#d8e2ff",
+                        "on-background": "#0b1c30",
+                        "tertiary": "#006a2c",
+                        "surface-container-lowest": "#ffffff",
+                        "outline": "#727786",
+                        "outline-variant": "#c2c6d7",
+                        "on-secondary-fixed": "#001a41",
+                        "surface-container-low": "#eff4ff",
+                        "inverse-surface": "#213145"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin": "24px",
+                        "md": "16px",
+                        "lg": "24px",
+                        "gutter": "20px",
+                        "xl": "32px",
+                        "sm": "12px",
+                        "xs": "8px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Manrope", "sans-serif"],
+                        "headline-xl": ["Manrope", "sans-serif"],
+                        "label-sm": ["Inter", "sans-serif"],
+                        "data-mono": ["Inter", "monospace"],
+                        "body-lg": ["Inter", "sans-serif"],
+                        "body-md": ["Inter", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["18px", {"lineHeight": "26px", "fontWeight": "600"}],
+                        "headline-xl": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                        "data-mono": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased overflow-hidden h-screen flex">
+<!-- SideNavBar -->
+<aside class="bg-slate-50 dark:bg-slate-950 font-manrope text-sm docked left-0 h-screen w-64 fixed border-r border-slate-200 dark:border-slate-800 flat no shadows flex flex-col h-full py-4 z-50 transition-all flex-shrink-0">
+<div class="px-6 mb-8 flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center text-blue-700">
+<span class="material-symbols-outlined" data-icon="agriculture" style="font-variation-settings: 'FILL' 1;">agriculture</span>
+</div>
+<div>
+<h1 class="text-lg font-extrabold text-blue-700 dark:text-blue-400 leading-none">AgriTrace</h1>
+<span class="text-xs text-slate-500">Processing Center</span>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="dashboard">dashboard</span>
+                Overview
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 border-r-4 border-blue-600 font-semibold Active: translate-x-1" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="precision_manufacturing">precision_manufacturing</span>
+                Batch Processing
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="verified">verified</span>
+                Quality Inspection
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="inventory_2">inventory_2</span>
+                库存
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="account_tree">account_tree</span>
+                溯源日志
+            </a>
+</nav>
+<div class="px-4 mt-auto mb-6">
+<button class="w-full flex items-center justify-center gap-2 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-sm font-semibold">
+<span class="material-symbols-outlined text-[18px]" data-icon="add">add</span>
+                Initiate New Batch
+            </button>
+</div>
+<div class="px-4 border-t border-slate-200 dark:border-slate-800 pt-4 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="contact_support">contact_support</span>
+                Support
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="person">person</span>
+                Account
+            </a>
+</div>
+</aside>
+<!-- Main Workspace -->
+<div class="flex-1 flex flex-col ml-64 overflow-hidden bg-background">
+<!-- TopAppBar -->
+<header class="bg-white dark:bg-slate-900 font-manrope antialiased docked full-width top-0 sticky z-40 border-b border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none flex justify-between items-center h-16 px-6">
+<div class="flex items-center">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[20px]" data-icon="search">search</span>
+<input class="pl-10 pr-4 py-2 border-none bg-slate-100 rounded-full text-sm focus:ring-2 focus:ring-blue-600 w-64 transition-all" placeholder="Search batches, logs..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-slate-500 hover:bg-blue-50 p-2 rounded-full transition-colors relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+</button>
+<button class="text-slate-500 hover:bg-blue-50 p-2 rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<button class="text-slate-500 hover:bg-blue-50 p-2 rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+<div class="h-8 w-px bg-slate-200 mx-2"></div>
+<img alt="Quality Manager Avatar" class="w-8 h-8 rounded-full border border-slate-200 object-cover" data-alt="Professional headshot of a man with glasses, smiling slightly, soft lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhj17y326i3I-nqkL-VSewyHMmZaOtzESvzoQuisu0frVEuE7pPaqW0yE0j8DWg2sHRpK-WfHgFve8LfmLxoIKV3411KhrQd9unlUbFNSMdlWY5MDzvQxACmx11koi1mMTyjcJF-wf0vg4IXIeMY2NmoPJrAQGKKUTSRPoKa8Mut68QZwCebtrVdpCIQJMKSEA2lqKWrF2ktDnvJ_Cqg8KO7nTVtAyzwdKpSQstpXhNRNZQjh0yIGemQ4ANe1pPChUnYQdYsFGoy9m"/>
+</div>
+</header>
+<!-- Scrollable Content -->
+<main class="flex-1 overflow-y-auto p-margin">
+<!-- Breadcrumb -->
+<nav aria-label="Breadcrumb" class="flex text-label-sm text-on-surface-variant mb-4">
+<ol class="inline-flex items-center space-x-1 md:space-x-2">
+<li class="inline-flex items-center">
+<a class="hover:text-primary transition-colors" href="#">批次管理</a>
+</li>
+<li>
+<div class="flex items-center">
+<span class="material-symbols-outlined text-[16px] mx-1" data-icon="chevron_right">chevron_right</span>
+<span class="text-on-surface font-medium">待加工批次</span>
+</div>
+</li>
+</ol>
+</nav>
+<div class="flex justify-between items-end mb-margin">
+<h2 class="font-headline-xl text-headline-xl text-on-surface">待加工批次</h2>
+<div class="text-body-md text-on-surface-variant bg-surface-container py-1.5 px-3 rounded-full flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary inline-block"></span>
+                    共 128 个待处理批次
+                </div>
+</div>
+<!-- Filter Section Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-lg mb-margin shadow-sm">
+<form class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-md items-end">
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-xs" for="batchId">BatchID</label>
+<input class="w-full bg-surface border border-outline-variant rounded-lg px-3 py-2 text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-shadow" id="batchId" placeholder="输入批次编号" type="text"/>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-xs" for="productName">产品名称</label>
+<div class="relative">
+<select class="w-full bg-surface border border-outline-variant rounded-lg px-3 py-2 appearance-none text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-shadow" id="productName">
+<option value="">全部产品</option>
+<option value="p1">有机红富士苹果</option>
+<option value="p2">翠香猕猴桃</option>
+<option value="p3">高山云雾绿茶</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none" data-icon="arrow_drop_down">arrow_drop_down</span>
+</div>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-xs" for="farmerName">农户名称</label>
+<input class="w-full bg-surface border border-outline-variant rounded-lg px-3 py-2 text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-shadow" id="farmerName" placeholder="输入农户/合作社名" type="text"/>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-xs" for="submitTime">提交时间</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]" data-icon="calendar_month">calendar_month</span>
+<input class="w-full bg-surface border border-outline-variant rounded-lg pl-9 pr-3 py-2 text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-shadow" id="submitTime" placeholder="选择日期范围" type="text"/>
+</div>
+</div>
+<div class="lg:col-span-4 flex justify-end gap-3 mt-2">
+<button class="px-4 py-2 rounded-lg border border-outline text-on-surface-variant font-label-sm text-label-sm hover:bg-surface-container transition-colors" type="reset">
+                            重置
+                        </button>
+<button class="px-4 py-2 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm hover:bg-surface-tint shadow-sm transition-colors flex items-center gap-1.5" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="search">search</span>
+                            查询
+                        </button>
+</div>
+</form>
+</div>
+<!-- Table Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden shadow-sm flex flex-col relative">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low border-b border-outline-variant">
+<tr>
+<th class="py-3 px-4 font-label-sm text-label-sm text-on-surface-variant font-medium whitespace-nowrap">BatchID</th>
+<th class="py-3 px-4 font-label-sm text-label-sm text-on-surface-variant font-medium whitespace-nowrap">产品名称</th>
+<th class="py-3 px-4 font-label-sm text-label-sm text-on-surface-variant font-medium whitespace-nowrap">农户</th>
+<th class="py-3 px-4 font-label-sm text-label-sm text-on-surface-variant font-medium whitespace-nowrap">产地</th>
+<th class="py-3 px-4 font-label-sm text-label-sm text-on-surface-variant font-medium whitespace-nowrap">农户提交时间</th>
+<th class="py-3 px-4 font-label-sm text-label-sm text-on-surface-variant font-medium whitespace-nowrap">当前状态</th>
+<th class="py-3 px-4 font-label-sm text-label-sm text-on-surface-variant font-medium whitespace-nowrap text-center">异常监控</th>
+<th class="py-3 px-4 font-label-sm text-label-sm text-on-surface-variant font-medium whitespace-nowrap text-right">操作</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md text-on-surface divide-y divide-outline-variant/50">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="py-3 px-4 font-data-mono text-data-mono text-primary-fixed-variant">BTH-20231024-001</td>
+<td class="py-3 px-4 font-medium">有机红富士苹果</td>
+<td class="py-3 px-4">李建国 (红星合作社)</td>
+<td class="py-3 px-4 text-on-surface-variant">陕西省延安市洛川县</td>
+<td class="py-3 px-4 text-on-surface-variant">2023-10-24 08:30</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-[11px] border border-outline-variant/50">
+<span class="material-symbols-outlined text-[14px]" data-icon="inventory">inventory</span>
+                                        FARM_RECORDED
+                                    </span>
+</td>
+<td class="py-3 px-4 text-center">
+<span class="inline-flex items-center justify-center px-2 py-0.5 rounded text-[11px] font-medium bg-tertiary-container/10 text-tertiary">正常</span>
+</td>
+<td class="py-3 px-4 text-right space-x-3 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-on-surface-variant hover:text-primary transition-colors font-medium">查看详情</button>
+<button class="text-primary hover:text-surface-tint font-medium">开始加工</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="py-3 px-4 font-data-mono text-data-mono text-primary-fixed-variant">BTH-20231024-002</td>
+<td class="py-3 px-4 font-medium">翠香猕猴桃</td>
+<td class="py-3 px-4">张伟</td>
+<td class="py-3 px-4 text-on-surface-variant">陕西省西安市周至县</td>
+<td class="py-3 px-4 text-on-surface-variant">2023-10-24 09:15</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-[11px] border border-outline-variant/50">
+<span class="material-symbols-outlined text-[14px]" data-icon="inventory">inventory</span>
+                                        FARM_RECORDED
+                                    </span>
+</td>
+<td class="py-3 px-4 text-center">
+<span class="inline-flex items-center justify-center px-2 py-0.5 rounded text-[11px] font-medium bg-error-container/40 text-on-error-container border border-error-container">
+<span class="material-symbols-outlined text-[12px] mr-1" data-icon="warning">warning</span>
+                                        温度异常
+                                    </span>
+</td>
+<td class="py-3 px-4 text-right space-x-3 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-on-surface-variant hover:text-primary transition-colors font-medium">查看详情</button>
+<button class="text-primary hover:text-surface-tint font-medium">开始加工</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="py-3 px-4 font-data-mono text-data-mono text-primary-fixed-variant">BTH-20231023-089</td>
+<td class="py-3 px-4 font-medium">高山云雾绿茶</td>
+<td class="py-3 px-4">云端茶业</td>
+<td class="py-3 px-4 text-on-surface-variant">浙江省杭州市西湖区</td>
+<td class="py-3 px-4 text-on-surface-variant">2023-10-23 16:45</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-[11px] border border-outline-variant/50">
+<span class="material-symbols-outlined text-[14px]" data-icon="inventory">inventory</span>
+                                        FARM_RECORDED
+                                    </span>
+</td>
+<td class="py-3 px-4 text-center">
+<span class="inline-flex items-center justify-center px-2 py-0.5 rounded text-[11px] font-medium bg-tertiary-container/10 text-tertiary">正常</span>
+</td>
+<td class="py-3 px-4 text-right space-x-3 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-on-surface-variant hover:text-primary transition-colors font-medium">查看详情</button>
+<button class="text-primary hover:text-surface-tint font-medium">开始加工</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="py-3 px-4 font-data-mono text-data-mono text-primary-fixed-variant">BTH-20231023-088</td>
+<td class="py-3 px-4 font-medium">有机红富士苹果</td>
+<td class="py-3 px-4">王老五</td>
+<td class="py-3 px-4 text-on-surface-variant">陕西省延安市洛川县</td>
+<td class="py-3 px-4 text-on-surface-variant">2023-10-23 15:20</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-[11px] border border-outline-variant/50">
+<span class="material-symbols-outlined text-[14px]" data-icon="inventory">inventory</span>
+                                        FARM_RECORDED
+                                    </span>
+</td>
+<td class="py-3 px-4 text-center">
+<span class="inline-flex items-center justify-center px-2 py-0.5 rounded text-[11px] font-medium bg-tertiary-container/10 text-tertiary">正常</span>
+</td>
+<td class="py-3 px-4 text-right space-x-3 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-on-surface-variant hover:text-primary transition-colors font-medium">查看详情</button>
+<button class="text-primary hover:text-surface-tint font-medium">开始加工</button>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="py-3 px-4 font-data-mono text-data-mono text-primary-fixed-variant">BTH-20231023-085</td>
+<td class="py-3 px-4 font-medium">赣南脐橙</td>
+<td class="py-3 px-4">丰收果园</td>
+<td class="py-3 px-4 text-on-surface-variant">江西省赣州市信丰县</td>
+<td class="py-3 px-4 text-on-surface-variant">2023-10-23 11:10</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-[11px] border border-outline-variant/50">
+<span class="material-symbols-outlined text-[14px]" data-icon="inventory">inventory</span>
+                                        FARM_RECORDED
+                                    </span>
+</td>
+<td class="py-3 px-4 text-center">
+<span class="inline-flex items-center justify-center px-2 py-0.5 rounded text-[11px] font-medium bg-tertiary-container/10 text-tertiary">正常</span>
+</td>
+<td class="py-3 px-4 text-right space-x-3 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-on-surface-variant hover:text-primary transition-colors font-medium">查看详情</button>
+<button class="text-primary hover:text-surface-tint font-medium">开始加工</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="bg-surface-container-lowest px-4 py-3 border-t border-outline-variant flex items-center justify-between sm:px-6">
+<div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">
+                                显示第 <span class="font-medium text-on-surface">1</span> 到 <span class="font-medium text-on-surface">5</span> 条，共 <span class="font-medium text-on-surface">128</span> 条结果
+                            </p>
+</div>
+<div>
+<nav aria-label="Pagination" class="isolate inline-flex -space-x-px rounded-md shadow-sm">
+<a class="relative inline-flex items-center rounded-l-md px-2 py-2 text-on-surface-variant ring-1 ring-inset ring-outline-variant hover:bg-surface-container focus:z-20 focus:outline-offset-0" href="#">
+<span class="sr-only">Previous</span>
+<span class="material-symbols-outlined text-[20px]" data-icon="chevron_left">chevron_left</span>
+</a>
+<a aria-current="page" class="relative z-10 inline-flex items-center bg-primary px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary" href="#">1</a>
+<a class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-on-surface ring-1 ring-inset ring-outline-variant hover:bg-surface-container focus:z-20 focus:outline-offset-0" href="#">2</a>
+<a class="relative hidden items-center px-4 py-2 text-sm font-semibold text-on-surface ring-1 ring-inset ring-outline-variant hover:bg-surface-container md:inline-flex focus:z-20 focus:outline-offset-0" href="#">3</a>
+<span class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-on-surface-variant ring-1 ring-inset ring-outline-variant focus:outline-offset-0">...</span>
+<a class="relative hidden items-center px-4 py-2 text-sm font-semibold text-on-surface ring-1 ring-inset ring-outline-variant hover:bg-surface-container md:inline-flex focus:z-20 focus:outline-offset-0" href="#">26</a>
+<a class="relative inline-flex items-center rounded-r-md px-2 py-2 text-on-surface-variant ring-1 ring-inset ring-outline-variant hover:bg-surface-container focus:z-20 focus:outline-offset-0" href="#">
+<span class="sr-only">Next</span>
+<span class="material-symbols-outlined text-[20px]" data-icon="chevron_right">chevron_right</span>
+</a>
+</nav>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

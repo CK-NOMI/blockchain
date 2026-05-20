@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+
+<html class="light" lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>新建批次 - Agri-Chain 溯源</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-surface": "#213145",
+                        "on-secondary-fixed": "#001a41",
+                        "surface-tint": "#0058c9",
+                        "on-background": "#0b1c30",
+                        "on-tertiary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-primary-fixed": "#001944",
+                        "inverse-primary": "#afc6ff",
+                        "surface-dim": "#cbdbf5",
+                        "outline": "#727786",
+                        "surface-container-low": "#eff4ff",
+                        "surface-container-high": "#dce9ff",
+                        "secondary-fixed": "#d8e2ff",
+                        "on-secondary-fixed-variant": "#24467e",
+                        "error-container": "#ffdad6",
+                        "on-primary-container": "#fdfbff",
+                        "primary-fixed-dim": "#afc6ff",
+                        "secondary-container": "#9fbeff",
+                        "primary": "#0056c3",
+                        "on-error-container": "#93000a",
+                        "inverse-on-surface": "#eaf1ff",
+                        "outline-variant": "#c2c6d7",
+                        "tertiary-fixed-dim": "#62df7d",
+                        "surface-container-highest": "#d3e4fe",
+                        "on-tertiary-container": "#f2ffee",
+                        "on-primary-fixed-variant": "#00429a",
+                        "on-error": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "primary-container": "#1e6eeb",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary": "#006a2c",
+                        "secondary-fixed-dim": "#adc7ff",
+                        "on-secondary": "#ffffff",
+                        "surface-bright": "#f8f9ff",
+                        "surface-variant": "#d3e4fe",
+                        "on-tertiary-fixed": "#002109",
+                        "on-surface": "#0b1c30",
+                        "on-tertiary-fixed-variant": "#005320",
+                        "primary-fixed": "#d9e2ff",
+                        "tertiary-fixed": "#7ffc97",
+                        "secondary": "#3e5e98",
+                        "tertiary-container": "#008639",
+                        "surface": "#f8f9ff",
+                        "on-surface-variant": "#424654",
+                        "surface-container": "#e5eeff",
+                        "on-secondary-container": "#2b4c85",
+                        "background": "#f8f9ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "base": "4px",
+                        "md": "16px",
+                        "lg": "24px",
+                        "margin": "24px",
+                        "sm": "12px",
+                        "gutter": "20px",
+                        "xl": "32px",
+                        "xs": "8px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Inter", "sans-serif"],
+                        "headline-xl": ["Manrope", "sans-serif"],
+                        "headline-md": ["Manrope", "sans-serif"],
+                        "body-lg": ["Inter", "sans-serif"],
+                        "body-md": ["Inter", "sans-serif"],
+                        "data-mono": ["Inter", "monospace"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "headline-xl": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "headline-md": ["18px", { "lineHeight": "26px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "data-mono": ["14px", { "lineHeight": "20px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased min-h-screen flex">
+<!-- TopAppBar -->
+<header class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md font-manrope antialiased fixed top-0 w-full z-50 border-b border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none flex justify-between items-center px-6 h-16 w-full">
+<div class="flex items-center gap-md">
+<span class="text-xl font-black tracking-tight text-blue-700 dark:text-blue-400">Agri-Chain 溯源</span>
+</div>
+<div class="flex items-center gap-md">
+<button class="text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors p-sm rounded-full active:scale-95 duration-150 flex items-center justify-center">
+<span class="material-symbols-outlined text-xl">notifications</span>
+</button>
+<button class="text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors p-sm rounded-full active:scale-95 duration-150 flex items-center justify-center">
+<span class="material-symbols-outlined text-xl">verified_user</span>
+</button>
+<button class="text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors p-sm rounded-full active:scale-95 duration-150 flex items-center justify-center">
+<span class="material-symbols-outlined text-xl">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden ml-sm border border-outline-variant">
+<img alt="Manager Avatar" class="w-full h-full object-cover" data-alt="Professional headshot of a farm manager in natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAr05vQ76ppQjJVHK2GoYIiA4ua6ARKrh2IWuvFwx6FB3u6bJgCfASExUbg1dhcjj62bfthKzOKP3C0QP2AcbHsXUdUEVQ9Cd6BT2MzGJbB55bPWBId1Ftv5klyz5QB-tIx2DNexe3AAjbYlGKRbYvbWOD0UBHtfIMFtyHgGTGBwOyny8sAAryubbc10d-FZe6UU0RsvXwUX-mKufOl-htGziNmAo1YK5FLmGv3wcQNrUCusF4gjt_aQGVTVgVav4ziI0XEutjtjbnB"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<nav class="bg-white dark:bg-slate-950 font-manrope text-sm font-medium h-screen w-64 fixed left-0 top-0 border-r border-slate-200 dark:border-slate-800 flat no shadows flex flex-col h-full py-4 pt-20 z-40">
+<div class="px-lg mb-lg">
+<div class="flex items-center gap-sm mb-md">
+<div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined icon-fill">eco</span>
+</div>
+<div>
+<h2 class="text-lg font-bold text-slate-900 dark:text-white leading-tight">Agri-Chain</h2>
+<p class="text-xs text-slate-500">Management Portal</p>
+</div>
+</div>
+</div>
+<ul class="flex flex-col flex-1 px-sm gap-xs">
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 hover:bg-slate-50 dark:hover:bg-slate-900 transition-all ease-in-out duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                    工作台
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 border-r-4 border-blue-600 ease-in-out duration-200" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+                    溯源
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 hover:bg-slate-50 dark:hover:bg-slate-900 transition-all ease-in-out duration-200" href="#">
+<span class="material-symbols-outlined">agriculture</span>
+                    Farmer Network
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 hover:bg-slate-50 dark:hover:bg-slate-900 transition-all ease-in-out duration-200" href="#">
+<span class="material-symbols-outlined">local_shipping</span>
+                    Logistics
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 hover:bg-slate-50 dark:hover:bg-slate-900 transition-all ease-in-out duration-200" href="#">
+<span class="material-symbols-outlined">fact_check</span>
+                    Quality Audits
+                </a>
+</li>
+</ul>
+<div class="px-sm mt-auto border-t border-slate-200 dark:border-slate-800 pt-sm">
+<ul class="flex flex-col gap-xs">
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 hover:bg-slate-50 dark:hover:bg-slate-900 transition-all ease-in-out duration-200" href="#">
+<span class="material-symbols-outlined">help_outline</span>
+                        Help Center
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 hover:bg-slate-50 dark:hover:bg-slate-900 transition-all ease-in-out duration-200" href="#">
+<span class="material-symbols-outlined">logout</span>
+                        Log Out
+                    </a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-1 ml-64 pt-16 p-margin overflow-auto h-screen bg-background">
+<div class="max-w-7xl mx-auto">
+<header class="mb-lg flex justify-between items-end">
+<div>
+<h1 class="font-headline-xl text-headline-xl text-on-background">新建批次 (New Batch)</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-xs">创建新的农产品追踪批次，初始化溯源链条。</p>
+</div>
+<div class="flex gap-sm">
+<button class="px-md py-sm rounded-DEFAULT border border-outline font-label-sm text-label-sm text-on-surface hover:bg-surface-container transition-colors">
+                        保存草稿
+                    </button>
+<button class="px-md py-sm rounded-DEFAULT bg-primary-container text-on-primary-container font-label-sm text-label-sm hover:bg-primary hover:text-on-primary transition-colors flex items-center gap-xs shadow-sm">
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+                        提交并进入种植信息
+                    </button>
+</div>
+</header>
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Left Column: Base Info Form (8 cols) -->
+<div class="col-span-12 lg:col-span-8">
+<div class="bg-surface rounded-xl border border-outline-variant p-lg shadow-sm">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-lg flex items-center gap-xs border-b border-outline-variant pb-sm">
+<span class="material-symbols-outlined text-primary">feed</span>
+                            基础信息表单
+                        </h2>
+<form class="grid grid-cols-1 md:grid-cols-2 gap-x-md gap-y-lg">
+<!-- 产品名称 -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-on-surface-variant">产品名称</label>
+<input class="bg-surface-container-lowest border border-outline-variant rounded-DEFAULT p-sm font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary w-full" placeholder="例如：有机红富士苹果" type="text"/>
+</div>
+<!-- 品种 -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-on-surface-variant">品种</label>
+<input class="bg-surface-container-lowest border border-outline-variant rounded-DEFAULT p-sm font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary w-full" placeholder="输入具体品种" type="text"/>
+</div>
+<!-- 类别 -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-on-surface-variant">类别</label>
+<select class="bg-surface-container-lowest border border-outline-variant rounded-DEFAULT p-sm font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary w-full appearance-none">
+<option disabled="" selected="" value="">选择产品类别</option>
+<option value="fruit">水果</option>
+<option value="veg">蔬菜</option>
+<option value="grain">谷物</option>
+</select>
+</div>
+<!-- 产地编码 -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-on-surface-variant flex items-center justify-between">
+                                    产地编码
+                                    <span class="material-symbols-outlined text-[14px] text-tertiary" title="系统自动关联">info</span>
+</label>
+<input class="bg-surface-container border border-outline-variant rounded-DEFAULT p-sm font-data-mono text-data-mono text-on-surface-variant cursor-not-allowed w-full" readonly="" type="text" value="ORG-CN-SD-0042"/>
+</div>
+<!-- 地址 -->
+<div class="flex flex-col gap-xs col-span-1 md:col-span-2">
+<label class="font-label-sm text-label-sm text-on-surface-variant">详细种植地址</label>
+<div class="flex">
+<span class="inline-flex items-center px-sm rounded-l-DEFAULT border border-r-0 border-outline-variant bg-surface-container text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+</span>
+<input class="bg-surface-container-lowest border border-outline-variant rounded-r-DEFAULT p-sm font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary w-full flex-1" placeholder="省/市/区/具体农场或地块编号" type="text"/>
+</div>
+</div>
+<!-- 种植日期 -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-on-surface-variant">种植日期</label>
+<input class="bg-surface-container-lowest border border-outline-variant rounded-DEFAULT p-sm font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary w-full" type="date"/>
+</div>
+<!-- 责任人 -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-on-surface-variant">责任人</label>
+<div class="flex items-center gap-sm">
+<img alt="Farmer Avatar" class="w-8 h-8 rounded-full border border-outline-variant" data-alt="Headshot of an experienced farmer in a plaid shirt" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJv6q5AaV6yZixFPlbJQfkvNGnj33zd6Gor69c-5rNJRtGD9-n4uFNI1mIbMhl4OHxbKWwG6tMFzR5IzMZxlbvgYzbf_xN1SpU78j84U_WUHFbv-WspfPhiwAxPt12xyIKY-wlP58LR2TvpijyoUF3_zQQUVz5oNu_Ieea-7fa7jqqGZ5vkE-5l-QJq7ZsYTFEL1QvtAXN_AJ5YGd3uCsSmGW2ecssN54jtq1muM5DsGc9MlIK33cFR2qk5bI56myk4QzGpLUKRc81"/>
+<input class="bg-surface-container-lowest border border-outline-variant rounded-DEFAULT p-sm font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary w-full flex-1" type="text" value="张建国"/>
+</div>
+</div>
+<!-- 备注 -->
+<div class="flex flex-col gap-xs col-span-1 md:col-span-2 mt-sm">
+<label class="font-label-sm text-label-sm text-on-surface-variant">初始备注 (可选)</label>
+<textarea class="bg-surface-container-lowest border border-outline-variant rounded-DEFAULT p-sm font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary w-full resize-none" placeholder="添加关于此批次的任何特殊说明..." rows="3"></textarea>
+</div>
+</form>
+</div>
+</div>
+<!-- Right Column: Preview & Status Card (4 cols) -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-md">
+<!-- Batch ID Card -->
+<div class="bg-surface rounded-xl border border-outline-variant p-lg shadow-sm flex flex-col items-center text-center">
+<div class="w-16 h-16 rounded-full bg-surface-container-highest flex items-center justify-center mb-md border border-outline-variant">
+<span class="material-symbols-outlined text-3xl text-secondary">qr_code_scanner</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-xs">Batch ID</h3>
+<p class="font-body-sm text-on-surface-variant mb-lg text-sm">生成唯一标识以开启区块链溯源</p>
+<div class="bg-surface-container w-full py-md px-sm rounded-lg border border-outline-variant border-dashed mb-lg">
+<span class="font-data-mono text-data-mono text-outline font-bold tracking-widest">
+                                AWAITING_GENERATION
+                            </span>
+</div>
+<button class="w-full py-sm rounded-DEFAULT border-2 border-primary text-primary font-label-sm text-label-sm hover:bg-surface-container transition-colors flex items-center justify-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+                            生成 BatchID
+                        </button>
+</div>
+<!-- Status Timeline -->
+<div class="bg-surface rounded-xl border border-outline-variant p-lg shadow-sm flex-1">
+<h3 class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-md border-b border-outline-variant pb-xs">
+                            溯源状态追踪 (溯源状态)
+                        </h3>
+<div class="relative pl-6 pt-sm">
+<!-- Vertical Line -->
+<div class="absolute left-[11px] top-6 bottom-0 w-[2px] bg-outline-variant rounded"></div>
+<!-- Node 1: Initialization -->
+<div class="relative mb-lg">
+<div class="absolute -left-[30px] top-1 w-[14px] h-[14px] rounded-full bg-surface border-2 border-primary z-10 flex items-center justify-center">
+<div class="w-[6px] h-[6px] rounded-full bg-primary"></div>
+</div>
+<h4 class="font-label-sm text-label-sm text-primary font-bold">节点 1: 批次初始化</h4>
+<p class="font-body-md text-[13px] text-on-surface-variant mt-xs">正在输入基础信息，等待生成ID。</p>
+<div class="mt-xs inline-flex items-center gap-1 bg-surface-container-highest px-2 py-1 rounded text-[11px] text-on-surface-variant font-data-mono">
+<span class="material-symbols-outlined text-[12px]">schedule</span>
+                                    待处理
+                                </div>
+</div>
+<!-- Node 2: On-chain -->
+<div class="relative mb-lg opacity-50">
+<div class="absolute -left-[30px] top-1 w-[14px] h-[14px] rounded-full bg-surface border-2 border-outline-variant z-10"></div>
+<h4 class="font-label-sm text-label-sm text-on-surface font-bold">节点 2: 信息上链</h4>
+<p class="font-body-md text-[13px] text-on-surface-variant mt-xs">Hash Value: --</p>
+<p class="font-body-md text-[13px] text-on-surface-variant">Block Time: --</p>
+</div>
+<!-- Node 3: Planting -->
+<div class="relative opacity-50">
+<div class="absolute -left-[30px] top-1 w-[14px] h-[14px] rounded-full bg-surface border-2 border-outline-variant z-10"></div>
+<h4 class="font-label-sm text-label-sm text-on-surface font-bold">节点 3: 种植记录</h4>
+<p class="font-body-md text-[13px] text-on-surface-variant mt-xs">等待进入下一步填写详细种植数据。</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

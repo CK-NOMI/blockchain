@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>L03 Transport Task Entry - AgriTrace Logistics</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-primary": "#afc6ff",
+                        "on-surface": "#0b1c30",
+                        "secondary-fixed": "#d8e2ff",
+                        "outline-variant": "#c2c6d7",
+                        "tertiary-container": "#008639",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed-variant": "#00429a",
+                        "primary-fixed-dim": "#afc6ff",
+                        "inverse-surface": "#213145",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed": "#002109",
+                        "on-error-container": "#93000a",
+                        "error": "#ba1a1a",
+                        "primary-container": "#1e6eeb",
+                        "on-primary-container": "#fdfbff",
+                        "surface-variant": "#d3e4fe",
+                        "secondary-container": "#9fbeff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "background": "#f8f9ff",
+                        "secondary": "#3e5e98",
+                        "outline": "#727786",
+                        "surface-bright": "#f8f9ff",
+                        "primary": "#0056c3",
+                        "surface-tint": "#0058c9",
+                        "surface-dim": "#cbdbf5",
+                        "primary-fixed": "#d9e2ff",
+                        "on-tertiary-fixed-variant": "#005320",
+                        "on-surface-variant": "#424654",
+                        "tertiary-fixed-dim": "#62df7d",
+                        "on-secondary-fixed-variant": "#24467e",
+                        "surface-container-lowest": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed": "#001944",
+                        "tertiary": "#006a2c",
+                        "surface-container-high": "#dce9ff",
+                        "on-secondary": "#ffffff",
+                        "secondary-fixed-dim": "#adc7ff",
+                        "on-secondary-fixed": "#001a41",
+                        "surface-container": "#e5eeff",
+                        "tertiary-fixed": "#7ffc97",
+                        "surface": "#f8f9ff",
+                        "on-tertiary-container": "#f2ffee",
+                        "on-secondary-container": "#2b4c85",
+                        "on-background": "#0b1c30",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#eff4ff",
+                        "surface-container-highest": "#d3e4fe"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "margin": "24px",
+                        "gutter": "20px",
+                        "xs": "8px",
+                        "md": "16px",
+                        "lg": "24px",
+                        "sm": "12px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "headline-xl": ["Manrope"],
+                        "data-mono": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "headline-xl": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "data-mono": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-md": ["18px", { "lineHeight": "26px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 pt-16 border-r border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 flex flex-col py-4 font-manrope text-sm font-medium z-40 hidden md:flex">
+<div class="px-6 mb-8 flex items-center space-x-3">
+<div class="w-10 h-10 rounded-lg bg-primary-container text-on-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined">account_balance</span>
+</div>
+<div>
+<div class="text-on-surface font-bold">Logistics Manager</div>
+<div class="text-xs text-slate-500">Batch 溯源 Unit</div>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-2">
+<a class="flex items-center space-x-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-blue-50 dark:hover:bg-slate-900 hover:text-blue-600 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>工作台</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 border-r-4 border-blue-600 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">pending_actions</span>
+<span>待运输批次</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-blue-50 dark:hover:bg-slate-900 hover:text-blue-600 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">local_shipping</span>
+<span>In Transit</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-blue-50 dark:hover:bg-slate-900 hover:text-blue-600 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">history</span>
+<span>History</span>
+</a>
+</nav>
+<div class="px-4 mt-auto space-y-2">
+<a class="flex items-center space-x-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-blue-50 dark:hover:bg-slate-900 hover:text-blue-600 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-blue-50 dark:hover:bg-slate-900 hover:text-blue-600 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span>Log Out</span>
+</a>
+</div>
+</aside>
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 border-b border-slate-200 dark:border-slate-800 shadow-sm bg-white dark:bg-slate-900 flex justify-between items-center h-16 px-6 font-manrope antialiased tracking-tight pl-6 md:pl-72">
+<div class="flex items-center">
+<span class="text-xl font-bold text-blue-700 dark:text-blue-400 tracking-wider">AgriTrace Logistics</span>
+</div>
+<div class="flex items-center space-x-4">
+<div class="hidden md:flex items-center bg-slate-100 rounded-full px-4 py-2">
+<span class="material-symbols-outlined text-slate-400 mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-48" placeholder="Search batches..." type="text"/>
+</div>
+<button class="p-2 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors active:scale-95 duration-150 rounded-full">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors active:scale-95 duration-150 rounded-full">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<button class="p-2 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors active:scale-95 duration-150 rounded-full">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 pt-16 md:pl-64 p-6 lg:p-8 overflow-y-auto w-full">
+<div class="max-w-7xl mx-auto space-y-6">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+<div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface">Transport Task Entry</h1>
+<p class="font-body-md text-body-md text-outline mt-1">Record vehicle and routing details for pending shipment.</p>
+</div>
+<div class="flex space-x-3">
+<button class="px-4 py-2 rounded-lg border border-primary text-primary font-label-sm text-label-sm hover:bg-surface-container-low transition-colors shadow-sm">保存草稿</button>
+<button class="px-4 py-2 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm hover:bg-surface-tint transition-colors shadow-sm flex items-center">
+                        提交上链
+                        <span class="material-symbols-outlined ml-2" style="font-size: 18px;">verified</span>
+</button>
+</div>
+</div>
+<!-- Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Left Column: Forms -->
+<div class="lg:col-span-8 space-y-6">
+<!-- Batch Summary Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm">
+<div class="flex items-center justify-between mb-4 pb-4 border-b border-surface-variant">
+<h2 class="font-headline-md text-headline-md text-on-surface flex items-center">
+<span class="material-symbols-outlined mr-2 text-primary">inventory_2</span>
+                                Batch Summary
+                            </h2>
+<span class="px-3 py-1 bg-surface-container text-on-surface-variant rounded-full font-label-sm text-label-sm border border-outline-variant">PROCESS_RECORDED</span>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div>
+<p class="font-label-sm text-label-sm text-outline mb-1">Batch ID</p>
+<p class="font-data-mono text-data-mono text-on-surface">BT-2023-8842</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-outline mb-1">Product</p>
+<p class="font-body-md text-body-md text-on-surface font-medium">Organic Fuji Apples</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-outline mb-1">Origin</p>
+<p class="font-body-md text-body-md text-on-surface">Green Valley Farm</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-outline mb-1">Destination</p>
+<p class="font-body-md text-body-md text-on-surface">Central Hub Dist.</p>
+</div>
+</div>
+</div>
+<!-- Vehicle Info Form -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary"></div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-6 flex items-center">
+<span class="material-symbols-outlined mr-2 text-primary">local_shipping</span>
+                            Vehicle Information
+                        </h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-2">Vehicle ID</label>
+<input class="w-full rounded-lg border-outline-variant bg-surface focus:border-primary focus:ring-2 focus:ring-primary-container/20 transition-all" placeholder="Enter Vehicle ID" type="text"/>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-2">License Plate</label>
+<input class="w-full rounded-lg border-outline-variant bg-surface focus:border-primary focus:ring-2 focus:ring-primary-container/20 transition-all" placeholder="e.g. AB-1234" type="text"/>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-2">Cold Chain Type</label>
+<select class="w-full rounded-lg border-outline-variant bg-surface focus:border-primary focus:ring-2 focus:ring-primary-container/20 transition-all">
+<option>Refrigerated</option>
+<option>Frozen</option>
+<option>Ambient</option>
+</select>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-2">Temp Control Capability</label>
+<div class="flex items-center space-x-2">
+<input class="w-24 rounded-lg border-outline-variant bg-surface focus:border-primary focus:ring-2 focus:ring-primary-container/20 text-center" placeholder="Min °C" type="text"/>
+<span class="text-outline">to</span>
+<input class="w-24 rounded-lg border-outline-variant bg-surface focus:border-primary focus:ring-2 focus:ring-primary-container/20 text-center" placeholder="Max °C" type="text"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Driver & Transit Info Form Container -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Driver Info -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-6 flex items-center">
+<span class="material-symbols-outlined mr-2 text-primary">person</span>
+                                Driver Details
+                            </h2>
+<div class="space-y-4">
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-2">Driver Name</label>
+<input class="w-full rounded-lg border-outline-variant bg-surface focus:border-primary focus:ring-2 focus:ring-primary-container/20" placeholder="Full Name" type="text"/>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-2">Contact Number</label>
+<input class="w-full rounded-lg border-outline-variant bg-surface focus:border-primary focus:ring-2 focus:ring-primary-container/20" placeholder="+1 (555) 000-0000" type="tel"/>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-2">Driver ID / License</label>
+<input class="w-full rounded-lg border-outline-variant bg-surface focus:border-primary focus:ring-2 focus:ring-primary-container/20" placeholder="License Number" type="text"/>
+</div>
+</div>
+</div>
+<!-- Transit Info -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-6 flex items-center">
+<span class="material-symbols-outlined mr-2 text-primary">route</span>
+                                Transit Routing
+                            </h2>
+<div class="space-y-4">
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-2">Scheduled Departure</label>
+<input class="w-full rounded-lg border-outline-variant bg-surface focus:border-primary focus:ring-2 focus:ring-primary-container/20 text-on-surface" type="datetime-local"/>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-2">Estimated Arrival (ETA)</label>
+<input class="w-full rounded-lg border-outline-variant bg-surface focus:border-primary focus:ring-2 focus:ring-primary-container/20 text-on-surface" type="datetime-local"/>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-2">Remarks / Special Instructions</label>
+<textarea class="w-full rounded-lg border-outline-variant bg-surface focus:border-primary focus:ring-2 focus:ring-primary-container/20" placeholder="Add routing notes..." rows="2"></textarea>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Status/Timeline Context -->
+<div class="lg:col-span-4 space-y-6">
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm sticky top-24">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-6 border-b border-surface-variant pb-4">溯源上下文</h3>
+<div class="space-y-6">
+<!-- Timeline -->
+<div class="relative">
+<div class="absolute left-3 top-2 bottom-2 w-0.5 bg-surface-variant"></div>
+<div class="flex items-start mb-6 relative">
+<div class="w-6 h-6 rounded-full bg-tertiary-container text-on-tertiary flex items-center justify-center z-10 ring-4 ring-surface-container-lowest">
+<span class="material-symbols-outlined" style="font-size: 14px;">check</span>
+</div>
+<div class="ml-4">
+<p class="font-label-sm text-label-sm text-on-surface font-semibold">Harvest Recorded</p>
+<p class="text-xs text-outline mt-1">Oct 12, 08:30 AM</p>
+</div>
+</div>
+<div class="flex items-start mb-6 relative">
+<div class="w-6 h-6 rounded-full bg-tertiary-container text-on-tertiary flex items-center justify-center z-10 ring-4 ring-surface-container-lowest">
+<span class="material-symbols-outlined" style="font-size: 14px;">check</span>
+</div>
+<div class="ml-4">
+<p class="font-label-sm text-label-sm text-on-surface font-semibold">Processing Complete</p>
+<p class="text-xs text-outline mt-1">Oct 13, 14:15 PM</p>
+</div>
+</div>
+<div class="flex items-start relative">
+<div class="w-6 h-6 rounded-full border-2 border-primary bg-surface-container-lowest flex items-center justify-center z-10 ring-4 ring-surface-container-lowest">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+</div>
+<div class="ml-4">
+<p class="font-label-sm text-label-sm text-primary font-semibold">Transport Entry</p>
+<p class="text-xs text-primary/70 mt-1">Current Step</p>
+</div>
+</div>
+</div>
+<!-- Blockchain Status -->
+<div class="mt-8 bg-surface rounded-lg p-4 border border-outline-variant/50">
+<p class="font-label-sm text-label-sm text-outline mb-2 flex items-center">
+<span class="material-symbols-outlined mr-1" style="font-size: 16px;">link</span>
+                                    Last Node Hash
+                                </p>
+<p class="font-data-mono text-data-mono text-on-surface text-xs break-all bg-surface-container-lowest p-2 rounded border border-outline-variant/30">0x8f2a...9c4e</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

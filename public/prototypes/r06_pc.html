@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Supermarket 批次详情 - AgriTrace</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed-variant": "#005320",
+                        "on-surface": "#0b1c30",
+                        "surface-container": "#e5eeff",
+                        "surface-container-highest": "#d3e4fe",
+                        "secondary-fixed": "#d8e2ff",
+                        "on-background": "#0b1c30",
+                        "surface-variant": "#d3e4fe",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#eff4ff",
+                        "surface": "#f8f9ff",
+                        "primary-fixed": "#d9e2ff",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed": "#002109",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed-dim": "#adc7ff",
+                        "on-secondary-fixed-variant": "#24467e",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-dim": "#cbdbf5",
+                        "on-primary-fixed": "#001944",
+                        "tertiary": "#006a2c",
+                        "tertiary-container": "#008639",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#fdfbff",
+                        "secondary": "#3e5e98",
+                        "inverse-primary": "#afc6ff",
+                        "on-primary-fixed-variant": "#00429a",
+                        "surface-container-high": "#dce9ff",
+                        "secondary-container": "#9fbeff",
+                        "surface-tint": "#0058c9",
+                        "inverse-surface": "#213145",
+                        "on-error": "#ffffff",
+                        "outline": "#727786",
+                        "background": "#f8f9ff",
+                        "outline-variant": "#c2c6d7",
+                        "error": "#ba1a1a",
+                        "primary-fixed-dim": "#afc6ff",
+                        "tertiary-fixed-dim": "#62df7d",
+                        "on-primary": "#ffffff",
+                        "surface-bright": "#f8f9ff",
+                        "tertiary-fixed": "#7ffc97",
+                        "on-tertiary-container": "#f2ffee",
+                        "on-secondary-fixed": "#001a41",
+                        "on-surface-variant": "#424654",
+                        "on-secondary-container": "#2b4c85",
+                        "primary-container": "#1e6eeb",
+                        "primary": "#0056c3",
+                        "on-error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin": "24px",
+                        "gutter": "20px",
+                        "xl": "32px",
+                        "sm": "12px",
+                        "lg": "24px",
+                        "md": "16px",
+                        "base": "4px",
+                        "xs": "8px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "data-mono": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-xl": ["Manrope"],
+                        "headline-md": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "data-mono": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-xl": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "headline-md": ["18px", { "lineHeight": "26px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<header class="bg-white dark:bg-slate-900 flex justify-between items-center px-6 h-16 w-full sticky top-0 z-50 docked full-width top-0 border-b border-slate-200 dark:border-slate-800 flat no shadows font-manrope text-sm font-medium">
+<div class="flex items-center gap-6">
+<div class="text-xl font-black text-blue-700 dark:text-blue-400">AgriTrace</div>
+<nav class="hidden md:flex items-center gap-6 h-full">
+<a class="text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center h-full px-2" href="#">工作台</a>
+<a class="text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center h-full px-2" href="#">溯源节点</a>
+<a class="text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center h-full px-2" href="#">Quality Audits</a>
+<a class="text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center h-full px-2" href="#">Compliance Panel</a>
+<a class="text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400 pb-1 flex items-center h-full px-2" href="#">库存</a>
+<a class="text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center h-full px-2" href="#">Logistics</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-blue-600 dark:text-blue-400 font-medium px-4 py-2 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors rounded">Switch Role</button>
+<div class="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+<button class="p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-full transition-colors"><span class="material-symbols-outlined">notifications</span></button>
+<button class="p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-full transition-colors"><span class="material-symbols-outlined">settings</span></button>
+</div>
+<div class="w-8 h-8 rounded-full bg-surface-variant overflow-hidden border border-outline-variant">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="Corporate headshot of a professional in a modern setting with neutral lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCL163XUkETR6XXCe__Md6-PlBZb616eCVy5oVFcu3xPc7WlWHbh4P_DGrprLKxzvtr7GztqiyXJ8LDYx0k21nw9vc2m8_LIREHExk18zoUD1oD16y_5504hz4pMWtHhmrXxAOwcbDAbjDinzdkHJVdfxiK0ZEUhRGHgur-MFMNMfkFoDFFfYYegjiKbFVnMyoYfStizGCFudefxfeoo-2QxKdZVRHmtPrYvejg4TmKFja2LSZ-fppiSUWhIVLWK5Q9lExI9o3IirkW"/>
+</div>
+</div>
+</header>
+<div class="flex flex-1">
+<!-- SideNavBar (Hidden on Mobile) -->
+<aside class="hidden md:flex flex-col fixed left-0 top-16 h-[calc(100vh-4rem)] z-40 bg-slate-50 dark:bg-slate-950 text-blue-600 dark:text-blue-400 font-manrope text-sm tracking-tight docked left-0 w-64 border-r border-slate-200 dark:border-slate-800 flat no shadows">
+<div class="p-6 border-b border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-bold overflow-hidden">
+<img alt="System Administrator" class="w-full h-full object-cover" data-alt="Professional corporate logo or avatar placeholder with blue tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyAKKE73PV0WWK473FViT7crfM31t0FhetSTISpjwH73ocg3niR-tcbKtaaXct40wjXxZCOXB6u6YRjXlNk0Ot5a8Q8RwDAQ_c_gCEJ6Qk-ZUr6WqSODep3v5OQduM9Y_8yI-cckvqRgMTsl74Ax6m7kepqkVBCRPlgyeZjntze6Ye2aQJrz4RAPpOnJv2UaHe6p3n0CQj8n7ws6OR1Ov1947yGyu9Qak-6Eer0_gcdRI8jcE-HTb9tT32jnxlDcDeQ1OAwm8CxAU6"/>
+</div>
+<div>
+<div class="text-lg font-bold text-blue-800 dark:text-blue-200 leading-tight">AgriTrace Global</div>
+<div class="text-xs text-slate-500 dark:text-slate-400">Industrial Supply Chain</div>
+</div>
+</div>
+</div>
+<nav class="flex-1 py-4 overflow-y-auto">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                    工作台
+                </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">hub</span>
+                    溯源节点
+                </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">verified_user</span>
+                    Quality Audits
+                </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">gavel</span>
+                    Compliance Panel
+                </a>
+<a class="flex items-center gap-3 px-4 py-3 text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-900/20 border-r-4 border-blue-600 dark:border-blue-400 font-semibold Active: translate-x-1" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+                    库存
+                </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">local_shipping</span>
+                    Logistics
+                </a>
+</nav>
+<div class="p-4 border-t border-slate-200 dark:border-slate-800">
+<button class="w-full bg-primary-container text-on-primary text-body-md font-semibold py-2 px-4 rounded hover:bg-primary transition-colors flex justify-center items-center gap-2 mb-4">
+                    Verify Block
+                </button>
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200 rounded text-sm" href="#">
+<span class="material-symbols-outlined text-[20px]">help</span>
+                        Support
+                    </a>
+<a class="flex items-center gap-3 px-4 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-200 rounded text-sm" href="#">
+<span class="material-symbols-outlined text-[20px]">logout</span>
+                        Sign Out
+                    </a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-64 p-margin overflow-x-hidden">
+<!-- Page Header -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between mb-margin gap-4">
+<div>
+<div class="flex items-center gap-2 text-label-sm text-on-surface-variant mb-1">
+<a class="hover:text-primary" href="#">库存</a>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-on-surface">批次详情</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface">Batch #ORG-2023-8942</h1>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 border border-primary text-primary font-body-md font-medium rounded hover:bg-surface-container-low transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">print</span>
+                        Print Label
+                    </button>
+<button class="px-4 py-2 bg-primary-container text-on-primary font-body-md font-medium rounded hover:bg-primary transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">qr_code_scanner</span>
+                        查看消费者二维码
+                    </button>
+</div>
+</div>
+<!-- Content Grid Layout -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-gutter">
+<!-- Left Column (Main Details) -->
+<div class="xl:col-span-8 flex flex-col gap-gutter">
+<!-- Batch Summary Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-lg">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-md flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">info</span>
+                            Product Information
+                        </h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-y-md gap-x-xl">
+<div>
+<span class="block text-label-sm text-on-surface-variant mb-base">Product Name</span>
+<span class="font-data-mono text-data-mono text-on-surface">Premium Organic Fuji Apples</span>
+</div>
+<div>
+<span class="block text-label-sm text-on-surface-variant mb-base">SKU / Article No.</span>
+<span class="font-data-mono text-data-mono text-on-surface">APP-FUJ-ORG-001</span>
+</div>
+<div>
+<span class="block text-label-sm text-on-surface-variant mb-base">Origin Farm</span>
+<span class="font-data-mono text-data-mono text-on-surface">Green Valley Orchards, Washington</span>
+</div>
+<div>
+<span class="block text-label-sm text-on-surface-variant mb-base">Certifications</span>
+<div class="flex gap-2 mt-1">
+<span class="px-2 py-1 bg-tertiary-container text-on-tertiary-container text-[10px] font-bold rounded uppercase tracking-wider">USDA Organic</span>
+<span class="px-2 py-1 bg-surface-container-highest text-on-surface text-[10px] font-bold rounded uppercase tracking-wider">Non-GMO</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Supermarket Entry & Shelving -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden">
+<div class="p-lg border-b border-outline-variant bg-surface-container-low flex justify-between items-center">
+<h2 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">storefront</span>
+                                Retail Operations Status
+                            </h2>
+<span class="px-3 py-1 bg-tertiary-container text-on-tertiary-container text-label-sm font-bold rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                                On Shelf
+                            </span>
+</div>
+<div class="p-lg grid grid-cols-1 md:grid-cols-3 gap-lg">
+<div class="bg-surface p-md rounded border border-outline-variant/50">
+<div class="flex items-center gap-2 text-on-surface-variant mb-3">
+<span class="material-symbols-outlined text-[20px]">login</span>
+<h3 class="font-body-md font-semibold">Receiving Record</h3>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between">
+<span class="text-label-sm text-on-surface-variant">Date:</span>
+<span class="font-data-mono text-[13px] text-on-surface">Oct 12, 2023 08:30</span>
+</div>
+<div class="flex justify-between">
+<span class="text-label-sm text-on-surface-variant">Quantity:</span>
+<span class="font-data-mono text-[13px] text-on-surface">500 kg (50 boxes)</span>
+</div>
+<div class="flex justify-between">
+<span class="text-label-sm text-on-surface-variant">Inspector:</span>
+<span class="font-data-mono text-[13px] text-on-surface">J. Smith (ID: 8492)</span>
+</div>
+<div class="flex justify-between">
+<span class="text-label-sm text-on-surface-variant">Quality Check:</span>
+<span class="font-data-mono text-[13px] text-tertiary">Passed - Grade A</span>
+</div>
+</div>
+</div>
+<div class="bg-surface p-md rounded border border-outline-variant/50 shadow-[0_4px_12px_rgba(0,0,0,0.05)] border-primary/30">
+<div class="flex items-center gap-2 text-primary mb-3">
+<span class="material-symbols-outlined text-[20px]">shelves</span>
+<h3 class="font-body-md font-semibold">Shelving Details</h3>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between">
+<span class="text-label-sm text-on-surface-variant">Location:</span>
+<span class="font-data-mono text-[13px] text-on-surface">Aisle 4, Section B</span>
+</div>
+<div class="flex justify-between">
+<span class="text-label-sm text-on-surface-variant">Shelved Date:</span>
+<span class="font-data-mono text-[13px] text-on-surface">Oct 12, 2023 10:15</span>
+</div>
+<div class="flex justify-between">
+<span class="text-label-sm text-on-surface-variant">Current Qty:</span>
+<span class="font-data-mono text-[13px] text-on-surface">320 kg</span>
+</div>
+<div class="flex justify-between">
+<span class="text-label-sm text-on-surface-variant">Display Temp:</span>
+<span class="font-data-mono text-[13px] text-on-surface">4°C (Normal)</span>
+</div>
+</div>
+</div>
+<div class="bg-surface p-md rounded border border-outline-variant/50">
+<div class="flex items-center gap-2 text-on-surface-variant mb-3">
+<span class="material-symbols-outlined text-[20px]">point_of_sale</span>
+<h3 class="font-body-md font-semibold">Sales Status</h3>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between">
+<span class="text-label-sm text-on-surface-variant">Sold Quantity:</span>
+<span class="font-data-mono text-[13px] text-on-surface">180 kg</span>
+</div>
+<div class="flex justify-between">
+<span class="text-label-sm text-on-surface-variant">Spoilage/Waste:</span>
+<span class="font-data-mono text-[13px] text-on-surface">0 kg</span>
+</div>
+<div class="flex justify-between">
+<span class="text-label-sm text-on-surface-variant">Sell-by Date:</span>
+<span class="font-data-mono text-[13px] text-on-surface">Oct 26, 2023</span>
+</div>
+<div class="flex justify-between">
+<span class="text-label-sm text-on-surface-variant">Velocity:</span>
+<span class="font-data-mono text-[13px] text-on-surface">High (36 kg/day)</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column (Context & Verification) -->
+<div class="xl:col-span-4 flex flex-col gap-gutter">
+<!-- Blockchain Verification Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-lg">
+<div class="flex justify-between items-start mb-md">
+<h2 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary">verified</span>
+                                Chain Verification
+                            </h2>
+<div class="p-2 bg-surface-container-low rounded">
+<span class="material-symbols-outlined text-on-surface-variant text-[24px]">qr_code_2</span>
+</div>
+</div>
+<div class="bg-surface rounded p-md border border-outline-variant/50 mb-4">
+<span class="block text-label-sm text-on-surface-variant mb-1">Current Block Hash</span>
+<div class="font-data-mono text-[11px] text-on-surface break-all bg-surface-container p-2 rounded text-secondary">
+                                0x8f3c...9a2b7e1d4c5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b
+                            </div>
+</div>
+<ul class="space-y-3">
+<li class="flex justify-between text-sm">
+<span class="text-on-surface-variant">Network:</span>
+<span class="font-data-mono font-medium text-on-surface">AgriChain Mainnet</span>
+</li>
+<li class="flex justify-between text-sm">
+<span class="text-on-surface-variant">Smart Contract:</span>
+<span class="font-data-mono font-medium text-primary hover:underline cursor-pointer">View Contract</span>
+</li>
+<li class="flex justify-between text-sm">
+<span class="text-on-surface-variant">Last Sync:</span>
+<span class="font-data-mono font-medium text-on-surface">2 mins ago</span>
+</li>
+</ul>
+</div>
+<!-- Vertical Timeline (Tail End) -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-lg flex-1">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-md pr-2 whitespace-normal break-words leading-relaxed">Recent 溯源节点</h2>
+<div class="relative pl-6 space-y-6 before:absolute before:inset-y-0 before:left-[11px] before:w-[2px] before:bg-outline-variant/30">
+<!-- Active Node -->
+<div class="relative">
+<div class="absolute -left-6 w-6 h-6 rounded-full bg-surface-container-lowest border-2 border-primary flex items-center justify-center z-10 shadow-[0_0_0_4px_white]">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+</div>
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-body-md font-semibold text-on-surface">Retail Shelving</h4>
+<span class="text-label-sm text-on-surface-variant">Today, 10:15</span>
+</div>
+<p class="text-sm text-on-surface-variant">Metro Supermarket, Branch #42</p>
+<div class="mt-2 text-xs font-data-mono text-tertiary flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">link</span>
+                                    Tx 确认ed
+                                </div>
+</div>
+<!-- Completed Node -->
+<div class="relative">
+<div class="absolute -left-6 w-6 h-6 rounded-full bg-tertiary-container flex items-center justify-center z-10 shadow-[0_0_0_4px_white]">
+<span class="material-symbols-outlined text-on-tertiary-container text-[14px]" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-body-md font-semibold text-on-surface">Retail Receiving</h4>
+<span class="text-label-sm text-on-surface-variant">Today, 08:30</span>
+</div>
+<p class="text-sm text-on-surface-variant">Metro Supermarket Distribution</p>
+</div>
+<!-- Completed Node -->
+<div class="relative">
+<div class="absolute -left-6 w-6 h-6 rounded-full bg-tertiary-container flex items-center justify-center z-10 shadow-[0_0_0_4px_white]">
+<span class="material-symbols-outlined text-on-tertiary-container text-[14px]" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-body-md font-semibold text-on-surface">Cold Chain Transit</h4>
+<span class="text-label-sm text-on-surface-variant">Oct 11, 14:00</span>
+</div>
+<p class="text-sm text-on-surface-variant">Logistics Provider: FreshTrans Ltd.</p>
+</div>
+<button class="text-sm font-medium text-primary hover:text-primary-container transition-colors pt-2 w-full text-center">View Full Journey</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>L01 Logistics 工作台</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "inverse-primary": "#afc6ff",
+                      "on-surface": "#0b1c30",
+                      "secondary-fixed": "#d8e2ff",
+                      "outline-variant": "#c2c6d7",
+                      "tertiary-container": "#008639",
+                      "on-tertiary": "#ffffff",
+                      "on-primary-fixed-variant": "#00429a",
+                      "primary-fixed-dim": "#afc6ff",
+                      "inverse-surface": "#213145",
+                      "on-primary": "#ffffff",
+                      "on-tertiary-fixed": "#002109",
+                      "on-error-container": "#93000a",
+                      "error": "#ba1a1a",
+                      "primary-container": "#1e6eeb",
+                      "on-primary-container": "#fdfbff",
+                      "surface-variant": "#d3e4fe",
+                      "secondary-container": "#9fbeff",
+                      "inverse-on-surface": "#eaf1ff",
+                      "background": "#f8f9ff",
+                      "secondary": "#3e5e98",
+                      "outline": "#727786",
+                      "surface-bright": "#f8f9ff",
+                      "primary": "#0056c3",
+                      "surface-tint": "#0058c9",
+                      "surface-dim": "#cbdbf5",
+                      "primary-fixed": "#d9e2ff",
+                      "on-tertiary-fixed-variant": "#005320",
+                      "on-surface-variant": "#424654",
+                      "tertiary-fixed-dim": "#62df7d",
+                      "on-secondary-fixed-variant": "#24467e",
+                      "surface-container-lowest": "#ffffff",
+                      "error-container": "#ffdad6",
+                      "on-primary-fixed": "#001944",
+                      "tertiary": "#006a2c",
+                      "surface-container-high": "#dce9ff",
+                      "on-secondary": "#ffffff",
+                      "secondary-fixed-dim": "#adc7ff",
+                      "on-secondary-fixed": "#001a41",
+                      "surface-container": "#e5eeff",
+                      "tertiary-fixed": "#7ffc97",
+                      "surface": "#f8f9ff",
+                      "on-tertiary-container": "#f2ffee",
+                      "on-secondary-container": "#2b4c85",
+                      "on-background": "#0b1c30",
+                      "on-error": "#ffffff",
+                      "surface-container-low": "#eff4ff",
+                      "surface-container-highest": "#d3e4fe"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "xl": "32px",
+                      "margin": "24px",
+                      "gutter": "20px",
+                      "xs": "8px",
+                      "md": "16px",
+                      "lg": "24px",
+                      "sm": "12px",
+                      "base": "4px"
+              },
+              "fontFamily": {
+                      "headline-xl": ["Manrope"],
+                      "data-mono": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "label-sm": ["Inter"],
+                      "body-md": ["Inter"],
+                      "headline-md": ["Manrope"]
+              },
+              "fontSize": {
+                      "headline-xl": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                      "data-mono": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "headline-md": ["18px", {"lineHeight": "26px", "fontWeight": "600"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+          font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined[data-weight="fill"] {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface min-h-screen flex flex-col font-body-md text-body-md">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 border-b border-slate-200 dark:border-slate-800 shadow-sm flex justify-between items-center h-16 px-6 bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 font-manrope antialiased tracking-tight">
+<!-- Logo -->
+<div class="text-xl font-bold text-blue-700 dark:text-blue-400 tracking-wider">AgriTrace Logistics</div>
+<!-- Search & Actions -->
+<div class="flex items-center gap-4">
+<!-- Search Bar (on_right) -->
+<div class="relative hidden md:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-sm">search</span>
+<input class="pl-9 pr-4 py-1.5 bg-surface-container-low border border-outline-variant rounded-full text-sm focus:outline-none focus:border-primary w-64 transition-colors text-on-surface" placeholder="Search batches..." type="text"/>
+</div>
+<!-- Trailing Icons -->
+<button class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors active:scale-95 duration-150 p-2 rounded-full flex items-center justify-center text-slate-600 dark:text-slate-400">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors active:scale-95 duration-150 p-2 rounded-full flex items-center justify-center text-slate-600 dark:text-slate-400">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<button class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors active:scale-95 duration-150 p-2 rounded-full flex items-center justify-center text-slate-600 dark:text-slate-400">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</nav>
+<!-- App Container -->
+<div class="flex flex-1 pt-16">
+<!-- SideNavBar (Hidden on Mobile) -->
+<aside class="h-screen w-64 fixed left-0 top-0 pt-16 border-r border-slate-200 dark:border-slate-800 flat no shadows flex flex-col py-4 bg-slate-50 dark:bg-slate-950 text-blue-600 dark:text-blue-400 font-manrope text-sm font-medium hidden md:flex z-40 transition-all duration-200 ease-in-out">
+<!-- Header -->
+<div class="px-6 py-4 flex items-center gap-3 mb-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container-lowest border border-outline-variant flex items-center justify-center shrink-0 overflow-hidden shadow-sm">
+<img alt="Organization Logo" class="w-full h-full object-cover" data-alt="Minimalist abstract geometric logo for an agricultural logistics company using blue and white tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuASYwl9wkIp9u7id9d3NEFzhamy7Kg4sljHMux6niuAUAHAuquXc9hhyL86cP0x3WSveanu_gXez-Wmldo-oJgeeOhSTA2IYmHWXGMH6j4j0Mj66oURzoV08TzGcqbHcueH2vsM5xwWKalO9DF1Lf8euPpOyRIczWVNhiq5C29xOcixv7UFIzODxQacD9hg-lad1SQKsPunH26dTT9ILduR6AdLpzlolY1ecDQ8VzkbqfE6nkSrcDLI3Qfj3Ba3cfFd7f-Zt7vceGGA"/>
+</div>
+<div>
+<div class="text-lg font-extrabold text-blue-800 dark:text-blue-300 tracking-tight">Logistics Manager</div>
+<div class="text-xs text-slate-500 font-body-md text-label-sm">Batch 溯源 Unit</div>
+</div>
+</div>
+<!-- Tabs -->
+<nav class="flex-1 px-3 py-2 space-y-1 overflow-y-auto">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 border-r-4 border-blue-600 hover:bg-blue-50 dark:hover:bg-slate-900 hover:text-blue-600 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-weight="fill">dashboard</span>
+                    工作台
+                </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-blue-50 dark:hover:bg-slate-900 hover:text-blue-600 transition-all duration-200 ease-in-out border-r-4 border-transparent" href="#">
+<span class="material-symbols-outlined">pending_actions</span>
+                    待运输批次
+                </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-blue-50 dark:hover:bg-slate-900 hover:text-blue-600 transition-all duration-200 ease-in-out border-r-4 border-transparent" href="#">
+<span class="material-symbols-outlined">local_shipping</span>
+                    In Transit
+                </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-blue-50 dark:hover:bg-slate-900 hover:text-blue-600 transition-all duration-200 ease-in-out border-r-4 border-transparent" href="#">
+<span class="material-symbols-outlined">history</span>
+                    History
+                </a>
+</nav>
+<!-- Footer Tabs -->
+<div class="px-3 pt-4 border-t border-slate-200 dark:border-slate-800 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-blue-50 dark:hover:bg-slate-900 hover:text-blue-600 transition-all duration-200 ease-in-out border-r-4 border-transparent" href="#">
+<span class="material-symbols-outlined">settings</span>
+                    Settings
+                </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-blue-50 dark:hover:bg-slate-900 hover:text-blue-600 transition-all duration-200 ease-in-out border-r-4 border-transparent" href="#">
+<span class="material-symbols-outlined">logout</span>
+                    Log Out
+                </a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 md:ml-64 p-margin lg:p-xl w-full">
+<div class="max-w-[1600px] mx-auto space-y-xl">
+<!-- Welcome Banner -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+<div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface">Overview</h1>
+<p class="font-body-md text-body-md text-outline mt-1">Real-time logistics and traceability monitoring.</p>
+</div>
+<div class="flex gap-3">
+<button class="bg-surface-container-lowest text-on-surface border border-outline-variant px-4 py-2 rounded-lg font-label-sm text-label-sm hover:bg-surface-variant transition-colors flex items-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-[18px]">download</span> 导出报告
+                        </button>
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg font-label-sm text-label-sm shadow-[0px_4px_12px_rgba(30,110,235,0.2)] hover:bg-primary-container hover:text-on-primary-container transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add</span> Create Task
+                        </button>
+</div>
+</div>
+<!-- Stats Bento Grid -->
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-gutter">
+<!-- Stat 1 -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-lg shadow-[0px_4px_12px_rgba(0,0,0,0.02)] flex flex-col justify-between h-32 hover:border-secondary transition-colors group">
+<div class="flex justify-between items-start">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wide">待运输批次</span>
+<span class="material-symbols-outlined text-outline group-hover:text-secondary transition-colors">pending_actions</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="font-headline-xl text-[32px] font-extrabold text-on-surface">24</span>
+<span class="text-xs text-outline font-medium">tasks</span>
+</div>
+</div>
+<!-- Stat 2 -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-lg shadow-[0px_4px_12px_rgba(0,0,0,0.02)] flex flex-col justify-between h-32 hover:border-primary transition-colors group">
+<div class="flex justify-between items-start">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wide">In Transit</span>
+<span class="material-symbols-outlined text-primary">local_shipping</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="font-headline-xl text-[32px] font-extrabold text-on-surface">118</span>
+<span class="text-xs text-outline font-medium">active</span>
+</div>
+</div>
+<!-- Stat 3 -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-lg shadow-[0px_4px_12px_rgba(0,0,0,0.02)] flex flex-col justify-between h-32 hover:border-tertiary transition-colors group">
+<div class="flex justify-between items-start">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wide">Delivered</span>
+<span class="material-symbols-outlined text-tertiary">check_circle</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="font-headline-xl text-[32px] font-extrabold text-on-surface">45</span>
+<span class="text-xs text-tertiary font-medium">+12 today</span>
+</div>
+</div>
+<!-- Stat 4 -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-lg shadow-[0px_4px_12px_rgba(0,0,0,0.02)] flex flex-col justify-between h-32 hover:border-error transition-colors group">
+<div class="flex justify-between items-start">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wide">Temp Alerts</span>
+<span class="material-symbols-outlined text-error" data-weight="fill">warning</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="font-headline-xl text-[32px] font-extrabold text-error">2</span>
+<span class="text-xs text-error font-medium">require action</span>
+</div>
+</div>
+<!-- Stat 5 -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-lg shadow-[0px_4px_12px_rgba(0,0,0,0.02)] flex flex-col justify-between h-32 relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-br from-tertiary/5 to-transparent"></div>
+<div class="relative z-10 flex justify-between items-start">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wide">On-chain Records</span>
+<span class="material-symbols-outlined text-tertiary">link</span>
+</div>
+<div class="relative z-10 flex items-baseline gap-2">
+<span class="font-headline-xl text-[32px] font-extrabold text-tertiary-container">892</span>
+<span class="text-xs text-tertiary font-medium">blocks added</span>
+</div>
+</div>
+</div>
+<!-- Split Content Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
+<!-- Left Column: 待运输批次 Data Table (8 cols) -->
+<div class="lg:col-span-8 bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden flex flex-col shadow-[0px_4px_12px_rgba(0,0,0,0.02)]">
+<!-- Table Header -->
+<div class="p-lg border-b border-outline-variant flex justify-between items-center bg-surface-bright">
+<div class="flex items-center gap-3">
+<h2 class="font-headline-md text-headline-md text-on-surface">待运输批次</h2>
+<span class="bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded-full text-xs font-bold font-data-mono">24</span>
+</div>
+<button class="text-outline hover:text-primary transition-colors flex items-center gap-1 font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[20px]">filter_list</span> Filter
+                            </button>
+</div>
+<!-- Table Content -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+<tr>
+<th class="py-sm px-md border-b border-outline-variant font-medium">Batch ID</th>
+<th class="py-sm px-md border-b border-outline-variant font-medium">Product Details</th>
+<th class="py-sm px-md border-b border-outline-variant font-medium">Routing</th>
+<th class="py-sm px-md border-b border-outline-variant font-medium">Status</th>
+<th class="py-sm px-md border-b border-outline-variant font-medium text-right">Action</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md divide-y divide-outline-variant bg-surface-container-lowest">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="py-md px-md">
+<div class="font-data-mono text-data-mono text-secondary group-hover:text-primary transition-colors cursor-pointer">#BT-8821</div>
+<div class="text-[11px] text-outline mt-0.5 font-data-mono">0x7A2...F9E</div>
+</td>
+<td class="py-md px-md">
+<div class="font-medium text-on-surface">Organic Fuji Apples</div>
+<div class="text-xs text-outline mt-0.5">Qty: 2,500 kg • Temp: 2-4°C</div>
+</td>
+<td class="py-md px-md">
+<div class="flex items-center gap-1.5 text-sm text-on-surface">
+<span class="truncate max-w-[100px]" title="Central Processing Hub">Central Hub</span>
+<span class="material-symbols-outlined text-[16px] text-outline">arrow_right_alt</span>
+<span class="truncate max-w-[100px] font-medium" title="Northern Distribution">North Dist.</span>
+</div>
+</td>
+<td class="py-md px-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-surface-variant text-on-surface-variant border border-outline-variant/50">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span> Ready for Pickup
+                                            </span>
+</td>
+<td class="py-md px-md text-right">
+<button class="bg-primary/10 text-primary hover:bg-primary hover:text-on-primary px-3 py-1.5 rounded-lg font-label-sm text-label-sm font-semibold transition-all">Accept Task</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low transition-colors group bg-surface-bright/50">
+<td class="py-md px-md">
+<div class="font-data-mono text-data-mono text-secondary group-hover:text-primary transition-colors cursor-pointer">#BT-8822</div>
+<div class="text-[11px] text-outline mt-0.5 font-data-mono">待上链</div>
+</td>
+<td class="py-md px-md">
+<div class="font-medium text-on-surface">Premium Wagyu Beef</div>
+<div class="text-xs text-outline mt-0.5">Qty: 450 kg • Temp: -18°C</div>
+</td>
+<td class="py-md px-md">
+<div class="flex items-center gap-1.5 text-sm text-on-surface">
+<span class="truncate max-w-[100px]" title="East Processing">East Proc.</span>
+<span class="material-symbols-outlined text-[16px] text-outline">arrow_right_alt</span>
+<span class="truncate max-w-[100px] font-medium" title="Port Authority">Port Auth.</span>
+</div>
+</td>
+<td class="py-md px-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-secondary-fixed/50 text-on-secondary-fixed border border-secondary-fixed-dim/50">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Assigning Driver
+                                            </span>
+</td>
+<td class="py-md px-md text-right">
+<button class="bg-primary/10 text-primary hover:bg-primary hover:text-on-primary px-3 py-1.5 rounded-lg font-label-sm text-label-sm font-semibold transition-all">Accept Task</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="py-md px-md">
+<div class="font-data-mono text-data-mono text-secondary group-hover:text-primary transition-colors cursor-pointer">#BT-8823</div>
+<div class="text-[11px] text-outline mt-0.5 font-data-mono">0x3B1...A2C</div>
+</td>
+<td class="py-md px-md">
+<div class="font-medium text-on-surface">Hydroponic Lettuce</div>
+<div class="text-xs text-outline mt-0.5">Qty: 1,200 units • Temp: 4-6°C</div>
+</td>
+<td class="py-md px-md">
+<div class="flex items-center gap-1.5 text-sm text-on-surface">
+<span class="truncate max-w-[100px]" title="Vertical Farm Unit B">Farm Unit B</span>
+<span class="material-symbols-outlined text-[16px] text-outline">arrow_right_alt</span>
+<span class="truncate max-w-[100px] font-medium" title="Metro Market HQ">Metro HQ</span>
+</div>
+</td>
+<td class="py-md px-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-surface-variant text-on-surface-variant border border-outline-variant/50">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span> Ready for Pickup
+                                            </span>
+</td>
+<td class="py-md px-md text-right">
+<button class="bg-primary/10 text-primary hover:bg-primary hover:text-on-primary px-3 py-1.5 rounded-lg font-label-sm text-label-sm font-semibold transition-all">Accept Task</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-4 border-t border-outline-variant bg-surface-bright flex justify-center">
+<button class="text-secondary hover:text-primary font-label-sm text-label-sm font-medium transition-colors">查看全部待处理任务 →</button>
+</div>
+</div>
+<!-- Right Column: Status/Alerts Timeline (4 cols) -->
+<div class="lg:col-span-4 space-y-gutter">
+<!-- Alerts Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-lg flex flex-col shadow-[0px_4px_12px_rgba(0,0,0,0.02)] relative overflow-hidden">
+<!-- Subtle red glow for active alerts context -->
+<div class="absolute top-0 right-0 w-32 h-32 bg-error/5 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
+<div class="flex justify-between items-center mb-6 relative z-10">
+<h2 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-error" data-weight="fill">warning</span>
+                                    Critical Alerts
+                                </h2>
+<button class="text-outline hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-[20px]">more_horiz</span>
+</button>
+</div>
+<div class="space-y-4 relative z-10">
+<!-- Temp Alert -->
+<div class="flex gap-4 p-4 rounded-lg bg-error-container/10 border border-error/20 relative group">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-error rounded-l-lg"></div>
+<div class="shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-error text-[20px] bg-error/10 p-1.5 rounded-full">thermostat</span>
+</div>
+<div class="flex-1">
+<div class="font-label-sm text-label-sm text-on-surface font-bold mb-1">Temperature Anomaly</div>
+<div class="font-body-md text-body-md text-on-surface-variant text-sm mb-3 leading-snug">
+                                            Batch <span class="font-data-mono text-data-mono text-secondary font-semibold">#BT-7742</span> reading at <span class="text-error font-bold">6.2°C</span>. Exceeds target threshold of 2-4°C.
+                                        </div>
+<div class="flex items-center justify-between">
+<span class="text-[11px] text-outline font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">schedule</span> 10 mins ago
+                                            </span>
+<button class="text-error hover:text-on-error-container font-label-sm text-label-sm font-bold tracking-wide">INTERVENE</button>
+</div>
+</div>
+</div>
+<!-- Overdue Alert -->
+<div class="flex gap-4 p-4 rounded-lg bg-surface-variant/30 border border-outline-variant relative">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary rounded-l-lg"></div>
+<div class="shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-secondary text-[20px] bg-surface-variant p-1.5 rounded-full">minor_crash</span>
+</div>
+<div class="flex-1">
+<div class="font-label-sm text-label-sm text-on-surface font-bold mb-1">Transit Delay</div>
+<div class="font-body-md text-body-md text-on-surface-variant text-sm mb-3 leading-snug">
+                                            Truck TRK-992 carrying Batch <span class="font-data-mono text-data-mono text-secondary font-semibold">#BT-7690</span> delayed by 2 hours entering Sector 4.
+                                        </div>
+<div class="flex items-center justify-between">
+<span class="text-[11px] text-outline font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">schedule</span> 45 mins ago
+                                            </span>
+<button class="text-primary hover:text-primary-container font-label-sm text-label-sm font-bold tracking-wide">VIEW GPS</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- System Status Mini Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-lg flex items-center justify-between shadow-[0px_4px_12px_rgba(0,0,0,0.02)]">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-tertiary/10 flex items-center justify-center border border-tertiary/20">
+<span class="material-symbols-outlined text-tertiary">hub</span>
+</div>
+<div>
+<div class="font-label-sm text-label-sm text-outline mb-0.5 uppercase tracking-wider">Node Status</div>
+<div class="font-body-md text-body-md text-on-surface font-semibold flex items-center gap-2">
+                                        Active &amp; Syncing
+                                    </div>
+</div>
+</div>
+<div class="flex items-center gap-1.5 text-tertiary bg-tertiary/10 px-2.5 py-1 rounded-full font-label-sm text-[11px] font-bold border border-tertiary/20">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse"></span>
+                                ON-CHAIN
+                            </div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>
