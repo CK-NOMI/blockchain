@@ -2,9 +2,26 @@
 
 import PrototypeCatalogView from '../views/prototype/PrototypeCatalogView.vue'
 import PrototypeFrameView from '../views/prototype/PrototypeFrameView.vue'
+import AppLayout from '../components/AppLayout.vue'
+
+// 物流模块真实组件
+import LogisticsDashboardView from '../views/logistics/LogisticsDashboardView.vue'
+import LogisticsPendingView from '../views/logistics/LogisticsPendingView.vue'
+import LogisticsTransportRecordView from '../views/logistics/LogisticsTransportRecordView.vue'
+import LogisticsTempRecordView from '../views/logistics/LogisticsTempRecordView.vue'
+import LogisticsBatchDetailView from '../views/logistics/LogisticsBatchDetailView.vue'
+
+// 零售模块真实组件
+import RetailDashboardView from '../views/retail/RetailDashboardView.vue'
+import RetailPendingView from '../views/retail/RetailPendingView.vue'
+import RetailRecordView from '../views/retail/RetailRecordView.vue'
+import RetailSaleStatusView from '../views/retail/RetailSaleStatusView.vue'
+import RetailQrcodeView from '../views/retail/RetailQrcodeView.vue'
+import RetailBatchDetailView from '../views/retail/RetailBatchDetailView.vue'
 
 import { resolveLandingByRole } from '../config/auth'
 import { inferSlugByPath } from '../config/prototypeFlow'
+import { useAuthStore } from '../stores'
 
 const P = (slug) => ({
   component: PrototypeFrameView,
@@ -12,7 +29,7 @@ const P = (slug) => ({
 })
 
 const routes = [
-  { path: '/', redirect: '/login' },
+  { path: '/', redirect: '/logistics/dashboard' },
 
   { path: '/prototype', name: 'prototype-catalog', component: PrototypeCatalogView, meta: { title: '原型目录' } },
   { path: '/prototype/:slug', name: 'prototype-frame', component: PrototypeFrameView, meta: { title: '原型预览' } },
@@ -48,18 +65,34 @@ const routes = [
   { path: '/processor/file-upload/:batchId', component: PrototypeFrameView, props: { slug: 'm04_pc' }, meta: { title: '报告上传', role: 'PROCESSOR' } },
   { path: '/processor/batch-detail/:batchId', component: PrototypeFrameView, props: { slug: 'm05_pc' }, meta: { title: '批次详情', role: 'PROCESSOR' } },
 
-  { path: '/logistics/dashboard', ...P('l01_pc'), meta: { title: '物流方工作台', role: 'LOGISTICS' } },
-  { path: '/logistics/pending', ...P('l02_pc'), meta: { title: '待运输批次', role: 'LOGISTICS' } },
-  { path: '/logistics/transport-record/:batchId', component: PrototypeFrameView, props: { slug: 'l03_pc' }, meta: { title: '运输记录', role: 'LOGISTICS' } },
-  { path: '/logistics/temp-record/:batchId', component: PrototypeFrameView, props: { slug: 'l04_pc' }, meta: { title: '温湿度记录', role: 'LOGISTICS' } },
-  { path: '/logistics/batch-detail/:batchId', component: PrototypeFrameView, props: { slug: 'l05_pc_1' }, meta: { title: '批次详情', role: 'LOGISTICS' } },
+  {
+    path: '/logistics',
+    component: AppLayout,
+    meta: { role: 'LOGISTICS' },
+    children: [
+      { path: '', redirect: '/logistics/dashboard' },
+      { path: 'dashboard', component: LogisticsDashboardView, meta: { title: '物流方工作台' } },
+      { path: 'pending', component: LogisticsPendingView, meta: { title: '待运输批次' } },
+      { path: 'transport-record/:batchId', component: LogisticsTransportRecordView, meta: { title: '运输记录' } },
+      { path: 'temp-record/:batchId', component: LogisticsTempRecordView, meta: { title: '温湿度记录' } },
+      { path: 'batch-detail/:batchId', component: LogisticsBatchDetailView, meta: { title: '批次详情' } },
+    ],
+  },
 
-  { path: '/retail/dashboard', ...P('r01_pc'), meta: { title: '零售方工作台', role: 'RETAIL' } },
-  { path: '/retail/pending', ...P('r02_pc'), meta: { title: '待入库批次', role: 'RETAIL' } },
-  { path: '/retail/retail-record/:batchId', component: PrototypeFrameView, props: { slug: 'r03_pc' }, meta: { title: '入库记录', role: 'RETAIL' } },
-  { path: '/retail/sale-status/:batchId', component: PrototypeFrameView, props: { slug: 'r04_pc' }, meta: { title: '销售状态', role: 'RETAIL' } },
-  { path: '/retail/qrcode/:batchId', component: PrototypeFrameView, props: { slug: 'r05_pc_1' }, meta: { title: '二维码', role: 'RETAIL' } },
-  { path: '/retail/batch-detail/:batchId', component: PrototypeFrameView, props: { slug: 'r06_pc' }, meta: { title: '批次详情', role: 'RETAIL' } },
+  {
+    path: '/retail',
+    component: AppLayout,
+    meta: { role: 'RETAIL' },
+    children: [
+      { path: '', redirect: '/retail/dashboard' },
+      { path: 'dashboard', component: RetailDashboardView, meta: { title: '零售方工作台' } },
+      { path: 'pending', component: RetailPendingView, meta: { title: '待入库批次' } },
+      { path: 'retail-record/:batchId', component: RetailRecordView, meta: { title: '入库记录' } },
+      { path: 'sale-status/:batchId', component: RetailSaleStatusView, meta: { title: '销售状态' } },
+      { path: 'qrcode/:batchId', component: RetailQrcodeView, meta: { title: '二维码' } },
+      { path: 'batch-detail/:batchId', component: RetailBatchDetailView, meta: { title: '批次详情' } },
+    ],
+  },
 
   { path: '/regulator/dashboard', ...P('g01_pc'), meta: { title: '监管看板', role: 'REGULATOR' } },
   { path: '/regulator/search', ...P('g02_pc'), meta: { title: '综合检索', role: 'REGULATOR' } },
@@ -104,14 +137,48 @@ const isPublicPath = (path) => (
   path.startsWith('/common')
 )
 
+const ROLE_BY_PREFIX = [
+  ['/retail', 'RETAIL'],
+  ['/admin', 'ADMIN'],
+  ['/farmer', 'FARMER'],
+  ['/processor', 'PROCESSOR'],
+  ['/regulator', 'REGULATOR'],
+  ['/logistics', 'LOGISTICS'],
+]
+
+function neededRole(path) {
+  const p = path.toLowerCase()
+  for (const [prefix, role] of ROLE_BY_PREFIX) {
+    if (p.startsWith(prefix)) return role
+  }
+  return ''
+}
+
 router.beforeEach((to, from, next) => {
   const user = JSON.parse(localStorage.getItem('user') || '{}')
+  const isDev = import.meta.env.DEV
 
   if (isPublicPath(to.path)) {
     next()
     return
   }
 
+  // ===== 开发模式：URL 路径自动决定角色，后台自动获取真实 token =====
+  if (isDev) {
+    const role = neededRole(to.path) || 'LOGISTICS'
+    if (user.role !== role) {
+      localStorage.setItem('user', JSON.stringify({ id: 'dev', username: '开发者', role }))
+      // 清除旧 token，触发自动登录
+      localStorage.removeItem('token')
+      const authStore = useAuthStore()
+      authStore.refreshFromStorage()
+    }
+    if (to.path === '/') { next(resolveLandingByRole(role)); return }
+    next()
+    return
+  }
+
+  // ===== 生产模式 =====
   if (!user.role) {
     next('/login')
     return

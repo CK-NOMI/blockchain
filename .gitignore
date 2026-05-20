@@ -22,3 +22,22 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# 敏感文件 - 包含私钥和密码
+.env
+agrichain-backend/.env
+
+# 上传文件
+uploads
+agrichain-backend/uploads
+
+# 测试结果
+test-results
+
+# 区块链配置（含密钥）
+config.genesis
+config.ini
+
+# 临时文件
+修改汇总.md
+前端页面完整设计补充版.txt
