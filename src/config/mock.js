@@ -1,4 +1,4 @@
-﻿export const statusClass = (status) => {
+export const statusClass = (status) => {
   const text = String(status || '').toLowerCase()
   if (text.includes('异常') || text.includes('风险') || text.includes('失败') || text.includes('abnormal') || text.includes('risk') || text.includes('failed')) {
     return 'bg-rose-100 text-rose-700'
@@ -104,6 +104,7 @@ export const generateMockRows = (kind, count = 8) => {
     if (profile.base.includes('action')) row.action = ['新建', '更新', '审计', '停用'][seed % 4]
     if (profile.base.includes('target')) row.target = ['用户', '批次', '节点', '合约'][seed % 4]
     if (profile.base.includes('product')) row.product = ['有机苹果', '鲜番茄', '绿茶', '蓝莓'][seed % 4]
+    if (profile.base.includes('product')) row.origin = ['陕西洛川', '山东寿光', '浙江杭州', '云南昆明'][seed % 4]
     if (profile.base.includes('owner')) row.owner = ['农户团队', '加工中心', '物流中心', '零售节点'][seed % 4]
     if (profile.base.includes('riskLevel')) row.riskLevel = ['低', '中', '高'][seed % 3]
     if (profile.base.includes('batchId')) row.batchId = `SC202405${String(100 + index).padStart(3, '0')}`
