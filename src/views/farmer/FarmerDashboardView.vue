@@ -62,9 +62,7 @@ const router = useRouter()
 const batchStore = useBatchStore()
 
 onMounted(async () => {
-  if (!batchStore.dashboardRows.length) {
-    await batchStore.loadDashboardRows('FARMER')
-  }
+  await batchStore.loadDashboardRows('FARMER')
 })
 
 const rows = computed(() => batchStore.dashboardRows)
@@ -73,7 +71,8 @@ const stats = computed(() => {
   const total = rows.value.length
   const onChain = rows.value.filter((item) => {
     const status = String(item.status || '')
-    return status.includes('已上链') || status.includes('已完成') || status.includes('正常')
+    const code = Number(item.chainStatusCode ?? -1)
+    return code > 0 || status.includes('已上链') || status.includes('已完成') || status.includes('正常') || status.includes('已提交') || status.includes('农事记录')
   }).length
   const pending = Math.max(total - onChain, 0)
   return { total, onChain, pending }
