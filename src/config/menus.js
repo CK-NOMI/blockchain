@@ -1,4 +1,4 @@
-﻿export const roleMenus = {
+export const roleMenus = {
   ADMIN: [
     { to: '/admin/dashboard', icon: 'dashboard', label: '平台概览' },
     { to: '/admin/user-audit', icon: 'fact_check', label: '用户审核' },
@@ -10,9 +10,9 @@
   FARMER: [
     { to: '/farmer/dashboard', icon: 'dashboard', label: '工作台' },
     { to: '/farmer/batch-create', icon: 'add_box', label: '新建批次' },
-    { to: '/farmer/records/SC20240521001', icon: 'edit_note', label: '农事记录' },
+    { to: '/farmer/batches', icon: 'edit_note', label: '农事记录' },
     { to: '/farmer/batches', icon: 'list_alt', label: '我的批次' },
-    { to: '/farmer/batch-detail/SC20240521001', icon: 'receipt_long', label: '批次详情' },
+    { to: '/farmer/batches', icon: 'receipt_long', label: '批次详情' },
   ],
   PROCESSOR: [
     { to: '/processor/dashboard', icon: 'dashboard', label: '工作台' },
