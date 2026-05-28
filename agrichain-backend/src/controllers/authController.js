@@ -43,8 +43,8 @@ export async function login(req, res) {
       return res.status(403).json({ code: 403, data: null, msg: '账号未审核，请联系管理员' });
     }
 
-    // 支持指定角色登录
-    const effectiveRole = role || user.role;
+    // 只有 ADMIN 允许指定角色登录，普通用户只能使用自身角色
+    const effectiveRole = (user.role === 'ADMIN' && role) ? role : user.role;
 
     const token = signToken({
       address: user.addr,
