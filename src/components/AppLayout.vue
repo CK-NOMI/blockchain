@@ -26,7 +26,7 @@
 
       <div class="p-4 border-t border-slate-100 space-y-2">
         <p class="text-xs text-slate-500">用户：<span class="font-semibold text-slate-700">{{ userName }}</span></p>
-        <p class="text-xs text-slate-500">角色：<span class="font-semibold text-slate-700">{{ roleLabel }}</span></p>
+        <p class="text-xs text-slate-500">角色：<span class="font-semibold text-slate-700">{{ userRoleLabel }}</span></p>
         <button
           type="button"
           @click="goLogout"
@@ -55,7 +55,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, watchEffect } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { roleMenus } from '../config/menus'
 import { ROLE_LABELS } from '../config/auth'
@@ -83,6 +83,7 @@ const role = computed(() => {
 })
 const userName = computed(() => authStore.user?.username || 'unknown')
 const roleLabel = computed(() => ROLE_LABELS[role.value] || 'Visitor')
+const userRoleLabel = computed(() => ROLE_LABELS[authStore.role] || 'Visitor')
 const menus = computed(() => roleMenus[role.value] || [])
 const currentTitle = computed(() => route.meta.title || '工作台')
 
@@ -91,4 +92,12 @@ const isActive = (to) => route.path === to || route.path.startsWith(`${to}/`)
 const goLogout = () => {
   router.push('/public/logout')
 }
+
+watchEffect(() => {
+  const fromPath = roleFromPath(route.path)
+  if (fromPath && authStore.role && authStore.role !== fromPath) {
+    authStore.clear()
+    router.replace('/login')
+  }
+})
 </script>
