@@ -1,4 +1,4 @@
-﻿import { defineStore } from 'pinia'
+import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import { authApi } from '../services/api'
 import { resolveLandingByRole } from '../config/auth'
@@ -34,6 +34,7 @@ export const useAuthStore = defineStore('auth', () => {
     loading.value = true
     error.value = ''
     try {
+      clear()
       const data = await authApi.login(payload)
       token.value = data.token
       user.value = data.user
