@@ -5,7 +5,7 @@
   "description": "FISCO BCOS AgriChain Traceability Backend",
   "main": "src/app.js",
   "scripts": {
-    "dev": "node --watch src/app.js",
+    "dev": "chcp 65001 >nul 2>nul & node --watch src/app.js",
     "start": "node src/app.js",
     "deploy": "node scripts/deploy.js",
     "seed": "node scripts/seed.js"
