@@ -1,4 +1,4 @@
-﻿import axios from 'axios'
+import axios from 'axios'
 
 const http = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
@@ -18,11 +18,10 @@ const ROLE_CREDENTIALS = {
 let autoLoginPromise = null
 
 async function ensureToken() {
-  const token = localStorage.getItem('token')
-  if (token && token.length > 30) return token
-
   const user = JSON.parse(localStorage.getItem('user') || '{}')
   const creds = ROLE_CREDENTIALS[user.role]
+  const token = localStorage.getItem('token')
+  if (token && token.length > 30 && (!creds || user.username === creds.username)) return token
   if (!creds) return null
 
   // 防止并发重复登录
@@ -48,10 +47,7 @@ async function ensureToken() {
 }
 
 http.interceptors.request.use(async (config) => {
-  let token = localStorage.getItem('token')
-  if (!token || token.length < 30) {
-    token = await ensureToken()
-  }
+  const token = await ensureToken()
   if (token) {
     config.headers.Authorization = `Bearer ${token}`
   }
