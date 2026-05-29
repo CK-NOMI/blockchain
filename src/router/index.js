@@ -1,8 +1,15 @@
-﻿import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 
 import PrototypeCatalogView from '../views/prototype/PrototypeCatalogView.vue'
 import PrototypeFrameView from '../views/prototype/PrototypeFrameView.vue'
 import AppLayout from '../components/AppLayout.vue'
+
+// 农户模块真实组件
+import FarmerDashboardView from '../views/farmer/FarmerDashboardView.vue'
+import FarmerBatchCreateView from '../views/farmer/FarmerBatchCreateView.vue'
+import FarmerRecordsView from '../views/farmer/FarmerRecordsView.vue'
+import FarmerBatchesView from '../views/farmer/FarmerBatchesView.vue'
+import FarmerBatchDetailView from '../views/farmer/FarmerBatchDetailView.vue'
 
 // 物流模块真实组件
 import LogisticsDashboardView from '../views/logistics/LogisticsDashboardView.vue'
@@ -53,11 +60,19 @@ const routes = [
   { path: '/admin/contract-config', ...P('a05_pc'), meta: { title: '合约配置', role: 'ADMIN' } },
   { path: '/admin/logs', ...P('a06_pc'), meta: { title: '操作日志', role: 'ADMIN' } },
 
-  { path: '/farmer/dashboard', ...P('f01_pc'), meta: { title: '农户工作台', role: 'FARMER' } },
-  { path: '/farmer/batch-create', ...P('f02_pc'), meta: { title: '新建批次', role: 'FARMER' } },
-  { path: '/farmer/records/:batchId', component: PrototypeFrameView, props: { slug: 'f03_pc' }, meta: { title: '农事记录', role: 'FARMER' } },
-  { path: '/farmer/batches', ...P('f04_pc'), meta: { title: '我的批次', role: 'FARMER' } },
-  { path: '/farmer/batch-detail/:batchId', component: PrototypeFrameView, props: { slug: 'f05_pc' }, meta: { title: '批次详情', role: 'FARMER' } },
+  {
+    path: '/farmer',
+    component: AppLayout,
+    meta: { role: 'FARMER' },
+    children: [
+      { path: '', redirect: '/farmer/dashboard' },
+      { path: 'dashboard', component: FarmerDashboardView, meta: { title: '农户工作台' } },
+      { path: 'batch-create', component: FarmerBatchCreateView, meta: { title: '新建批次' } },
+      { path: 'records/:batchId', component: FarmerRecordsView, meta: { title: '农事记录' } },
+      { path: 'batches', component: FarmerBatchesView, meta: { title: '我的批次' } },
+      { path: 'batch-detail/:batchId', component: FarmerBatchDetailView, meta: { title: '批次详情' } },
+    ],
+  },
 
   { path: '/processor/dashboard', ...P('m01_pc'), meta: { title: '加工方工作台', role: 'PROCESSOR' } },
   { path: '/processor/pending', ...P('m02_pc'), meta: { title: '待加工批次', role: 'PROCESSOR' } },
@@ -146,6 +161,15 @@ const ROLE_BY_PREFIX = [
   ['/logistics', 'LOGISTICS'],
 ]
 
+const DEV_USERS = {
+  ADMIN: { id: 'dev-admin', username: 'admin', role: 'ADMIN' },
+  FARMER: { id: 'dev-farmer', username: 'farmer1', role: 'FARMER' },
+  PROCESSOR: { id: 'dev-processor', username: 'processor1', role: 'PROCESSOR' },
+  LOGISTICS: { id: 'dev-logistics', username: 'logistics1', role: 'LOGISTICS' },
+  RETAIL: { id: 'dev-retail', username: 'retail1', role: 'RETAIL' },
+  REGULATOR: { id: 'dev-regulator', username: 'regulator1', role: 'REGULATOR' },
+}
+
 function neededRole(path) {
   const p = path.toLowerCase()
   for (const [prefix, role] of ROLE_BY_PREFIX) {
@@ -166,8 +190,9 @@ router.beforeEach((to, from, next) => {
   // ===== 开发模式：URL 路径自动决定角色，后台自动获取真实 token =====
   if (isDev) {
     const role = neededRole(to.path) || 'LOGISTICS'
-    if (user.role !== role) {
-      localStorage.setItem('user', JSON.stringify({ id: 'dev', username: '开发者', role }))
+    const devUser = DEV_USERS[role] || { id: 'dev', username: '开发者', role }
+    if (user.role !== role || user.username !== devUser.username) {
+      localStorage.setItem('user', JSON.stringify(devUser))
       // 清除旧 token，触发自动登录
       localStorage.removeItem('token')
       const authStore = useAuthStore()

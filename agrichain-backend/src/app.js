@@ -16,6 +16,7 @@ import auditRoutes from './routes/audit.js';
 import adminRoutes from './routes/admin.js';
 
 import errorHandler from './middleware/errorHandler.js';
+import { selfCheckChain } from './services/farmerChainAdapter.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -67,6 +68,15 @@ app.listen(config.port, () => {
   logger.info(`AgriChain backend running on http://127.0.0.1:${config.port}`);
   logger.info(`Environment: ${config.nodeEnv}`);
   logger.info(`FISCO RPC: ${config.fisco.rpcUrls[0]}`);
+  // 链路自检（异步，不阻塞启动）
+  selfCheckChain().then((results) => {
+    for (const r of results) {
+      if (r.ok) logger.info({ check: r.check, value: r.value }, 'chain self-check PASS');
+      else logger.warn({ check: r.check, error: r.error }, 'chain self-check FAIL');
+    }
+  }).catch((err) => {
+    logger.warn({ error: err.message }, 'chain self-check skipped');
+  });
 });
 
 export default app;

@@ -1,6 +1,7 @@
 import { ethers } from 'ethers';
 import config from '../config/index.js';
 import contractsConfig from '../config/contracts.js';
+import contractsV2 from '../config/contractsV2.js';
 
 class FiscoClient {
   constructor() {
@@ -132,6 +133,36 @@ class FiscoClient {
   isReady() {
     return !!this.currentRpc;
   }
+
+  // === 4号农户模块专用：V2 合约交互方法 ===
+
+  async callReadOnlyFrom(name, method, args = [], from) {
+    const cfg = contractsV2[name] || contractsConfig[name];
+    if (!cfg || !cfg.address) throw new Error(`Contract ${name} not configured`);
+    const iface = new ethers.Interface(cfg.abi);
+    const data = iface.encodeFunctionData(method, args);
+    const callParams = { to: cfg.address, data };
+    if (from) callParams.from = from;
+    const result = await this.rpc('eth_call', [callParams, 'latest']);
+    if (result === '0x') return null;
+    try {
+      const decoded = iface.decodeFunctionResult(method, result);
+      return decoded.length === 1 ? decoded[0] : decoded;
+    } catch {
+      return result;
+    }
+  }
+
+  async callContractV2(name, method, args = []) {
+    if (!this.systemWallet) throw new Error('System signer not configured');
+    const cfg = contractsV2[name];
+    if (!cfg || !cfg.address) throw new Error(`Contract ${name} not configured`);
+    const iface = new ethers.Interface(cfg.abi);
+    const data = iface.encodeFunctionData(method, args);
+    return this.sendLegacyTx(this.systemWallet, { to: cfg.address, data });
+  }
+
+  // === V2 方法结束 ===
 
   sleep(ms) {
     return new Promise((r) => setTimeout(r, ms));

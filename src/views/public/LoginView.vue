@@ -86,7 +86,7 @@ const authStore = useAuthStore()
 
 const roleOptions = ROLE_OPTIONS
 const form = reactive({
-  username: 'demo_user',
+  username: 'farmer1',
   password: '123456',
   role: 'FARMER',
 })
