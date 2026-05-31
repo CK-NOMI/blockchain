@@ -6,6 +6,9 @@ const http = axios.create({
 })
 
 // 开发模式：角色→预设账号映射，自动登录获取真实 JWT
+// 说明：非 mock 模式下路由已改为跳转登录页，但此处的自动登录拦截器仍然生效，
+//       即 localStorage 中有 user 角色时，http 拦截器会自动用预设账号登录后端获取 JWT。
+//       详见根目录 mock与非mock模式说明.md
 const ROLE_CREDENTIALS = {
   ADMIN:    { username: 'admin', password: 'admin123' },
   FARMER:   { username: 'farmer1', password: '123456' },
@@ -66,14 +69,14 @@ http.interceptors.response.use(
     return response
   },
   (error) => {
+    const body = error.response?.data
+    const msg = body?.msg || error.message || '请求失败'
     if (error.response?.status === 401) {
       localStorage.removeItem('token')
       localStorage.removeItem('user')
-      const body = error.response.data
-      const msg = body?.msg || '未登录，请先登录'
       return Promise.reject(new Error(msg))
     }
-    return Promise.reject(error)
+    return Promise.reject(new Error(msg))
   },
 )
 

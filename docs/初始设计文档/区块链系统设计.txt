@@ -1,0 +1,708 @@
+% !TeX program = XeLaTeX
+\documentclass[UTF8,a4paper,12pt]{ctexart}
+
+\usepackage[left=2.5cm,right=2.5cm,top=2.6cm,bottom=2.6cm]{geometry}
+\usepackage{setspace}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=blue,
+    citecolor=black,
+    pdftitle={基于 FISCO BCOS 的农产品供应链溯源系统技术方案设计},
+    pdfauthor={第五组},
+    pdfsubject={第九周系统设计报告},
+    pdfkeywords={FISCO BCOS, 区块链, 农产品溯源, 联盟链, 智能合约}
+}
+
+\setstretch{1.35}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.3em}
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{15pt}
+\fancyhead[L]{第九周系统设计报告}
+\fancyhead[R]{农产品供应链溯源系统}
+\fancyfoot[C]{\thepage}
+
+\titleformat{\section}{\zihao{4}\bfseries}{\thesection}{0.8em}{}
+\titleformat{\subsection}{\zihao{-4}\bfseries}{\thesubsection}{0.8em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries}{\thesubsubsection}{0.8em}{}
+
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcommand{\emptysquare}[1]{\fbox{\parbox[c][#1][c]{0.88\textwidth}{\centering 图示位置预留，可在后续加入架构图、页面原型图或流程图}}}
+
+\title{\heiti 基于 FISCO BCOS 的农产品供应链溯源系统技术方案设计}
+\author{第五组}
+\date{第九周汇报稿}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+本报告在前期需求分析的基础上，确定课程设计最终方向为“基于 FISCO BCOS 的农产品供应链溯源系统”。选择该方向的原因很明确：一是业务链条完整，容易讲清楚系统价值；二是角色丰富，适合展示区块链在多方协作中的可信记账能力；三是实现难度适中，既能做出上链、查询、扫码验真和监管追踪等核心功能，又不会因为隐私计算、跨链互操作、医疗合规等高门槛问题拖慢项目进度。围绕该方向，本文凝练出两个核心问题：其一，多主体协作下数据如何做到可信、不可抵赖和可追责；其二，出现质量安全问题后如何实现快速追溯、快速定责和快速处置。针对这两个问题，报告提出一套可落地的技术路线：采用 FISCO BCOS 联盟链作为底层账本，使用智能合约固化业务流程和权限规则，采用“关键数据上链、原始附件链下存储、哈希值上链锚定”的分层数据策略，构建面向农户、加工中心、冷链物流、超市零售、消费者和监管员的多角色协同系统。本文进一步给出系统架构、链上链下数据设计、批次号生成规则、状态机流程控制、异常规则、功能模块、页面设计、非功能需求、安全设计与后续实施计划，可直接作为 Overleaf 文稿基础，也可作为第九周上台讲解的正式技术方案。
+\end{abstract}
+
+\noindent\textbf{关键词：}FISCO BCOS；农产品溯源；联盟链；智能合约；扫码验真；监管追踪
+
+\section{最终方向选择与立项理由}
+
+\subsection{为什么最终选择农产品供应链溯源系统}
+本项目最终确定的方向是“基于 FISCO BCOS 的农产品供应链溯源系统”，而不是医疗数据共享或数字证照存证。做出这个选择的原因不是“哪个听起来更高级”，而是“哪个更适合课程设计场景，既能拿高分，又不会把实现难度抬得过高”。
+
+第一，农产品供应链溯源是一个非常典型的多角色协作场景。它天然包含农户、加工中心、冷链物流、超市、消费者和监管员等多个主体，各主体之间既需要协作，又不能完全相互信任。这正好对应区块链系统最擅长解决的问题，即在多方参与的情况下建立可信账本。
+
+第二，这个方向非常适合课堂展示。系统不仅能讲“链上存证”，还能讲“扫码查询”“全链路时间线”“异常追踪”“责任定位”等直观功能。老师在听方案时，通常更容易被完整业务闭环打动，而不是被抽象概念打动。农产品溯源从“田间到餐桌”的故事线清楚，汇报时也容易组织语言。
+
+第三，这个方向的实现路径相对清晰。业务流程是线性的，核心对象可以统一抽象成“批次”，关键规则可以抽象成“状态流转”，非常适合用智能合约实现。与医疗数据共享相比，它不需要处理过于复杂的隐私合规与跨机构病历访问控制；与数字证照存证相比，它的业务展示面更宽，不会只停留在“上传文件并验真”的单点功能。
+
+第四，这个方向与现有需求分析材料完全一致。前期文档已经明确将项目固定在“农户 $\rightarrow$ 加工中心 $\rightarrow$ 冷链物流 $\rightarrow$ 超市零售 $\rightarrow$ 消费者”的链路上，并强调要支持消费者扫码查询、监管检索、异常定位、哈希验真和全链路追溯。继续沿着这个方向推进，可以保证需求、设计、实现、答辩四者保持一致。
+
+\subsection{三个备选方向对比}
+
+\begin{table}[H]
+\centering
+\caption{三个可选方向的综合比较}
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{3.2cm}YYY}
+\toprule
+比较维度 & 农产品供应链溯源 & 医疗健康数据共享 & 数字证照/电子合同存证 \\
+\midrule
+业务完整度 & 高，链路完整，角色丰富 & 中，业务严肃但场景偏专业 & 中，业务相对单点 \\
+展示效果 & 很强，可扫码、可追溯、可时间线展示 & 中，展示更偏后台逻辑 & 中，主要是上传、验真、查证 \\
+课程实现难度 & 适中，容易拆成多个模块并行完成 & 高，权限、隐私、合规要求复杂 & 较低，但亮点不足 \\
+老师接受度 & 高，贴近民生问题，价值直观 & 高，但需要较强专业论证 & 中，较容易被做成简单存证页面 \\
+后续可扩展性 & 强，可接入物联网温湿度、二维码、统计分析 & 强，但实现门槛高 & 中，扩展方向较窄 \\
+最终推荐 & \textbf{推荐} & 不推荐作为课程主线 & 可做备选，但不如溯源方向完整 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+综上，本项目最终选用“农产品供应链溯源系统”作为课程设计最终方向。
+
+\section{系统要解决的核心问题}
+
+为了避免报告内容过散，本方案只凝练两个核心问题，并且后续所有模块设计都围绕这两个问题展开。
+
+\subsection{核心问题一：多主体协作下，数据如何可信且不可抵赖}
+传统中心化系统中，各参与方分别维护自己的数据库。农户记录种植信息，加工中心记录质检与包装，物流记录运输信息，超市记录入库与上架。由于这些数据分散在不同系统中，彼此之间无法天然互信，一旦出现问题，很难判断到底是谁先改了数据、删了数据或隐瞒了数据。
+
+因此，本系统必须解决这样一个问题：\textbf{如何让关键业务事实在多方之间共同可见、共同确认，并且一旦写入后就无法被任意篡改，同时还能保留完整的责任链和时间线。}
+
+本方案的回答是：使用 FISCO BCOS 联盟链作为可信账本，用智能合约写死关键业务流程，用交易哈希、事件日志和账户地址来记录“谁在什么时候做了什么操作”。
+
+\subsection{核心问题二：出现安全问题后，如何做到快速追溯与快速定责}
+农产品供应链最大的管理难点不是“平时有没有数据”，而是“一旦出事，能不能快速找出问题在哪里”。如果产品腐烂、农残超标、冷链断链或超期销售，传统模式往往要人工翻单据、打电话、层层核实，效率很低，责任也很难说清。
+
+因此，本系统必须解决第二个问题：\textbf{如何把分散在种植、加工、物流、零售各环节的信息串成一条完整时间线，让系统能够以批次为主线进行秒级查询，并定位异常环节、责任主体和证据记录。}
+
+本方案的回答是：引入全局唯一批次号 \texttt{BatchID}，以批次为主键组织链上链下数据；每个阶段完成一次上链和一次状态流转；监管端可按批次号、产地、时间、责任人等条件检索，并用异常规则自动高亮风险节点。
+
+\section{系统目标与设计边界}
+
+\subsection{总体目标}
+本系统的总体目标不是做成一个“样样都做”的重系统，而是做成一个“业务闭环清楚、区块链价值明确、演示效果直观”的课程设计系统。具体目标如下：
+
+\begin{enumerate}[label=（\arabic*）]
+    \item 建立从农户、加工中心、冷链物流到超市零售的完整溯源链路；
+    \item 实现关键数据上链存证，保证数据不可篡改、可追溯、可验真；
+    \item 支持多角色协同操作，不同角色看到不同页面和不同权限；
+    \item 支持消费者扫码查看完整溯源信息，并验证信息是否被篡改；
+    \item 支持监管员按批次、产地、时间和责任人快速检索与追责；
+    \item 形成一个可以稳定演示的最小可用闭环版本（MVP）。
+\end{enumerate}
+
+\subsection{设计边界}
+为了保证项目能在课程周期内落地，本方案主动设定以下边界：
+
+\begin{enumerate}[label=（\arabic*）]
+    \item 第一期不接入真实物联网设备，温湿度数据由页面录入或脚本模拟产生；
+    \item 第一期不做跨链，不引入复杂隐私计算或零知识证明；
+    \item 第一期不强行实现合约代理升级，而采用“版本化合约 + 后端配置切换”的简化升级策略；
+    \item 第一期重点做业务闭环与可信存证，不做大规模高并发优化；
+    \item 第一期页面以 Web 端为主，不单独开发原生移动端应用。
+\end{enumerate}
+
+这样的边界设置有两个好处：一是能保证系统在课程周期内真正做出来；二是能把精力集中到最能体现区块链价值的功能上。
+
+\section{为什么使用区块链而不是普通数据库}
+这是答辩中极可能被问到的问题，因此本报告单独给出标准回答。
+
+普通数据库当然也能存数据，但它很难天然解决多主体协作中的“共同记账”和“不可抵赖”问题。农户、加工中心、物流企业和超市不可能都完全信任某一家机构来单独维护全局数据库。一旦由单一中心维护全局数据，谁来保证它不会被修改、删除或事后重写？
+
+区块链并不是为了替代所有数据库，而是为了处理\textbf{多方协作、需要共同确认、需要全程留痕、需要责任可追}的那部分关键数据。在本系统中，区块链负责保存关键业务事实、状态变化、哈希锚点和操作凭证；而普通数据库负责做条件检索、页面展示、统计分析和缓存加速。换句话说，本系统采用的是“区块链 + 数据库”的组合模式，而不是“只上链、不落库”的极端设计。
+
+因此，本项目使用区块链，不是为了追求技术噱头，而是因为这个业务场景真的存在“多方互信不足、事后追责困难、数据真实性要求高”的问题。
+
+\section{技术路线总览}
+
+本方案的技术路线可以概括为五句话：
+
+\begin{enumerate}[label=\arabic*.]
+    \item 先把农产品流转过程抽象成“一个批次对象的状态演进”；
+    \item 再把关键业务事实写入联盟链，把大文件和附件放到链下；
+    \item 用智能合约固化角色权限和流程顺序，防止越权和跳步；
+    \item 用后端统一封装链交互逻辑，用前端按角色拆分操作页面；
+    \item 用扫码查询、时间线回放和异常规则来体现系统价值。
+\end{enumerate}
+
+技术路线不是“先搭链，再随便写页面”，而是“先确定业务对象，再倒推技术结构”。本项目的唯一核心业务对象是“农产品批次”，系统中的所有链上数据、链下数据、状态变化、扫码查询和监管追溯，都围绕 \texttt{BatchID} 展开。
+
+\section{系统总体架构设计}
+
+\subsection{总体架构分层}
+本系统采用四层结构：表现层、业务层、区块链层和数据层。
+
+\begin{enumerate}[label=（\arabic*）]
+    \item \textbf{表现层}：面向农户、加工中心、物流企业、超市、消费者和监管员的 Web 页面。
+    \item \textbf{业务层}：基于 Spring Boot 的后端服务，负责登录鉴权、流程编排、二维码生成、异常检测、链交互封装和查询聚合。
+    \item \textbf{区块链层}：基于 FISCO BCOS 的联盟链网络，负责可信记账、智能合约执行、事件日志输出和交易留痕。
+    \item \textbf{数据层}：MySQL 负责业务索引和查询加速，附件存储负责保存图片与报告原文，链上保存哈希和关键字段。
+\end{enumerate}
+
+\begin{figure}[H]
+\centering
+\emptysquare{5cm}
+\caption{系统总体架构图位置预留}
+\end{figure}
+
+\subsection{部署结构}
+为兼顾演示效果和实现难度，课程版建议采用 4 个共识节点，分别由四类核心机构代表部署：
+
+\begin{enumerate}[label=（\arabic*）]
+    \item 节点 1：监管机构节点；
+    \item 节点 2：加工中心节点；
+    \item 节点 3：物流企业节点；
+    \item 节点 4：零售企业节点。
+\end{enumerate}
+
+农户不单独部署链节点，而是通过农户端页面调用后端服务，再由后端向区块链发起交易。这种设计更符合实际：农户作为业务使用方，不必承担节点运维成本。这样既能保证系统结构合理，又能降低课堂实现复杂度。
+
+\subsection{链上群组设计}
+FISCO BCOS 支持多群组架构，不同群组之间的交易处理、数据存储和区块共识相互隔离，适合做多账本隔离。课程项目第一阶段不建议一开始就做多群组，因为那会显著增加部署、管理和调试成本。
+
+因此本方案建议：
+
+\begin{enumerate}[label=（\arabic*）]
+    \item \textbf{课程版}：采用单群组，先保证主业务闭环跑通；
+    \item \textbf{扩展版}：后续可将“业务群组”和“监管分析群组”分离，或按不同品类建立多个群组。
+\end{enumerate}
+
+这样的设计既讲得出 FISCO BCOS 的能力，又不把系统一开始做得过重。
+
+\section{关键技术选型}
+
+\subsection{底层区块链平台}
+\textbf{FISCO BCOS 2.x 稳定版}。选择原因如下：
+
+\begin{enumerate}[label=（\arabic*）]
+    \item 官方中文文档完备，适合课程设计查阅和学习；
+    \item 支持联盟链准入机制，适合多机构协作业务；
+    \item 支持可插拔共识，既可以选择 PBFT，也可以选择 Raft；
+    \item 支持 Java SDK、命令行控制台、区块链浏览器等开发工具；
+    \item 支持 WeBASE 中间件平台，可降低开发和管理门槛。
+\end{enumerate}
+
+\subsection{共识机制选择}
+本方案最终推荐\textbf{PBFT} 作为课程版默认共识算法，原因如下：
+
+\begin{enumerate}[label=（\arabic*）]
+    \item 供应链参与方之间并非完全强信任，PBFT 更符合“联盟内部分信任”的假设；
+    \item PBFT 更能体现区块链在可信协作方面的价值，答辩时解释空间更大；
+    \item 课程项目交易量不大，PBFT 的性能开销完全可以接受；
+    \item 4 个节点的 PBFT 拓扑清晰，演示与讲解都更方便。
+\end{enumerate}
+
+当然，如果后续更加关注吞吐量，也可以切换为 Raft，这也是 FISCO BCOS 的优势之一。
+
+\subsection{智能合约语言}
+采用与 FISCO BCOS 兼容的 \textbf{Solidity} 编写智能合约。选择 Solidity 的原因是资料多、上手快、结构清晰，便于课程组成员分工协作。
+
+\subsection{后端技术栈}
+后端采用 \textbf{Spring Boot + MyBatis-Plus + MySQL}。理由如下：
+
+\begin{enumerate}[label=（\arabic*）]
+    \item Spring Boot 适合快速搭建接口服务；
+    \item MyBatis-Plus 对表结构映射和常规 CRUD 开发效率高；
+    \item MySQL 适合做查询索引、统计报表和界面展示；
+    \item Java 与 FISCO BCOS Java SDK 配合成熟，文档清楚。
+\end{enumerate}
+
+\subsection{前端技术栈}
+前端采用 \textbf{Vue 3 + Element Plus + Axios}。选择该组合的理由是：页面组件现成、表单开发效率高、列表和时间线效果容易做出来，适合在较短时间内完成多个角色页面。
+
+\subsection{辅助工具}
+\begin{enumerate}[label=（\arabic*）]
+    \item WeBASE：用于降低链交互和管理复杂度；
+    \item 区块链浏览器：用于查看区块、交易、回执和链上状态；
+    \item Maven：用于后端依赖管理；
+    \item Git：用于多人协作开发；
+    \item Postman：用于接口调试；
+    \item JMeter：用于基础性能测试；
+    \item 二维码组件：用于生成批次溯源码。
+\end{enumerate}
+
+\section{链上与链下数据设计}
+
+\subsection{设计原则}
+链上和链下的数据必须分层处理，否则系统要么太重，要么价值不明显。本方案采用如下原则：
+
+\begin{enumerate}[label=（\arabic*）]
+    \item \textbf{关键事实上链}：如批次号、产地、播种时间、采收时间、质检结论、运输状态、上架状态、操作账户、时间戳等；
+    \item \textbf{大文件链下}：如质检报告图片、合格证扫描件、包装照片、运输记录附件等；
+    \item \textbf{链上保存锚点}：对链下文件计算哈希值，链上只保存哈希、文件标识和上传人信息；
+    \item \textbf{查询走数据库，验真走区块链}：常规列表查询可从 MySQL 读，关键验真必须回到链上核对。
+\end{enumerate}
+
+\subsection{核心链上实体}
+建议链上至少设计以下 7 类核心实体：
+
+\begin{longtable}{p{3.2cm}p{10.5cm}}
+\caption{链上核心实体设计}\\
+\toprule
+实体名称 & 说明 \\
+\midrule
+\endfirsthead
+\toprule
+实体名称 & 说明 \\
+\midrule
+\endhead
+User & 保存用户链上身份、角色、审核状态、账户地址等信息。 \\
+Batch & 保存批次主信息，如批次号、产品名称、品种、产地、创建人、当前状态。 \\
+FarmRecord & 保存农户端上链记录，如播种日期、施肥记录、农药记录、采收日期、责任人。 \\
+ProcessRecord & 保存加工端记录，如加工日期、清洗方式、包装规格、质检员、检测结果。 \\
+LogisticsRecord & 保存物流记录，如车辆、司机、出发时间、到达时间、最低温度、最高温度、平均温度。 \\
+RetailRecord & 保存零售端记录，如入库时间、上架时间、保质期、货架位置、销售状态。 \\
+AuditRecord & 保存监管侧异常标记、问题类型、责任备注、证据哈希、处理状态。 \\
+\bottomrule
+\end{longtable}
+
+\subsection{链下数据设计}
+链下主要保存以下内容：
+
+\begin{enumerate}[label=（\arabic*）]
+    \item 用户登录信息、密码摘要、会话信息；
+    \item 附件原文，如质检报告图片、运输照片、包装照片；
+    \item 查询索引和缓存表，如按时间、责任人、产地、状态的检索索引；
+    \item 汇总统计结果，如本周新增批次、本月异常批次、待审核用户等。
+\end{enumerate}
+
+链下附件建议保存到“本地文件目录或 MinIO 单机对象存储”，课程项目优先推荐本地目录方案，因为部署最简单。若时间充足，再升级为 MinIO。
+
+\subsection{上链字段建议}
+本系统不追求“所有字段全上链”，而是坚持“业务关键字段上链”。推荐上链字段如下：
+
+\begin{longtable}{p{4.0cm}p{9.7cm}}
+\caption{推荐上链字段清单}\\
+\toprule
+类别 & 字段 \\
+\midrule
+\endfirsthead
+\toprule
+类别 & 字段 \\
+\midrule
+\endhead
+批次主信息 & 批次号、农产品名称、品种、产地、创建时间、创建账户地址 \\
+农户信息 & 播种日期、定植日期、采收日期、施肥记录摘要、农药记录摘要、责任人 \\
+加工信息 & 加工日期、清洗方式、包装规格、质检员、检测结果、是否合格、报告哈希 \\
+物流信息 & 车辆编号、司机信息、出发时间、到达时间、最低温度、最高温度、平均温度 \\
+零售信息 & 超市名称、入库时间、上架时间、保质期、货架位置、销售状态 \\
+审计信息 & 异常类型、异常时间、异常备注、责任账户、证据哈希 \\
+通用追踪信息 & 交易哈希、上链时间、调用账户地址、当前状态 \\
+\bottomrule
+\end{longtable}
+
+\section{批次号、验真与流程控制算法设计}
+
+\subsection{批次号生成规则}
+批次号必须满足两个要求：全局唯一、便于检索。为此，本方案建议采用“业务字段 + 随机盐 + 调用账户”的混合生成方式。
+
+推荐公式如下：
+\begin{equation}
+\texttt{BatchID} = \texttt{keccak256}(name \Vert originCode \Vert plantDate \Vert harvestDate \Vert creator \Vert nonce)
+\end{equation}
+
+其中，\texttt{name} 为产品名称，\texttt{originCode} 为产地编码，\texttt{creator} 为创建批次的账户地址，\texttt{nonce} 为随机盐。前端展示时可只显示前若干位，但链上存储完整哈希值。
+
+\subsection{链下文件验真规则}
+对于质检报告、运输图片等文件，采用“原文件链下存储、文件哈希上链锚定”的方案。文件上传时执行以下流程：
+
+\begin{enumerate}[label=（\arabic*）]
+    \item 前端上传原始文件至后端；
+    \item 后端计算文件哈希值（课程版默认使用 SHA-256，也可预留切换到 SM3）；
+    \item 后端将文件存入链下存储，并记录文件路径；
+    \item 后端调用合约，将 \texttt{fileHash}、\texttt{fileName}、\texttt{uploader}、\texttt{batchId} 写入链上；
+    \item 消费者或监管员查询时，系统重新计算当前文件哈希，并与链上哈希比对。
+\end{enumerate}
+
+若两者一致，则说明文件未被篡改；若不一致，则页面直接标红提示“验真失败”。
+
+\subsection{状态机设计}
+为了防止业务跳步和越权，本系统采用状态机约束批次流转。推荐状态如下：
+
+\begin{center}
+\texttt{CREATED $\rightarrow$ FARM\_RECORDED $\rightarrow$ PROCESS\_RECORDED $\rightarrow$ LOGISTICS\_RECORDED $\rightarrow$ RETAIL\_RECORDED $\rightarrow$ SOLD/EXPIRED}
+\end{center}
+
+状态机的核心规则是：
+
+\begin{enumerate}[label=（\arabic*）]
+    \item 只有农户角色可以把状态从 \texttt{CREATED} 推进到 \texttt{FARM\_RECORDED}；
+    \item 只有加工中心角色可以把状态从 \texttt{FARM\_RECORDED} 推进到 \texttt{PROCESS\_RECORDED}；
+    \item 只有物流角色可以把状态从 \texttt{PROCESS\_RECORDED} 推进到 \texttt{LOGISTICS\_RECORDED}；
+    \item 只有超市角色可以把状态从 \texttt{LOGISTICS\_RECORDED} 推进到 \texttt{RETAIL\_RECORDED}；
+    \item 只有系统或零售角色可把商品标记为 \texttt{SOLD} 或 \texttt{EXPIRED}。
+\end{enumerate}
+
+这样设计以后，就不会出现“还没运输就先上架”“质检不合格却继续流转”等明显错误。
+
+\subsection{异常规则设计}
+监管端第一期不使用复杂机器学习，而采用可解释规则，原因是实现简单、汇报清楚、效果直接。建议的异常规则如下：
+
+\begin{enumerate}[label=（\arabic*）]
+    \item 冷链温度超出阈值且持续时间过长；
+    \item 采收日期与上架日期间隔过长；
+    \item 质检结果不合格但状态仍继续推进；
+    \item 商品已过保质期但仍处于在售状态；
+    \item 农药使用记录与安全间隔期不满足规则要求。
+\end{enumerate}
+
+系统发现异常后，不直接自动处罚，而是执行“异常标记 + 人工复核”机制。这样既合理，也更适合课程项目。
+
+\section{智能合约设计}
+
+\subsection{合约拆分原则}
+课程项目不建议把所有逻辑塞进一个大合约中。虽然一个大合约部署简单，但后期调试、维护和扩展都很麻烦。因此本方案采用“三合约结构”。
+
+\subsection{合约一：RoleManager 合约}
+该合约负责管理系统内的链上角色，主要包括：
+
+\begin{enumerate}[label=（\arabic*）]
+    \item 用户注册；
+    \item 角色审批；
+    \item 角色查询；
+    \item 角色启用/停用；
+    \item 权限校验辅助函数。
+\end{enumerate}
+
+推荐角色定义为：农户、加工中心、物流商、超市、监管员、系统管理员。
+
+\subsection{合约二：TraceManager 合约}
+该合约是整个系统的核心业务合约，用来管理批次创建、阶段录入和状态流转。建议包含以下核心函数：
+
+\begin{enumerate}[label=（\arabic*）]
+    \item \texttt{createBatch()}：创建批次；
+    \item \texttt{recordFarmInfo()}：记录农户阶段信息；
+    \item \texttt{recordProcessInfo()}：记录加工与质检信息；
+    \item \texttt{recordLogisticsInfo()}：记录运输信息；
+    \item \texttt{recordRetailInfo()}：记录零售上架信息；
+    \item \texttt{markSold()}：标记已售；
+    \item \texttt{markExpired()}：标记过期；
+    \item \texttt{queryBatchSummary()}：查询批次概要；
+    \item \texttt{queryTimeline()}：查询全链路时间线。
+\end{enumerate}
+
+\subsection{合约三：AuditManager 合约}
+该合约面向监管端，负责异常标记和审计信息写入。建议函数如下：
+
+\begin{enumerate}[label=（\arabic*）]
+    \item \texttt{flagBatch()}：标记异常批次；
+    \item \texttt{addEvidenceHash()}：补充证据哈希；
+    \item \texttt{closeAudit()}：关闭异常事件；
+    \item \texttt{queryAuditRecords()}：查询审计记录。
+\end{enumerate}
+
+\subsection{事件设计}
+为了让后端和前端更容易构建时间线，合约必须发出事件。推荐事件如下：
+
+\begin{enumerate}[label=（\arabic*）]
+    \item \texttt{UserApproved}；
+    \item \texttt{BatchCreated}；
+    \item \texttt{FarmRecorded}；
+    \item \texttt{ProcessRecorded}；
+    \item \texttt{LogisticsRecorded}；
+    \item \texttt{RetailRecorded}；
+    \item \texttt{BatchFlagged}；
+    \item \texttt{FileAnchored}。
+\end{enumerate}
+
+事件设计的好处是：后端可以订阅事件，自动把链上变化同步到 MySQL 中，前端时间线页面也更容易构建。
+
+\section{后端服务设计}
+
+\subsection{后端职责}
+后端不是简单的“接口中转层”，它承担四类职责：
+
+\begin{enumerate}[label=（\arabic*）]
+    \item 封装链交互：统一调用 FISCO BCOS Java SDK；
+    \item 处理业务校验：比如表单校验、状态合法性检查、附件上传校验；
+    \item 做查询聚合：把链上结果与链下索引组合，返回给前端；
+    \item 做系统管理：登录认证、角色权限、日志记录、二维码生成等。
+\end{enumerate}
+
+\subsection{建议的后端接口分组}
+
+\begin{longtable}{p{4.0cm}p{9.7cm}}
+\caption{后端接口分组建议}\\
+\toprule
+接口分组 & 主要职责 \\
+\midrule
+\endfirsthead
+\toprule
+接口分组 & 主要职责 \\
+\midrule
+\endhead
+AuthController & 登录、注册、退出、获取当前用户信息 \\
+UserController & 用户审核、角色分配、角色列表查询 \\
+BatchController & 批次创建、批次列表、批次详情、二维码生成 \\
+FarmController & 农户信息录入、农药与施肥记录上传 \\
+ProcessController & 加工信息录入、质检信息上传、报告哈希锚定 \\
+LogisticsController & 物流任务录入、温湿度上报、运输节点记录 \\
+RetailController & 入库、上架、销售状态更新、过期标记 \\
+ConsumerController & 扫码查询、验真结果返回、举报提交 \\
+AuditController & 监管查询、异常标记、证据导出、统计分析 \\
+\bottomrule
+\end{longtable}
+
+\subsection{链上查询与链下查询的配合方式}
+为兼顾性能与可信性，系统的查询分两类：
+
+\begin{enumerate}[label=（\arabic*）]
+    \item \textbf{高频列表查询}：优先查 MySQL，比如批次列表、用户列表、待审核列表；
+    \item \textbf{关键验真查询}：必须回链上，比如批次状态核对、附件哈希比对、交易回执获取。
+\end{enumerate}
+
+这样既不会让页面因为链查询太慢而卡顿，又能确保关键结果仍然以链上数据为准。
+
+\section{前端页面与交互设计}
+
+\subsection{页面设计原则}
+本系统前端页面设计遵循三条原则：
+
+\begin{enumerate}[label=（\arabic*）]
+    \item 同一业务链条下的页面风格尽量统一；
+    \item 重要信息尽量结构化展示，不堆砌大段文字；
+    \item 让每个角色都能一眼看懂“我现在要做什么”。
+\end{enumerate}
+
+\subsection{角色页面清单}
+
+\begin{longtable}{p{3.2cm}p{10.5cm}}
+\caption{角色页面清单}\\
+\toprule
+页面名称 & 主要内容 \\
+\midrule
+\endfirsthead
+\toprule
+页面名称 & 主要内容 \\
+\midrule
+\endhead
+登录页 & 用户名密码登录，支持按角色进入不同工作台 \\
+管理员工作台 & 用户审核、角色管理、节点状态概览、合约版本信息 \\
+农户工作台 & 新建批次、录入种植信息、查看自己批次的后续流转状态 \\
+加工中心页面 & 接收批次、录入加工信息、录入质检信息、上传质检报告 \\
+物流页面 & 接收运输任务、填写出发到达时间、录入温湿度和运输节点 \\
+超市页面 & 入库、上架、设置保质期、更新销售状态、查看二维码 \\
+消费者扫码页 & 展示完整时间线、显示验真结果、展示关键节点摘要 \\
+监管页面 & 条件检索、异常高亮、责任追踪、证据导出 \\
+\bottomrule
+\end{longtable}
+
+\subsection{关键页面说明}
+
+\subsubsection{农户端页面}
+农户端页面重点解决“源头数据怎么规范录入”的问题。页面应包含：批次创建区、种植信息表单、施肥记录区、农药记录区、采收信息区和流转状态区。农户最关注的是“我上传的数据是否成功上链”和“后面已经流转到哪个环节”。因此页面要在提交成功后明确显示交易哈希和当前状态。
+
+\subsubsection{加工中心页面}
+加工中心页面需要体现“加工 + 质检”两件事。建议分成左右两栏：左侧展示农户已提交的基础信息，右侧展示加工录入表单和质检录入表单。这样既符合实际业务习惯，也便于答辩时讲清楚“加工不是盲加工，而是在已有源头信息基础上的二次处理”。
+
+\subsubsection{物流页面}
+物流页面最重要的是“运输节点”和“温湿度记录”。如果时间不够做折线图，课程版可以先用表格和颜色标签展示最低温度、最高温度、平均温度和是否异常。后续再补图表。
+
+\subsubsection{消费者扫码页}
+消费者扫码页是整个系统最有展示效果的页面。该页面建议包含以下四个区块：
+
+\begin{enumerate}[label=（\arabic*）]
+    \item 商品摘要卡片；
+    \item 全链路时间线；
+    \item 附件验真结果；
+    \item 问题反馈入口。
+\end{enumerate}
+
+消费者不需要看到太多后台字段，他最关心的是“这东西从哪来、什么时候收、有没有质检、运输是不是正常、现在能不能放心买”。
+
+\subsubsection{监管页面}
+监管页面是高分关键页面之一，因为它能直接体现系统的治理价值。该页面建议支持：
+
+\begin{enumerate}[label=（\arabic*）]
+    \item 按批次号检索；
+    \item 按产地检索；
+    \item 按时间区间检索；
+    \item 按责任人检索；
+    \item 按异常状态筛选；
+    \item 查看完整证据链；
+    \item 导出记录作为执法依据。
+\end{enumerate}
+
+\begin{figure}[H]
+\centering
+\emptysquare{5cm}
+\caption{页面原型图位置预留}
+\end{figure}
+
+\section{系统功能模块划分}
+为了与团队后续实现和分工保持一致，本系统明确拆分为 8 个模块。
+
+\begin{longtable}{p{4.3cm}p{8.9cm}}
+\caption{系统功能模块划分}\\
+\toprule
+模块名称 & 模块说明 \\
+\midrule
+\endfirsthead
+\toprule
+模块名称 & 模块说明 \\
+\midrule
+\endhead
+区块链环境与合约部署模块 & 负责 FISCO BCOS 网络搭建、合约编写、合约部署、链环境联调。 \\
+注册登录与角色权限模块 & 负责账号注册、登录、审核、角色控制和权限隔离。 \\
+农户信息录入与批次生成模块 & 负责源头信息录入、批次创建、种植与采收记录。 \\
+加工与质检上链模块 & 负责加工记录、质检结论、报告哈希上链。 \\
+冷链物流信息上链模块 & 负责运输信息、车辆信息、温湿度与物流节点记录。 \\
+超市入库上架与销售管理模块 & 负责入库、上架、保质期管理和销售状态更新。 \\
+消费者扫码溯源与验真模块 & 负责二维码查询、时间线展示、附件哈希校验。 \\
+监管查询与异常追踪模块 & 负责条件检索、异常标记、责任定位和证据导出。 \\
+\bottomrule
+\end{longtable}
+
+这 8 个模块既对应前期需求分析，也方便团队并行开发。
+
+\section{安全设计}
+
+\subsection{身份与权限安全}
+系统采用“双层身份控制”方案：
+
+\begin{enumerate}[label=（\arabic*）]
+    \item 应用层身份：通过用户名密码登录系统；
+    \item 链上身份：通过链上账户地址标识调用者。
+\end{enumerate}
+
+应用层负责“谁能进页面”，链上层负责“谁能执行合约函数”。两层一起做，才能真正防止越权。
+
+\subsection{数据安全}
+关键数据上链后不可随意修改；链下文件通过哈希锚定保证不被篡改。对敏感个人信息，例如手机号等，课程版建议在页面展示时做脱敏，链上只存摘要或必要字段，不把所有隐私信息都暴露出来。
+
+\subsection{网络与节点安全}
+课程版虽然是实验环境，但也应尽量遵循联盟链基本安全原则，包括：
+
+\begin{enumerate}[label=（\arabic*）]
+    \item 使用 FISCO BCOS 的证书机制管理节点准入；
+    \item 通过节点白名单控制链内成员；
+    \item 记录关键操作日志，便于排错和审计。
+\end{enumerate}
+
+\subsection{合约安全}
+合约设计坚持“少做复杂继承、少做动态数组滥用、少做不必要外部调用”的原则。课程项目要优先追求稳定和可解释，而不是炫技。
+
+\section{非功能需求设计}
+
+\subsection{性能要求}
+课程版系统给出如下性能目标：
+
+\begin{enumerate}[label=（\arabic*）]
+    \item 普通查询响应时间控制在 3 秒以内；
+    \item 关键表单提交后的链上回执返回时间控制在 5 秒以内；
+    \item 单次汇报演示过程中能连续完成 1 次完整闭环操作。
+\end{enumerate}
+
+\subsection{可靠性要求}
+系统在演示期间必须能稳定完成“创建批次 $\rightarrow$ 多环节录入 $\rightarrow$ 扫码查询 $\rightarrow$ 监管检索”的完整链路，不允许出现因服务依赖过多导致的脆弱结构。
+
+\subsection{易用性要求}
+页面要尽量表单化、按钮化、列表化，避免过于技术化的区块链术语直接暴露给普通业务用户。例如，农户不需要知道什么是“交易广播”，他只需要看到“提交成功，已上链”。
+
+\subsection{可扩展性要求}
+虽然课程版系统先采用人工录入数据，但后续要预留接口，方便扩展：
+
+\begin{enumerate}[label=（\arabic*）]
+    \item 物联网温湿度设备接入；
+    \item 扫码枪或小程序接入；
+    \item 统计分析大屏；
+    \item 多群组和多品类扩展。
+\end{enumerate}
+
+\section{实施计划与里程碑}
+
+\subsection{近期实施顺序}
+为了保证系统从设计真正走向实现，本方案建议按以下顺序推进：
+
+\begin{enumerate}[label=第\arabic*步：]
+    \item 冻结数据结构和合约接口，不再频繁改字段；
+    \item 搭建 FISCO BCOS 本地链环境并完成基础合约部署；
+    \item 完成注册登录与角色审核；
+    \item 打通“单个批次”的农户、加工、物流、零售四阶段闭环；
+    \item 完成消费者扫码查询页面；
+    \item 完成监管查询与异常标记页面；
+    \item 做联调、测试和答辩彩排。
+\end{enumerate}
+
+\subsection{后续周计划建议}
+
+\begin{table}[H]
+\centering
+\caption{后续实施计划建议}
+\begin{tabularx}{\textwidth}{p{2.2cm}YY}
+\toprule
+阶段 & 主要任务 & 阶段成果 \\
+\midrule
+第 10 周 & 搭链、部署合约、确定链上字段和接口 & 合约骨架完成，链环境跑通 \\
+第 11 周 & 完成后端核心接口和角色权限控制 & 注册登录、批次创建、阶段录入可用 \\
+第 12 周 & 完成前端多角色页面和扫码页面 & 能展示完整业务闭环 \\
+第 13 周 & 完成监管模块、异常规则和系统联调 & 监管追踪与异常高亮可演示 \\
+第 14 周 & 测试、修复、截图整理、答辩演练 & 稳定版系统与完整答辩材料 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{项目风险与应对措施}
+
+\subsection{风险一：功能太多，最后一个都没做扎实}
+这是课程项目最常见的风险。应对方式是：先做最小闭环，先跑通 1 个批次全流程，再补附加功能，不要一开始就追求“大而全”。
+
+\subsection{风险二：合约接口频繁改动，导致前后端反复返工}
+应对方式是：第十周先冻结合约接口文档。字段改动必须走统一讨论，避免各模块各改各的。
+
+\subsection{风险三：链环境不稳定，影响联调}
+应对方式是：优先保证一套本地环境稳定可跑；演示用环境尽量少改；提前准备好初始化脚本和演示数据。
+
+\subsection{风险四：消费者页和监管页展示效果不够强}
+应对方式是：把这两个页面列为高优先级页面，保证时间线、验真结果、异常高亮三件事先做出来。
+
+\subsection{风险五：答辩时只会讲功能，不会讲区块链价值}
+应对方式是：每个组员都必须能讲清楚三句话：为什么用区块链；为什么要做全链路时间线；为什么要做监管追踪。
+
+\section{结论}
+本报告最终确定的课程设计方向为“基于 FISCO BCOS 的农产品供应链溯源系统”。该方向兼顾了课程要求、展示效果与实现难度，是一个“好讲、能做、容易出亮点”的方向。围绕这一方向，系统聚焦两个核心问题：其一，多主体协作下数据如何可信且不可抵赖；其二，出现质量安全问题后如何快速追溯并快速定责。针对这两个问题，本文提出了完整的技术方案，包括 FISCO BCOS 联盟链选型、PBFT 共识、批次号机制、哈希验真、状态机流程控制、三合约结构、八大功能模块、多角色页面设计、链上链下分层、异常规则与实施计划。
+
+从课程项目的角度看，这套方案最大的优点不是“技术堆得多”，而是“业务价值清楚、结构完整、实现路径现实”。只要后续严格按照“先闭环、再增强”的顺序推进，就能比较稳地做出一个既有区块链味道、又有展示说服力的系统。
+
+\section*{附录：汇报时的标准表达}
+\begin{enumerate}[label=（\arabic*）]
+    \item 我们不是为了用区块链而用区块链，而是因为这个场景真的存在多方互信不足和事后追责困难的问题。
+    \item 我们把整个业务抽象成“一个批次的状态流转”，这样链上设计和页面设计都能围绕同一个核心对象展开。
+    \item 我们的系统亮点不只是“上链”，而是“全链路时间线 + 哈希验真 + 监管追踪”。
+    \item 我们选择农产品溯源，是因为它业务闭环清楚、演示效果强、实现难度适中，最适合作为课程设计最终方案。
+\end{enumerate}
+
+\end{document}

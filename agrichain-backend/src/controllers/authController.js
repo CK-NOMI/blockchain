@@ -1,26 +1,20 @@
-import bcrypt from 'bcryptjs';
+import { ethers } from 'ethers';
 import { signToken } from '../utils/jwt.js';
 import logger from '../utils/logger.js';
-
-// 临时用户存储（链上存角色权限，链下存储密码哈希）
-const dbUsers = new Map();
-// 初始化预设用户
-const initUsers = () => {
-  const defaults = [
-    { username: 'admin', password: 'admin123', role: 'ADMIN', org: 'Platform', addr: '0x_admin' },
-    { username: 'farmer1', password: '123456', role: 'FARMER', org: 'FarmOrg', addr: '0x_farmer' },
-    { username: 'processor1', password: '123456', role: 'PROCESSOR', org: 'ProcessCorp', addr: '0x_processor' },
-    { username: 'logistics1', password: '123456', role: 'LOGISTICS', org: 'LogiCorp', addr: '0x_logistics' },
-    { username: 'retail1', password: '123456', role: 'RETAIL', org: 'RetailStore', addr: '0x_retail' },
-    { username: 'regulator1', password: '123456', role: 'REGULATOR', org: 'RegAgency', addr: '0x_regulator' },
-  ];
-  for (const u of defaults) {
-    if (!dbUsers.has(u.username)) {
-      dbUsers.set(u.username, { ...u, password: bcrypt.hashSync(u.password, 10), isActive: true });
-    }
-  }
-};
-initUsers();
+import fiscoConfig from '../config/fisco.js';
+import fiscoClient from '../services/fiscoClient.js';
+import { ROLE_ENUM } from '../services/roleService.js';
+import {
+  registerUser,
+  findByUsername,
+  verifyPassword,
+  recordLogin,
+  findByIdentity,
+  toPublicUser,
+  normalizeRole,
+  getPrivateKey,
+  setBlockchainAddressWithKey,
+} from '../services/userStore.js';
 
 export async function login(req, res) {
   try {
@@ -29,40 +23,43 @@ export async function login(req, res) {
       return res.status(400).json({ code: 400, data: null, msg: '用户名和密码不能为空' });
     }
 
-    const user = dbUsers.get(username);
-    if (!user) {
+    const user = await findByUsername(username);
+    if (!user || !(await verifyPassword(user, password))) {
       return res.status(401).json({ code: 401, data: null, msg: '用户名或密码错误' });
     }
-
-    const valid = await bcrypt.compare(password, user.password);
-    if (!valid) {
-      return res.status(401).json({ code: 401, data: null, msg: '用户名或密码错误' });
-    }
-
     if (!user.isActive) {
-      return res.status(403).json({ code: 403, data: null, msg: '账号未审核，请联系管理员' });
+      const msgMap = {
+        PENDING: '账号正在审核中，请等待管理员通过',
+        REJECTED: '账号审核未通过，请联系管理员',
+        SUSPENDED: '账号已停用，请联系管理员',
+      };
+      return res.status(403).json({ code: 403, data: null, msg: msgMap[user.status] || '账号不可用' });
     }
 
     // 只有 ADMIN 允许指定角色登录，普通用户只能使用自身角色
     const effectiveRole = (user.role === 'ADMIN' && role) ? role : user.role;
 
+    // 链上引导：导入当前用户密钥到 WeBASE + 首次登录时授权链上角色（不阻塞登录）
+    try {
+      const realAddress = await setupUserChain(user);
+      if (realAddress) user.address = realAddress;
+    } catch (e) {
+      logger.warn({ username: user.username, error: e.message }, '用户链上引导失败');
+    }
+
     const token = signToken({
-      address: user.addr,
+      sub: user.address,
+      address: user.address,
       username: user.username,
-      role: effectiveRole,
-      organization: user.org,
+      role: user.role,
+      organization: user.organization,
+      tokenVersion: user.tokenVersion,
     });
+    const publicUser = await recordLogin(user.username);
 
-    logger.info({ username: user.username, role: effectiveRole }, '用户登录');
+    logger.info({ username: user.username, role: user.role }, '用户登录');
 
-    res.json({
-      code: 0,
-      data: {
-        token,
-        user: { id: user.addr, username: user.username, role: effectiveRole, roleLabel: effectiveRole, organization: user.org },
-      },
-      msg: 'ok',
-    });
+    res.json({ code: 0, data: { token, user: publicUser }, msg: 'ok' });
   } catch (err) {
     logger.error(err, '登录失败');
     res.status(500).json({ code: 500, data: null, msg: err.message || '登录失败' });
@@ -71,50 +68,62 @@ export async function login(req, res) {
 
 export async function register(req, res) {
   try {
-    const { username, password, organization, role } = req.body;
-    if (!username || !password || !organization) {
-      return res.status(400).json({ code: 400, data: null, msg: '用户名、密码和单位名称不能为空' });
-    }
-
-    if (dbUsers.has(username)) {
-      return res.status(400).json({ code: 400, data: null, msg: '用户名已存在' });
-    }
-
-    const hashed = await bcrypt.hash(password, 10);
-    dbUsers.set(username, {
-      username,
-      password: hashed,
-      role: role || 'FARMER',
-      org: organization,
-      addr: `0x_${username}_${Date.now()}`,
-      isActive: false,
-    });
-
-    logger.info({ username, role }, '新用户注册');
-
+    const user = await registerUser(req.body);
+    logger.info({ username: user.username, role: user.role }, '新用户注册');
     res.json({
       code: 0,
-      data: { requestId: `REQ_${Date.now()}`, status: 'PENDING' },
+      data: { requestId: `REQ_${Date.now()}`, status: user.status, user },
       msg: '注册成功，等待管理员审核',
     });
   } catch (err) {
+    const status = err.status || 500;
     logger.error(err, '注册失败');
-    res.status(500).json({ code: 500, data: null, msg: err.message || '注册失败' });
+    res.status(status).json({ code: status, data: null, msg: err.message || '注册失败' });
   }
 }
 
 export async function getProfile(req, res) {
   try {
-    const user = dbUsers.get(req.user.username);
+    const user = await findByIdentity(req.user);
     if (!user) {
       return res.status(404).json({ code: 404, data: null, msg: '用户不存在' });
     }
-    res.json({
-      code: 0,
-      data: { username: user.username, role: user.role, organization: user.org, isActive: user.isActive },
-      msg: 'ok',
-    });
+    res.json({ code: 0, data: toPublicUser(user), msg: 'ok' });
   } catch (err) {
     res.status(500).json({ code: 500, data: null, msg: err.message || '获取用户信息失败' });
   }
+}
+
+/** 登录时按需引导：导入当前用户密钥到 WeBASE，首次登录时生成密钥 + 授权角色 */
+async function setupUserChain(user) {
+  const WEBASE = fiscoConfig.webaseFront.url;
+
+  // 获取已有密钥或生成新密钥
+  let wallet;
+  const storedKey = await getPrivateKey(user.username);
+  if (storedKey) {
+    wallet = new ethers.Wallet(storedKey);
+  } else {
+    wallet = ethers.Wallet.createRandom();
+  }
+
+  // 导入 WeBASE（幂等，密钥已存在时 WeBASE 返回 code 201038）
+  const webaseUser = `${user.username}_${wallet.address.slice(2, 8)}`;
+  const impRes = await fetch(`${WEBASE}/privateKey/import?privateKey=${wallet.privateKey}&userName=${webaseUser}`, { method: 'GET' });
+  const keyJson = impRes.ok ? null : await impRes.json().catch(() => null);
+  if (!impRes.ok && keyJson?.code !== 201038) {
+    throw new Error(`导入 WeBASE 失败: ${JSON.stringify(keyJson)}`);
+  }
+
+  // 首次登录：授权链上角色 + 持久化地址和私钥
+  if (!user.chainInited) {
+    const roleNum = ROLE_ENUM[user.role];
+    if (roleNum) {
+      await fiscoClient.callContract('RoleManager', 'authorizeRole', [wallet.address, roleNum, user.username]);
+    }
+    await setBlockchainAddressWithKey(user.username, wallet.address, wallet.privateKey);
+    logger.info({ username: user.username, address: wallet.address, role: user.role }, '用户链上初始化完成');
+  }
+
+  return wallet.address;
 }

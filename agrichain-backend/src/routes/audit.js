@@ -5,8 +5,11 @@ import {
   getAbnormalList,
   getEvidenceChain,
   flagAbnormal,
+  clearAbnormal,
   submitAudit,
   resolveAudit,
+  appendEvidence,
+  getAuditRecordCount,
   getAuditLogs,
 } from '../controllers/auditController.js';
 
@@ -19,6 +22,9 @@ router.get('/:batchId/evidence', getEvidenceChain);
 router.post('/:batchId/flag', flagAbnormal);
 router.post('/:batchId/audit', submitAudit);
 router.post('/:batchId/resolve', resolveAudit);
+router.put('/:batchId/clear', clearAbnormal);
+router.post('/:batchId/evidence/append', appendEvidence);
+router.get('/:batchId/count', getAuditRecordCount);
 router.get('/logs', getAuditLogs);
 
 export default router;

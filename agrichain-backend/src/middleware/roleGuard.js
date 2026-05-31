@@ -21,5 +21,6 @@ export function roleGuard(...allowedRoles) {
 }
 
 export const farmerGuard = roleGuard('FARMER');
+export const processorGuard = roleGuard('PROCESSOR');
 export const logisticsGuard = roleGuard('LOGISTICS');
 export const retailGuard = roleGuard('RETAIL');

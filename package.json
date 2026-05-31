@@ -5,12 +5,16 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:mock": "vite --mode mock --port 5174",
     "build": "vite build",
     "preview": "vite preview",
     "test:e2e": "playwright test"
   },
   "dependencies": {
     "axios": "^1.15.2",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^4.2.1",
+    "material-icons": "^1.13.14",
     "pinia": "^3.0.4",
     "qrcode": "^1.5.4",
     "vue": "^3.5.32",

@@ -26,9 +26,22 @@ import RetailSaleStatusView from '../views/retail/RetailSaleStatusView.vue'
 import RetailQrcodeView from '../views/retail/RetailQrcodeView.vue'
 import RetailBatchDetailView from '../views/retail/RetailBatchDetailView.vue'
 
+// 加工方模块真实组件（5号）
+import ProcessorDashboardView from '../views/processor/ProcessorDashboardView.vue'
+import ProcessorPendingView from '../views/processor/ProcessorPendingView.vue'
+import ProcessorProcessRecordView from '../views/processor/ProcessorProcessRecordView.vue'
+import ProcessorFileUploadView from '../views/processor/ProcessorFileUploadView.vue'
+import ProcessorBatchDetailView from '../views/processor/ProcessorBatchDetailView.vue'
+
+import LoginView from '../views/public/LoginView.vue'
+import RegisterView from '../views/public/RegisterView.vue'
+import PendingView from '../views/public/PendingView.vue'
 import { resolveLandingByRole } from '../config/auth'
 import { inferSlugByPath } from '../config/prototypeFlow'
 import { useAuthStore } from '../stores'
+
+const isMock = import.meta.env.VITE_USE_MOCK === 'true'
+console.log('[router] VITE_USE_MOCK =', import.meta.env.VITE_USE_MOCK, '→ isMock =', isMock)
 
 const P = (slug) => ({
   component: PrototypeFrameView,
@@ -36,17 +49,23 @@ const P = (slug) => ({
 })
 
 const routes = [
-  { path: '/', redirect: '/logistics/dashboard' },
+  { path: '/', redirect: () => isMock ? '/logistics/dashboard' : '/login' },
 
   { path: '/prototype', name: 'prototype-catalog', component: PrototypeCatalogView, meta: { title: '原型目录' } },
   { path: '/prototype/:slug', name: 'prototype-frame', component: PrototypeFrameView, meta: { title: '原型预览' } },
   { path: '/system/settings', ...P('a05_pc'), meta: { title: '系统设置' } },
 
-  { path: '/login', ...P('p01_pc'), meta: { title: '登录' } },
+  ...(isMock ? [
+    { path: '/login', ...P('p01_pc'), meta: { title: '登录' } },
+    { path: '/register', ...P('p02_pc'), meta: { title: '注册' } },
+    { path: '/public/pending', ...P('p03_pc'), meta: { title: '审核中' } },
+  ] : [
+    { path: '/login', component: LoginView, meta: { title: '登录' } },
+    { path: '/register', component: RegisterView, meta: { title: '注册' } },
+    { path: '/public/pending', component: PendingView, meta: { title: '审核中' } },
+  ]),
   { path: '/public/login', redirect: '/login' },
-  { path: '/register', ...P('p02_pc'), meta: { title: '注册' } },
   { path: '/public/register', redirect: '/register' },
-  { path: '/public/pending', ...P('p03_pc'), meta: { title: '审核中' } },
   { path: '/pending', redirect: '/public/pending' },
   { path: '/common/403', ...P('p04_pc'), meta: { title: '无权限' } },
   { path: '/common/404', ...P('p05_404_pc'), meta: { title: '页面不存在' } },
@@ -74,40 +93,66 @@ const routes = [
     ],
   },
 
-  { path: '/processor/dashboard', ...P('m01_pc'), meta: { title: '加工方工作台', role: 'PROCESSOR' } },
-  { path: '/processor/pending', ...P('m02_pc'), meta: { title: '待加工批次', role: 'PROCESSOR' } },
-  { path: '/processor/process-record/:batchId', component: PrototypeFrameView, props: { slug: 'm03_pc' }, meta: { title: '加工记录', role: 'PROCESSOR' } },
-  { path: '/processor/file-upload/:batchId', component: PrototypeFrameView, props: { slug: 'm04_pc' }, meta: { title: '报告上传', role: 'PROCESSOR' } },
-  { path: '/processor/batch-detail/:batchId', component: PrototypeFrameView, props: { slug: 'm05_pc' }, meta: { title: '批次详情', role: 'PROCESSOR' } },
-
-  {
-    path: '/logistics',
-    component: AppLayout,
-    meta: { role: 'LOGISTICS' },
-    children: [
-      { path: '', redirect: '/logistics/dashboard' },
-      { path: 'dashboard', component: LogisticsDashboardView, meta: { title: '物流方工作台' } },
-      { path: 'pending', component: LogisticsPendingView, meta: { title: '待运输批次' } },
-      { path: 'transport-record/:batchId', component: LogisticsTransportRecordView, meta: { title: '运输记录' } },
-      { path: 'temp-record/:batchId', component: LogisticsTempRecordView, meta: { title: '温湿度记录' } },
-      { path: 'batch-detail/:batchId', component: LogisticsBatchDetailView, meta: { title: '批次详情' } },
-    ],
-  },
-
-  {
-    path: '/retail',
-    component: AppLayout,
-    meta: { role: 'RETAIL' },
-    children: [
-      { path: '', redirect: '/retail/dashboard' },
-      { path: 'dashboard', component: RetailDashboardView, meta: { title: '零售方工作台' } },
-      { path: 'pending', component: RetailPendingView, meta: { title: '待入库批次' } },
-      { path: 'retail-record/:batchId', component: RetailRecordView, meta: { title: '入库记录' } },
-      { path: 'sale-status/:batchId', component: RetailSaleStatusView, meta: { title: '销售状态' } },
-      { path: 'qrcode/:batchId', component: RetailQrcodeView, meta: { title: '二维码' } },
-      { path: 'batch-detail/:batchId', component: RetailBatchDetailView, meta: { title: '批次详情' } },
-    ],
-  },
+  // mock 模式走原型 iframe，否则走真实组件
+  ...(isMock ? [
+    { path: '/processor/dashboard', ...P('m01_pc'), meta: { title: '加工方工作台', role: 'PROCESSOR' } },
+    { path: '/processor/pending', ...P('m02_pc'), meta: { title: '待加工批次', role: 'PROCESSOR' } },
+    { path: '/processor/process-record/:batchId', component: PrototypeFrameView, props: { slug: 'm03_pc' }, meta: { title: '加工记录', role: 'PROCESSOR' } },
+    { path: '/processor/file-upload/:batchId', component: PrototypeFrameView, props: { slug: 'm04_pc' }, meta: { title: '报告上传', role: 'PROCESSOR' } },
+    { path: '/processor/batch-detail/:batchId', component: PrototypeFrameView, props: { slug: 'm05_pc' }, meta: { title: '批次详情', role: 'PROCESSOR' } },
+    { path: '/logistics/dashboard', ...P('l01_pc'), meta: { title: '物流方工作台', role: 'LOGISTICS' } },
+    { path: '/logistics/pending', ...P('l02_pc'), meta: { title: '待运输批次', role: 'LOGISTICS' } },
+    { path: '/logistics/transport-record/:batchId', component: PrototypeFrameView, props: { slug: 'l03_pc' }, meta: { title: '运输记录', role: 'LOGISTICS' } },
+    { path: '/logistics/temp-record/:batchId', component: PrototypeFrameView, props: { slug: 'l04_pc' }, meta: { title: '温湿度记录', role: 'LOGISTICS' } },
+    { path: '/logistics/batch-detail/:batchId', component: PrototypeFrameView, props: { slug: 'l05_pc_1' }, meta: { title: '批次详情', role: 'LOGISTICS' } },
+    { path: '/retail/dashboard', ...P('r01_pc'), meta: { title: '零售方工作台', role: 'RETAIL' } },
+    { path: '/retail/pending', ...P('r02_pc'), meta: { title: '待入库批次', role: 'RETAIL' } },
+    { path: '/retail/retail-record/:batchId', component: PrototypeFrameView, props: { slug: 'r03_pc' }, meta: { title: '入库记录', role: 'RETAIL' } },
+    { path: '/retail/sale-status/:batchId', component: PrototypeFrameView, props: { slug: 'r04_pc' }, meta: { title: '销售状态', role: 'RETAIL' } },
+    { path: '/retail/qrcode/:batchId', component: PrototypeFrameView, props: { slug: 'r05_pc_1' }, meta: { title: '二维码', role: 'RETAIL' } },
+    { path: '/retail/batch-detail/:batchId', component: PrototypeFrameView, props: { slug: 'r06_pc' }, meta: { title: '批次详情', role: 'RETAIL' } },
+  ] : [
+    {
+      path: '/logistics',
+      component: AppLayout,
+      meta: { role: 'LOGISTICS' },
+      children: [
+        { path: '', redirect: '/logistics/dashboard' },
+        { path: 'dashboard', component: LogisticsDashboardView, meta: { title: '物流方工作台' } },
+        { path: 'pending', component: LogisticsPendingView, meta: { title: '待运输批次' } },
+        { path: 'transport-record/:batchId', component: LogisticsTransportRecordView, meta: { title: '运输记录' } },
+        { path: 'temp-record/:batchId', component: LogisticsTempRecordView, meta: { title: '温湿度记录' } },
+        { path: 'batch-detail/:batchId', component: LogisticsBatchDetailView, meta: { title: '批次详情' } },
+      ],
+    },
+    {
+      path: '/retail',
+      component: AppLayout,
+      meta: { role: 'RETAIL' },
+      children: [
+        { path: '', redirect: '/retail/dashboard' },
+        { path: 'dashboard', component: RetailDashboardView, meta: { title: '零售方工作台' } },
+        { path: 'pending', component: RetailPendingView, meta: { title: '待入库批次' } },
+        { path: 'retail-record/:batchId', component: RetailRecordView, meta: { title: '入库记录' } },
+        { path: 'sale-status/:batchId', component: RetailSaleStatusView, meta: { title: '销售状态' } },
+        { path: 'qrcode/:batchId', component: RetailQrcodeView, meta: { title: '二维码' } },
+        { path: 'batch-detail/:batchId', component: RetailBatchDetailView, meta: { title: '批次详情' } },
+      ],
+    },
+    {
+      path: '/processor',
+      component: AppLayout,
+      meta: { role: 'PROCESSOR' },
+      children: [
+        { path: '', redirect: '/processor/dashboard' },
+        { path: 'dashboard', component: ProcessorDashboardView, meta: { title: '加工方工作台' } },
+        { path: 'pending', component: ProcessorPendingView, meta: { title: '待加工批次' } },
+        { path: 'process-record/:batchId', component: ProcessorProcessRecordView, meta: { title: '加工记录' } },
+        { path: 'file-upload/:batchId', component: ProcessorFileUploadView, meta: { title: '报告上传' } },
+        { path: 'batch-detail/:batchId', component: ProcessorBatchDetailView, meta: { title: '批次详情' } },
+      ],
+    },
+  ]),
 
   { path: '/regulator/dashboard', ...P('g01_pc'), meta: { title: '监管看板', role: 'REGULATOR' } },
   { path: '/regulator/search', ...P('g02_pc'), meta: { title: '综合检索', role: 'REGULATOR' } },
@@ -147,6 +192,7 @@ const router = createRouter({
 const isPublicPath = (path) => (
   path.startsWith('/prototype') ||
   path === '/login' ||
+  path === '/register' ||
   path.startsWith('/trace') ||
   path.startsWith('/public') ||
   path.startsWith('/common')
@@ -188,7 +234,17 @@ router.beforeEach((to, from, next) => {
   }
 
   // ===== 开发模式：URL 路径自动决定角色，后台自动获取真实 token =====
+  // 修改：非 mock 模式下已改为跳转登录页手动登录，不再自动获取 token
   if (isDev) {
+    // 非 mock 模式：必须通过登录页手动登录（auth_explicit），否则跳转登录页
+    if (!isMock && !localStorage.getItem('auth_explicit')) {
+      // 清除可能残留的旧缓存数据
+      localStorage.removeItem('token')
+      localStorage.removeItem('user')
+      localStorage.removeItem('auth_explicit')
+      next('/login')
+      return
+    }
     const role = neededRole(to.path) || 'LOGISTICS'
     const devUser = DEV_USERS[role] || { id: 'dev', username: '开发者', role }
     if (user.role !== role || user.username !== devUser.username) {
@@ -198,7 +254,7 @@ router.beforeEach((to, from, next) => {
       const authStore = useAuthStore()
       authStore.refreshFromStorage()
     }
-    if (to.path === '/') { next(resolveLandingByRole(role)); return }
+    if (to.path === '/') { next(isMock ? resolveLandingByRole(role) : '/login'); return }
     next()
     return
   }

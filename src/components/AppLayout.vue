@@ -12,16 +12,26 @@
 
       <nav class="flex-1 overflow-y-auto py-3">
         <h4 class="px-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">主导航</h4>
-        <router-link
-          v-for="item in menus"
-          :key="item.to"
-          :to="item.to"
-          class="flex items-center gap-3 px-6 py-3 text-sm font-medium transition-all"
-          :class="isActive(item.to) ? 'bg-blue-50 text-blue-700 border-r-4 border-blue-600' : 'text-slate-500 hover:bg-slate-50 hover:text-blue-600'"
-        >
-          <span class="material-icons text-xl">{{ item.icon }}</span>
-          {{ item.label }}
-        </router-link>
+        <template v-for="item in menus" :key="item.to + item.label">
+          <div
+            v-if="item.activeOn"
+            @click="notifyNeedBatch(item)"
+            class="flex items-center gap-3 px-6 py-3 text-sm font-medium transition-all cursor-pointer"
+            :class="isActive(item) ? 'bg-blue-50 text-blue-700 border-r-4 border-blue-600' : 'text-slate-500 hover:bg-slate-50 hover:text-blue-600'"
+          >
+            <span class="material-icons text-xl">{{ item.icon }}</span>
+            {{ item.label }}
+          </div>
+          <router-link
+            v-else
+            :to="item.to"
+            class="flex items-center gap-3 px-6 py-3 text-sm font-medium transition-all"
+            :class="isActive(item) ? 'bg-blue-50 text-blue-700 border-r-4 border-blue-600' : 'text-slate-500 hover:bg-slate-50 hover:text-blue-600'"
+          >
+            <span class="material-icons text-xl">{{ item.icon }}</span>
+            {{ item.label }}
+          </router-link>
+        </template>
       </nav>
 
       <div class="p-4 border-t border-slate-100 space-y-2">
@@ -47,6 +57,17 @@
         <div class="text-xs text-slate-500">{{ roleLabel }}</div>
       </header>
 
+      <!-- 通知条：点击需选批次的菜单项时显示 -->
+      <div
+        v-if="toast.visible"
+        class="px-8 py-3 text-sm flex items-center gap-2 border-b"
+        :class="toast.type === 'error' ? 'bg-red-50 text-red-700 border-red-100' : 'bg-blue-50 text-blue-700 border-blue-100'"
+      >
+        <span class="material-icons text-base">{{ toast.type === 'error' ? 'info' : 'info' }}</span>
+        <span>{{ toast.message }}</span>
+        <button class="ml-auto text-xs opacity-60 hover:opacity-100" @click="toast.visible = false">✕</button>
+      </div>
+
       <main class="flex-1 overflow-y-auto p-8">
         <router-view />
       </main>
@@ -55,7 +76,7 @@
 </template>
 
 <script setup>
-import { computed, watchEffect } from 'vue'
+import { computed, reactive, watchEffect } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { roleMenus } from '../config/menus'
 import { ROLE_LABELS } from '../config/auth'
@@ -87,10 +108,46 @@ const userRoleLabel = computed(() => ROLE_LABELS[authStore.role] || 'Visitor')
 const menus = computed(() => roleMenus[role.value] || [])
 const currentTitle = computed(() => route.meta.title || '工作台')
 
-const isActive = (to) => route.path === to || route.path.startsWith(`${to}/`)
+const isActive = (item) => {
+  const to = item.to
+
+  // 0) 菜单项自定义激活路径匹配：点击菜单→跳转批次列表页让用户选批次，
+  //    进入子页面（/farmer/records/xxx 或 /farmer/batch-detail/xxx）后，
+  //    activeOn 负责将对应菜单项高亮
+  if (item.activeOn && route.path.startsWith(item.activeOn)) return true
+
+  // 1) 完全匹配
+  if (route.path === to) {
+    const dups = menus.value.filter(m => m.to === to)
+    // 多个菜单项共享同一 to（先选批次再进入子页面），
+    // 列表页上只高亮主菜单项（无 activeOn），子页面由上方 activeOn 规则激活
+    if (dups.length > 1) return !item.activeOn
+    return true
+  }
+  // 2) 当前路径以菜单路径开头（父子路由如 /farmer/batches/xxx → /farmer/batches）
+  if (route.path.startsWith(`${to}/`)) return true
+  return false
+}
 
 const goLogout = () => {
   router.push('/public/logout')
+}
+
+const toast = reactive({ visible: false, message: '', type: 'info' })
+let toastTimer = null
+
+function notifyNeedBatch(item) {
+  // 当前路由有 batchId 时直接跳转，无 batchId 时弹提示
+  const batchId = route.params.batchId
+  if (batchId && item.activeOn) {
+    router.push(`${item.activeOn}${batchId}`)
+    return
+  }
+  clearTimeout(toastTimer)
+  toast.message = `请先在列表中选择一个批次再进入「${item.label}」`
+  toast.type = 'info'
+  toast.visible = true
+  toastTimer = setTimeout(() => { toast.visible = false }, 3500)
 }
 
 watchEffect(() => {

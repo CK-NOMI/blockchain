@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div class="min-h-screen bg-slate-50 flex items-center justify-center p-4 font-['Manrope',sans-serif]">
     <div class="max-w-5xl w-full bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col md:flex-row border border-slate-200">
       <div class="md:w-1/2 bg-blue-600 p-12 text-white flex flex-col justify-center">
@@ -41,19 +41,7 @@
               class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-600"
             />
           </div>
-          <div>
-            <label class="block text-sm font-semibold text-slate-700 mb-2">角色</label>
-            <select
-              v-model="form.role"
-              class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-600"
-            >
-              <option v-for="item in roleOptions" :key="item.value" :value="item.value">
-                {{ item.label }}
-              </option>
-            </select>
-          </div>
-
-          <p v-if="authStore.error" class="text-sm text-rose-600">{{ authStore.error }}</p>
+<p v-if="authStore.error" class="text-sm text-rose-600">{{ authStore.error }}</p>
 
           <button
             type="submit"
@@ -78,22 +66,20 @@
 <script setup>
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import { ROLE_OPTIONS } from '../../config/auth'
 import { useAuthStore } from '../../stores'
 
 const router = useRouter()
 const authStore = useAuthStore()
 
-const roleOptions = ROLE_OPTIONS
 const form = reactive({
-  username: 'farmer1',
-  password: '123456',
-  role: 'FARMER',
+  username: 'admin',
+  password: 'admin123',
 })
 
 const handleLogin = async () => {
   try {
     await authStore.login({ ...form })
+    localStorage.setItem('auth_explicit', '1')
     router.push(authStore.landing)
   } catch {
     // handled in store error state
