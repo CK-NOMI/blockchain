@@ -1,0 +1,1157 @@
+
+\documentclass[12pt,a4paper]{ctexart}
+
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{setspace}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=blue,
+    citecolor=black
+}
+
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.4em}
+\linespread{1.25}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[C]{基于 FISCO BCOS 的农产品供应链溯源系统技术实现方案}
+\fancyfoot[C]{\thepage}
+
+\titleformat{\section}{\Large\bfseries}{\thesection}{0.6em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection}{0.6em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries}{\thesubsubsection}{0.6em}{}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    columns=fullflexible,
+    keepspaces=true,
+    showstringspaces=false
+}
+
+\title{\textbf{基于 FISCO BCOS 的农产品供应链溯源系统\\技术实现方案}}
+\author{第五组}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{fancy}
+
+\begin{abstract}
+本文不是第九周汇报用的“系统设计说明”，而是一份面向后续真实开发落地的技术实现方案。文档目标是把“接下来每一阶段到底要做什么、用什么工具、先做哪一步、后做哪一步、每一步的产出是什么、做到什么程度算完成”讲清楚，让小组成员可以直接按照本文推进开发。方案围绕“基于 FISCO BCOS 的农产品供应链溯源系统”展开，以农户、加工中心、冷链物流、超市零售、消费者、监管员六类角色为业务主体，以 BatchID 为核心业务对象，以“关键数据上链、附件链下存储、哈希上链锚定、状态机控制流转、前后端协同展示”为总体实现主线。本文重点给出：工程落地原则、环境准备、工具链、项目目录结构、阶段拆分、角色分工、合约实现顺序、后端接口实现顺序、前端页面实现顺序、联调与测试方式、演示准备方法、验收标准、风险应对及 1 号总控同学的推进清单。本文可以直接作为团队后续开发执行文档，也可以作为 Overleaf 中的正式实现方案章节使用。
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+\section{文档定位与使用方式}
+
+\subsection{本文档解决什么问题}
+
+前一份系统设计报告主要回答“为什么这样设计”“系统架构是什么”“系统包含哪些模块”“技术路线为什么合理”。而本文进一步回答的是“怎么把它一步一步做出来”。因此，本文档不是抽象设计说明，而是开发执行手册，强调如下四点：
+
+\begin{enumerate}[label=\arabic*.]
+    \item 先做什么，后做什么，不能乱序推进；
+    \item 每个阶段的负责人是谁，产出物是什么；
+    \item 用哪些工具来做，为什么这样选；
+    \item 每个阶段做到什么程度，才算真正完成。
+\end{enumerate}
+
+\subsection{本文档的使用方法}
+
+建议团队按如下方式使用本文档：
+
+\begin{itemize}
+    \item 1 号同学将本文档作为总控推进清单，每完成一个阶段就勾选一次；
+    \item 2 号到 8 号各自只看与自己模块相关的章节，并把输出物按要求提交；
+    \item 每次组会以本文档的阶段目标和验收标准为准，不再口头随意改范围；
+    \item 若出现需求扩展，必须在不影响最小闭环的前提下再决定是否加入。
+\end{itemize}
+
+\section{实现总目标、边界与完成标准}
+
+\subsection{实现总目标}
+
+本项目后续实现的总目标不是做一个面面俱到的大系统，而是做一个\textbf{能稳定运行、能完整演示、能体现区块链价值、能清楚答辩}的课程项目系统。具体来说，需要达到以下结果：
+
+\begin{enumerate}[label=\arabic*.]
+    \item 能创建农产品批次并完成从农户到超市的完整流转；
+    \item 能将关键数据写入 FISCO BCOS 联盟链；
+    \item 能将质检报告等附件保存在链下，并通过哈希进行验真；
+    \item 能按角色展示不同操作页面与不同权限；
+    \item 能通过二维码或批次号查看全链路时间线；
+    \item 能在监管页面检索、标记异常并查看证据链；
+    \item 能在答辩演示中连续跑通至少 1 次完整闭环。
+\end{enumerate}
+
+\subsection{实现边界}
+
+为了保证项目在课程周期内真正落地，必须主动压缩范围。以下边界原则在开发阶段不得轻易突破：
+
+\begin{enumerate}[label=\arabic*.]
+    \item 第一期只做 Web 端，不做小程序和原生 App；
+    \item 第一期只做单群组，不做多群组复杂隔离；
+    \item 第一期不接真实物联网设备，温湿度先由表单录入或脚本模拟；
+    \item 第一期不做跨链、隐私计算、零知识证明等高难扩展；
+    \item 第一期优先保证最小闭环，不追求高并发压测极限；
+    \item 第一期优先做“能演示”的功能，不把时间耗在复杂美化上。
+\end{enumerate}
+
+\subsection{最终完成标准}
+
+如果后续系统达到下面 8 条，就说明实现方案执行成功：
+
+\begin{enumerate}[label=\arabic*.]
+    \item 本地联盟链可稳定启动；
+    \item 合约能部署、能写入、能查询；
+    \item 注册登录和角色审核可用；
+    \item 单个批次可完成四阶段业务流转；
+    \item 消费者可扫码看到时间线和验真结果；
+    \item 监管员可按条件检索并标记异常；
+    \item 前后端联调稳定，无致命报错；
+    \item 每个组员都能独立讲清楚系统链路、上链数据和区块链价值。
+\end{enumerate}
+
+\section{总体实现原则}
+
+\subsection{原则一：先闭环，再增强}
+
+课程项目最常见的问题不是“功能太少”，而是“功能写太多，最后一个都没跑通”。因此必须坚持先闭环，再增强。闭环优先级如下：
+
+\begin{center}
+创建批次 $\rightarrow$ 农户录入 $\rightarrow$ 加工质检 $\rightarrow$ 物流运输 $\rightarrow$ 超市上架 $\rightarrow$ 消费者查询 $\rightarrow$ 监管检索
+\end{center}
+
+只要这条链没跑通，就不允许提前花大量时间做图表大屏、物联网接入、复杂统计。
+
+\subsection{原则二：先冻结接口，再多人并行}
+
+多人并行开发最怕合约字段和接口反复修改。因此必须在开发初期冻结三类文档：
+
+\begin{enumerate}[label=\arabic*.]
+    \item 合约字段与函数清单；
+    \item 后端 API 文档；
+    \item 前端页面字段映射表。
+\end{enumerate}
+
+后续若要改，必须由 1 号统一组织讨论，不能每个人各改各的。
+
+\subsection{原则三：区块链负责可信，数据库负责好用}
+
+实现时要明确边界：区块链用于记录关键业务事实、状态变化、文件哈希、操作账户和时间戳；MySQL 用于条件检索、列表查询、缓存聚合、页面展示。不能把所有东西都塞到链上，也不能只写数据库不体现链上价值。
+
+\subsection{原则四：先做稳定版本，再做展示优化}
+
+课程答辩最怕现场演示翻车。因此后续开发阶段要先有一个“稳定但朴素”的版本，再去做样式优化、动画、图表等展示增强。
+
+\section{推荐技术栈与工具链}
+
+\subsection{基础技术栈}
+
+本项目建议统一采用如下技术栈：
+
+\begin{longtable}{p{3.2cm} p{4.0cm} p{7.0cm}}
+\toprule
+类别 & 推荐选型 & 选型说明 \\
+\midrule
+区块链平台 & FISCO BCOS 2.x & 中文资料完整，联盟链特征明确，适合课程项目 \\
+智能合约 & Solidity & 与 FISCO BCOS 兼容，结构清晰，学习成本较低 \\
+后端框架 & Spring Boot & 快速搭建接口服务，便于模块化管理 \\
+ORM 工具 & MyBatis-Plus & 常规 CRUD 开发效率高，适合课程项目 \\
+数据库 & MySQL 8.x & 用于索引、检索、缓存与聚合展示 \\
+前端框架 & Vue 3 & 页面拆分清晰，适合多角色页面开发 \\
+UI 组件 & Element Plus & 表单、表格、时间线、弹窗组件充足 \\
+链交互 SDK & FISCO BCOS Java SDK & 适合后端统一封装链调用 \\
+接口调试 & Postman & 便于后端单接口联调 \\
+版本管理 & Git + GitHub/Gitee & 便于多人协作与版本回滚 \\
+项目构建 & Maven + npm & 分别用于后端和前端依赖管理 \\
+性能测试 & JMeter & 用于基础接口压测与响应验证 \\
+二维码工具 & 前端二维码组件或后端生成库 & 用于批次二维码生成与查询入口 \\
+可视化管理 & WeBASE（可选） & 降低链管理与调试复杂度，但不是第一阶段硬依赖 \\
+\bottomrule
+\end{longtable}
+
+\subsection{建议环境}
+
+建议团队统一环境，避免“我这里能跑、你那里不能跑”的问题。推荐如下：
+
+\begin{itemize}
+    \item 操作系统：Windows + WSL2 Ubuntu，或直接 Ubuntu；
+    \item JDK：建议统一为 JDK 8；
+    \item Maven：建议统一为 3.8 及以上；
+    \item Node.js：建议统一为 18 LTS；
+    \item MySQL：建议统一为 8.0；
+    \item Git：统一安装；
+    \item IDE：IntelliJ IDEA + VS Code；
+    \item 浏览器：Chrome。
+\end{itemize}
+
+\subsection{工具使用策略}
+
+工具不是越多越好，核心是让系统稳定落地。因此建议这样使用：
+
+\begin{enumerate}[label=\arabic*.]
+    \item \textbf{第一阶段必须使用}：FISCO BCOS、Spring Boot、MySQL、Vue、Git、Postman；
+    \item \textbf{第二阶段建议补充}：区块链浏览器、二维码组件、JMeter；
+    \item \textbf{时间充足再补}：WeBASE、MinIO、图表库、自动化脚本。
+\end{enumerate}
+
+\section{项目目录、分支和文档管理}
+
+\subsection{推荐仓库结构}
+
+建议从一开始就统一目录结构，避免后续文件到处乱放。推荐工程结构如下：
+
+\begin{lstlisting}
+project-root/
+├── contracts/              % Solidity 合约
+├── backend/                % Spring Boot 后端
+├── frontend/               % Vue 前端
+├── sql/                    % MySQL 初始化脚本
+├── docs/                   % 需求、设计、接口、截图、答辩文档
+├── scripts/                % 启动脚本、部署脚本、演示脚本
+├── uploads/                % 附件链下存储目录（课程版可本地）
+├── test-data/              % 演示数据与测试数据
+└── README.md
+\end{lstlisting}
+
+\subsection{推荐分支策略}
+
+为避免多人同时修改主分支导致混乱，建议采用如下规则：
+
+\begin{itemize}
+    \item \texttt{main}：稳定可演示版本；
+    \item \texttt{develop}：日常集成分支；
+    \item \texttt{feature-contract}：合约开发；
+    \item \texttt{feature-auth}：登录与角色权限；
+    \item \texttt{feature-farm}：农户模块；
+    \item \texttt{feature-process}：加工质检模块；
+    \item \texttt{feature-logistics-retail}：物流与超市模块；
+    \item \texttt{feature-front}：前端业务页；
+    \item \texttt{feature-consumer-audit}：消费者与监管页。
+\end{itemize}
+
+\subsection{必须冻结的文档}
+
+开发开始前，\textbf{docs} 目录中必须准备下列文件：
+
+\begin{enumerate}[label=\arabic*.]
+    \item \texttt{field-freeze.md}：链上字段冻结表；
+    \item \texttt{contract-freeze.md}：合约函数、事件、参数定义；
+    \item \texttt{api-freeze.md}：后端接口文档；
+    \item \texttt{page-map.md}：页面与接口映射表；
+    \item \texttt{demo-script.md}：答辩演示脚本；
+    \item \texttt{integration-checklist.md}：联调检查清单。
+\end{enumerate}
+
+\section{阶段划分总览}
+
+整个项目建议分成 8 个阶段推进，而不是各模块无序开工。
+
+\begin{longtable}{p{1.1cm} p{3.0cm} p{5.2cm} p{4.4cm}}
+\toprule
+阶段 & 名称 & 核心目标 & 阶段产物 \\
+\midrule
+0 & 需求冻结与工程初始化 & 定边界、定字段、定接口、定目录 & 冻结文档、仓库骨架、任务清单 \\
+1 & 链环境搭建 & 本地 FISCO BCOS 跑通并可部署基础合约 & 4 节点链、部署脚本、基础回执 \\
+2 & 合约实现 & 角色、批次、流转、审计三大类合约成型 & 合约代码、事件、测试样例 \\
+3 & 后端基础骨架 & 登录、权限、用户审核、链交互封装可用 & 后端骨架、数据库表、接口文档 \\
+4 & 核心业务闭环 & 农户、加工、物流、超市四阶段打通 & 批次全流程闭环 \\
+5 & 前端业务端实现 & 多角色表单页、列表页、状态页可用 & 业务端页面成型 \\
+6 & 消费者与监管端 & 扫码查询、验真、监管检索与异常标记可用 & 高分页面成型 \\
+7 & 联调、测试与答辩准备 & 稳定运行、截图、脚本、演示闭环完成 & 稳定版系统与答辩材料 \\
+\bottomrule
+\end{longtable}
+
+\section{阶段 0：需求冻结与工程初始化}
+
+\subsection{阶段目标}
+
+本阶段的目标是把后续开发所依赖的“边界、字段、接口、目录、分工”全部统一，防止后面返工。
+
+\subsection{负责人}
+
+\begin{itemize}
+    \item 主负责人：1 号；
+    \item 参与人员：全员。
+\end{itemize}
+
+\subsection{使用工具}
+
+Git、Markdown 文档、在线表格或共享文档、流程图工具（可选）。
+
+\subsection{本阶段必须完成的事情}
+
+\begin{enumerate}[label=\arabic*.]
+    \item 明确项目只做“农户 $\rightarrow$ 加工中心 $\rightarrow$ 冷链物流 $\rightarrow$ 超市零售 $\rightarrow$ 消费者/监管员”这一固定链路；
+    \item 统一 6 类角色、8 个模块与 BatchID 核心对象；
+    \item 冻结状态机：\texttt{CREATED}、\texttt{FARM\_RECORDED}、\texttt{PROCESS\_RECORDED}、\texttt{LOGISTICS\_RECORDED}、\texttt{RETAIL\_RECORDED}、\texttt{SOLD/EXPIRED}；
+    \item 确定哪些字段上链，哪些字段链下保存；
+    \item 确定合约函数名、事件名、后端 API 名称；
+    \item 初始化 Git 仓库、分支、目录；
+    \item 把 8 个人的分工落实到文件级和接口级。
+\end{enumerate}
+
+\subsection{怎么做}
+
+建议 1 号组织一次冻结会议，按以下顺序推进：
+
+\begin{enumerate}[label=\arabic*.]
+    \item 打开需求分析和系统设计文档，只允许在既有场景内细化，不允许重新扩题；
+    \item 由 2 号先讲链上数据，3 到 8 号逐个确认自己模块需要哪些字段；
+    \item 现场形成一张“字段来源表”：字段名、是否上链、对应模块、对应页面、是否必须查询链上；
+    \item 现场形成一张“接口依赖表”：前端页面调用哪个后端接口，后端接口调用哪个合约函数；
+    \item 会后由 1 号统一整理为冻结文档，发到仓库 \texttt{docs} 目录。
+\end{enumerate}
+
+\subsection{阶段产物}
+
+\begin{itemize}
+    \item 字段冻结表；
+    \item 合约接口表；
+    \item API 冻结文档；
+    \item 页面映射表；
+    \item 工程目录初始化。
+\end{itemize}
+
+\subsection{验收标准}
+
+只要还有人说“这个字段后面再看”“这个接口先随便写”，就说明本阶段没有完成。完成标准是：\textbf{每个人都知道自己做什么、调用谁、输出给谁。}
+
+\section{阶段 1：区块链环境搭建}
+
+\subsection{阶段目标}
+
+本阶段目标是把本地联盟链跑通，并完成最基础的合约部署和交易测试。没有这一层，后面所有“上链设计”都只是纸面方案。
+
+\subsection{负责人}
+
+\begin{itemize}
+    \item 主负责人：2 号；
+    \item 验收负责人：1 号；
+    \item 配合人员：3 号后端。
+\end{itemize}
+
+\subsection{使用工具}
+
+FISCO BCOS、控制台、JDK、终端、Git、可选区块链浏览器。
+
+\subsection{要完成的具体事项}
+
+\begin{enumerate}[label=\arabic*.]
+    \item 本地搭建 4 节点联盟链；
+    \item 确认节点可正常启动、出块、通信；
+    \item 准备课程版单群组；
+    \item 编写一个最简单的测试合约并完成部署；
+    \item 能发送 1 笔交易并拿到回执；
+    \item 能执行 1 次查询并看到返回结果；
+    \item 记录启动方式、部署方式、常见报错和处理方法。
+\end{enumerate}
+
+\subsection{建议做法}
+
+建议采用“\textbf{先最小跑通，再做规范化}”的策略：
+
+\begin{enumerate}[label=\arabic*.]
+    \item 先在 2 号环境上跑通 4 节点链；
+    \item 将链目录、证书目录、启动命令整理成脚本；
+    \item 再在 1 号机器上复现一次，确保不是“只在某一台机子能跑”；
+    \item 最后输出一份 \texttt{chain-setup.md} 文档，记录每一步启动方式。
+\end{enumerate}
+
+\subsection{建议输出的文档内容}
+
+\begin{itemize}
+    \item 节点目录结构；
+    \item 启动顺序；
+    \item 停止顺序；
+    \item 合约部署命令；
+    \item 查看交易回执的方法；
+    \item 常见报错及解决方式。
+\end{itemize}
+
+\subsection{阶段产物}
+
+\begin{itemize}
+    \item 可运行的 4 节点链环境；
+    \item 合约部署脚本；
+    \item 链环境说明文档；
+    \item 交易回执截图。
+\end{itemize}
+
+\subsection{验收标准}
+
+\begin{enumerate}[label=\arabic*.]
+    \item 1 号机器能独立启动链；
+    \item 可部署测试合约；
+    \item 可执行写入交易并拿到回执；
+    \item 可执行查询；
+    \item 有一份别人看得懂的启动文档。
+\end{enumerate}
+
+\section{阶段 2：智能合约设计与实现}
+
+\subsection{阶段目标}
+
+将系统设计中的链上部分真正固化为可执行合约，包括角色管理、批次创建、阶段流转、异常标记、事件输出。
+
+\subsection{负责人}
+
+\begin{itemize}
+    \item 主负责人：2 号；
+    \item 配合人员：1 号、3 号、4 号、5 号、6 号、8 号。
+\end{itemize}
+
+\subsection{使用工具}
+
+Solidity、FISCO BCOS Java SDK、合约编译工具、控制台、单元测试脚本。
+
+\subsection{推荐合约拆分}
+
+建议采用三合约结构：
+
+\begin{enumerate}[label=\arabic*.]
+    \item \texttt{RoleManager.sol}：负责用户注册、角色审批、启停状态、角色查询；
+    \item \texttt{TraceManager.sol}：负责批次创建、农户记录、加工记录、物流记录、零售记录、状态流转；
+    \item \texttt{AuditManager.sol}：负责异常标记、证据哈希、审计记录查询。
+\end{enumerate}
+
+\subsection{合约实现顺序}
+
+合约不要一起乱写，建议按下面顺序做：
+
+\begin{enumerate}[label=\arabic*.]
+    \item 先实现角色枚举、状态枚举、基础结构体；
+    \item 再实现 \texttt{createBatch()}；
+    \item 再实现 \texttt{recordFarmInfo()}；
+    \item 再实现 \texttt{recordProcessInfo()}；
+    \item 再实现 \texttt{recordLogisticsInfo()}；
+    \item 再实现 \texttt{recordRetailInfo()}；
+    \item 最后实现 \texttt{flagBatch()} 与审计函数。
+\end{enumerate}
+
+\subsection{这一阶段的细节要求}
+
+\begin{enumerate}[label=\arabic*.]
+    \item 每个写入函数都必须校验角色；
+    \item 每个阶段函数都必须校验上一个状态是否已经完成；
+    \item 每个写入函数都必须发出事件；
+    \item 批次号必须唯一；
+    \item 文件哈希必须与批次绑定；
+    \item 查询函数优先做概要查询和时间线查询，不要一开始就写复杂统计。
+\end{enumerate}
+
+\subsection{批次号与验真实现建议}
+
+批次号生成建议采用：
+
+\[
+BatchID = keccak256(name \parallel originCode \parallel plantDate \parallel harvestDate \parallel creator \parallel nonce)
+\]
+
+课程实现中，前端可只显示前几位，但数据库与链上均保存完整值。
+
+文件验真流程建议如下：
+
+\begin{enumerate}[label=\arabic*.]
+    \item 前端上传报告文件；
+    \item 后端计算文件哈希；
+    \item 原文件存到链下目录；
+    \item 哈希与文件标识写入链上；
+    \item 查询时重新计算当前文件哈希，与链上值比较；
+    \item 一致则显示“验真通过”，不一致则高亮“验真失败”。
+\end{enumerate}
+
+\subsection{阶段产物}
+
+\begin{itemize}
+    \item 三份核心合约代码；
+    \item 事件定义；
+    \item 合约地址配置；
+    \item 合约测试脚本；
+    \item 合约接口文档。
+\end{itemize}
+
+\subsection{验收标准}
+
+\begin{enumerate}[label=\arabic*.]
+    \item 能创建批次；
+    \item 能按正确角色推进状态；
+    \item 越权调用会失败；
+    \item 跳步调用会失败；
+    \item 事件能被后端监听或查询；
+    \item 可返回批次摘要和时间线。
+\end{enumerate}
+
+\section{阶段 3：后端基础骨架与权限体系}
+
+\subsection{阶段目标}
+
+把“能上链”变成“能通过系统页面调用上链”，建立后端统一入口、统一权限和统一链交互封装。
+
+\subsection{负责人}
+
+\begin{itemize}
+    \item 主负责人：3 号；
+    \item 配合人员：1 号、2 号。
+\end{itemize}
+
+\subsection{使用工具}
+
+Spring Boot、MyBatis-Plus、MySQL、Java SDK、Postman、Maven。
+
+\subsection{后端先做什么}
+
+建议按如下顺序实现：
+
+\begin{enumerate}[label=\arabic*.]
+    \item 项目骨架、配置文件、全局返回体；
+    \item 数据库连接、基础表创建；
+    \item 登录、注册、JWT 或 Session 方案；
+    \item 角色权限拦截；
+    \item 管理员审核接口；
+    \item 合约调用封装层；
+    \item 文件上传模块；
+    \item 业务模块 Controller。
+\end{enumerate}
+
+\subsection{推荐数据库表}
+
+课程版至少建议建立如下表：
+
+\begin{enumerate}[label=\arabic*.]
+    \item \texttt{sys\_user}：系统用户；
+    \item \texttt{sys\_role}：角色定义；
+    \item \texttt{user\_audit}：账号审核记录；
+    \item \texttt{batch\_index}：批次索引；
+    \item \texttt{farm\_detail}：农户阶段链下详情；
+    \item \texttt{process\_detail}：加工阶段链下详情；
+    \item \texttt{logistics\_detail}：物流阶段链下详情；
+    \item \texttt{retail\_detail}：零售阶段链下详情；
+    \item \texttt{file\_meta}：附件信息与哈希；
+    \item \texttt{audit\_record}：监管异常记录。
+\end{enumerate}
+
+\subsection{后端模块建议}
+
+建议后端包结构大致如下：
+
+\begin{lstlisting}
+backend/src/main/java/.../
+├── config/
+├── controller/
+├── service/
+├── service/impl/
+├── mapper/
+├── entity/
+├── dto/
+├── vo/
+├── common/
+├── security/
+├── blockchain/
+└── utils/
+\end{lstlisting}
+
+其中 \texttt{blockchain/} 专门用于封装合约地址、链连接、交易发送、事件读取，避免链交互逻辑散落在各业务 Service 中。
+
+\subsection{后端阶段细节要求}
+
+\begin{enumerate}[label=\arabic*.]
+    \item 登录和权限必须先于业务接口实现，否则后续角色页面无法分流；
+    \item 文件上传必须独立成公共模块，不要每个业务模块都重复写；
+    \item 所有写链接口要把链上交易回执写入数据库，便于前端展示；
+    \item 所有查询接口要区分“普通查询”与“验真查询”；
+    \item 所有接口都要准备 Postman 用例。
+\end{enumerate}
+
+\subsection{阶段产物}
+
+\begin{itemize}
+    \item 可启动的 Spring Boot 工程；
+    \item 登录注册与角色审核接口；
+    \item 统一链交互服务；
+    \item 文件上传服务；
+    \item 数据库初始化脚本；
+    \item Postman 调试集合。
+\end{itemize}
+
+\subsection{验收标准}
+
+\begin{enumerate}[label=\arabic*.]
+    \item 管理员可审核用户；
+    \item 不同角色登录后可获得不同权限；
+    \item 后端可成功调用合约写入数据；
+    \item 文件可上传并记录哈希；
+    \item Postman 可以跑通至少 5 个核心接口。
+\end{enumerate}
+
+\section{阶段 4：核心业务闭环实现}
+
+\subsection{阶段目标}
+
+本阶段是项目实现的核心，目标是打通“农户 $\rightarrow$ 加工 $\rightarrow$ 物流 $\rightarrow$ 超市”的单批次闭环。
+
+\subsection{负责人}
+
+\begin{itemize}
+    \item 农户模块：4 号；
+    \item 加工质检模块：5 号；
+    \item 物流与零售模块：6 号；
+    \item 统筹联调：1 号；
+    \item 合约支持：2 号；
+    \item 后端支持：3 号。
+\end{itemize}
+
+\subsection{使用工具}
+
+Spring Boot、MySQL、Java SDK、Postman、接口文档。
+
+\subsection{实现顺序}
+
+\subsubsection{第一步：农户模块}
+
+要完成的事情：
+
+\begin{enumerate}[label=\arabic*.]
+    \item 创建批次；
+    \item 录入基础信息、播种日期、采收日期；
+    \item 录入施肥与农药记录；
+    \item 生成 BatchID；
+    \item 提交上链；
+    \item 在页面查看当前状态。
+\end{enumerate}
+
+实现重点：
+
+\begin{itemize}
+    \item 先做单一表单提交，不要一开始拆太多复杂子页面；
+    \item 农药与施肥记录可先做为摘要字段或附加文本，后续再细化；
+    \item 提交成功后必须显示交易哈希和当前状态。
+\end{itemize}
+
+\subsubsection{第二步：加工与质检模块}
+
+要完成的事情：
+
+\begin{enumerate}[label=\arabic*.]
+    \item 接收农户批次；
+    \item 展示农户已提交的上游信息；
+    \item 录入加工日期、清洗方式、包装规格；
+    \item 录入质检员、检测结果、是否合格；
+    \item 上传质检报告；
+    \item 报告哈希上链；
+    \item 状态推进到物流阶段。
+\end{enumerate}
+
+实现重点：
+
+\begin{itemize}
+    \item 页面上必须能看到“上游批次已存在”，否则答辩时体现不出链路连续性；
+    \item 不合格状态应阻止后续正常推进，或至少在页面明确高亮；
+    \item 质检报告上传成功后要能验证哈希。
+\end{itemize}
+
+\subsubsection{第三步：物流模块}
+
+要完成的事情：
+
+\begin{enumerate}[label=\arabic*.]
+    \item 接收待运输批次；
+    \item 录入车辆、司机、出发时间、预计到达时间；
+    \item 录入冷链温度范围与实时温湿度；
+    \item 确认送达；
+    \item 提交上链；
+    \item 状态推进到零售阶段。
+\end{enumerate}
+
+实现重点：
+
+\begin{itemize}
+    \item 第一阶段温湿度可用手工录入，不强求实时设备接入；
+    \item 为后续监管异常准备字段：最低温、最高温、平均温；
+    \item 页面要能显示是否超阈值。
+\end{itemize}
+
+\subsubsection{第四步：超市零售模块}
+
+要完成的事情：
+
+\begin{enumerate}[label=\arabic*.]
+    \item 接收物流送达批次；
+    \item 录入入库时间、上架时间、保质期、货架位置；
+    \item 更新销售状态；
+    \item 生成二维码；
+    \item 支持标记已售、过期。
+\end{enumerate}
+
+实现重点：
+
+\begin{itemize}
+    \item 生成二维码时，二维码内容建议绑定批次查询 URL 或批次号；
+    \item 上架后页面要能展示当前最新状态；
+    \item 已售与过期必须改变批次状态，便于消费者与监管端识别。
+\end{itemize}
+
+\subsection{阶段产物}
+
+\begin{itemize}
+    \item 四阶段业务接口；
+    \item 四阶段数据库表或详情表；
+    \item 四阶段链上交易记录；
+    \item 单批次全流程调试样例。
+\end{itemize}
+
+\subsection{验收标准}
+
+\begin{enumerate}[label=\arabic*.]
+    \item 创建 1 个批次后，可连续经过四阶段；
+    \item 每阶段都能拿到链上回执；
+    \item 数据库中能查到对应索引和交易记录；
+    \item 页面上能看到状态不断推进；
+    \item 任一阶段越权提交会被拒绝。
+\end{enumerate}
+
+\section{阶段 5：前端业务操作端实现}
+
+\subsection{阶段目标}
+
+让农户、加工中心、物流、超市四类业务角色都有可操作页面，并能调用后端接口完成业务录入与状态查询。
+
+\subsection{负责人}
+
+\begin{itemize}
+    \item 主负责人：7 号；
+    \item 配合人员：3 号、4 号、5 号、6 号。
+\end{itemize}
+
+\subsection{使用工具}
+
+Vue 3、Element Plus、Axios、路由、状态管理工具（可选）。
+
+\subsection{页面实现顺序}
+
+建议不要同时铺开所有页面，而按业务链顺序做：
+
+\begin{enumerate}[label=\arabic*.]
+    \item 登录页；
+    \item 管理员审核页；
+    \item 农户页；
+    \item 加工页；
+    \item 物流页；
+    \item 超市页；
+    \item 批次详情页；
+    \item 公共时间线组件。
+\end{enumerate}
+
+\subsection{页面设计建议}
+
+\subsubsection{农户页}
+
+至少包含：
+
+\begin{itemize}
+    \item 新建批次卡片；
+    \item 基础信息表单；
+    \item 农药/施肥记录输入区；
+    \item 当前状态显示区；
+    \item 交易哈希反馈区。
+\end{itemize}
+
+\subsubsection{加工页}
+
+至少包含：
+
+\begin{itemize}
+    \item 待处理批次列表；
+    \item 上游信息展示卡片；
+    \item 加工信息表单；
+    \item 质检表单；
+    \item 报告上传组件。
+\end{itemize}
+
+\subsubsection{物流页}
+
+至少包含：
+
+\begin{itemize}
+    \item 待运输批次列表；
+    \item 车辆与司机表单；
+    \item 温湿度录入区；
+    \item 运输节点记录表；
+    \item 异常提示标签。
+\end{itemize}
+
+\subsubsection{超市页}
+
+至少包含：
+
+\begin{itemize}
+    \item 待入库批次列表；
+    \item 入库与上架表单；
+    \item 销售状态切换按钮；
+    \item 二维码展示区。
+\end{itemize}
+
+\subsection{前端实现细节}
+
+\begin{enumerate}[label=\arabic*.]
+    \item 所有表单都要做基础校验；
+    \item 所有提交成功后都要有明显反馈；
+    \item 不直接向用户暴露大量底层区块链术语；
+    \item 统一一套状态标签颜色；
+    \item 保持页面结构一致，便于答辩演示切换。
+\end{enumerate}
+
+\subsection{阶段产物}
+
+\begin{itemize}
+    \item 业务端多角色页面；
+    \item 路由与权限控制；
+    \item 公共状态组件与时间线组件；
+    \item 接口联调完成版本。
+\end{itemize}
+
+\subsection{验收标准}
+
+\begin{enumerate}[label=\arabic*.]
+    \item 四类业务角色均可登录并看到对应页面；
+    \item 表单可提交并联动后端；
+    \item 能看到批次状态变化；
+    \item 页面样式统一，不混乱。
+\end{enumerate}
+
+\section{阶段 6：消费者溯源页与监管端实现}
+
+\subsection{阶段目标}
+
+完成整个系统最有展示效果、也最能体现系统价值的两类页面：消费者扫码页和监管检索页。
+
+\subsection{负责人}
+
+\begin{itemize}
+    \item 主负责人：8 号；
+    \item 配合人员：1 号、2 号、3 号、7 号。
+\end{itemize}
+
+\subsection{使用工具}
+
+Vue 3、Element Plus、二维码组件、后端查询接口、链上验真接口。
+
+\subsection{消费者溯源页要完成的事情}
+
+\begin{enumerate}[label=\arabic*.]
+    \item 支持通过二维码或批次号进入查询页；
+    \item 展示商品摘要信息；
+    \item 展示从农户到超市的完整时间线；
+    \item 展示质检报告等附件的验真结果；
+    \item 展示当前是否已售、是否过期；
+    \item 预留反馈/举报入口。
+\end{enumerate}
+
+\subsection{消费者页实现重点}
+
+\begin{itemize}
+    \item 页面上优先展示用户能看懂的内容：产地、采收、质检、运输、上架；
+    \item “验真通过/失败”必须足够醒目；
+    \item 时间线必须按阶段顺序展示，而不是散乱字段堆砌；
+    \item 不要把后台字段全部丢给消费者。
+\end{itemize}
+
+\subsection{监管端要完成的事情}
+
+\begin{enumerate}[label=\arabic*.]
+    \item 支持按批次号检索；
+    \item 支持按产地检索；
+    \item 支持按责任人检索；
+    \item 支持按时间区间检索；
+    \item 支持按异常状态筛选；
+    \item 支持异常标记；
+    \item 支持查看证据哈希与处理记录；
+    \item 视情况支持导出记录。
+\end{enumerate}
+
+\subsection{监管端实现重点}
+
+\begin{itemize}
+    \item 第一阶段先做检索和异常标记，统计图表可后补；
+    \item “异常高亮”比“炫酷图表”更重要；
+    \item 监管端必须能展示责任账户、异常类型、证据哈希；
+    \item 检索结果必须可以跳到批次详情时间线。
+\end{itemize}
+
+\subsection{推荐异常规则}
+
+第一阶段采用可解释规则即可：
+
+\begin{enumerate}[label=\arabic*.]
+    \item 冷链温度超过阈值；
+    \item 质检不合格仍继续推进状态；
+    \item 商品已过期仍为在售；
+    \item 采收与上架间隔异常长；
+    \item 农药安全间隔期不满足要求。
+\end{enumerate}
+
+\subsection{阶段产物}
+
+\begin{itemize}
+    \item 消费者查询页；
+    \item 二维码查询入口；
+    \item 监管检索页；
+    \item 异常标记功能；
+    \item 验真结果展示。
+\end{itemize}
+
+\subsection{验收标准}
+
+\begin{enumerate}[label=\arabic*.]
+    \item 扫码后能进入查询页；
+    \item 查询页能展示完整时间线；
+    \item 验真通过和失败可区分；
+    \item 监管员能按至少 3 个条件检索；
+    \item 能完成至少 1 次异常标记。
+\end{enumerate}
+
+\section{阶段 7：联调、测试与答辩准备}
+
+\subsection{阶段目标}
+
+把“各模块分别能跑”提升为“整个系统稳定能演示”。这是最容易被忽视、但最决定最终效果的阶段。
+
+\subsection{负责人}
+
+\begin{itemize}
+    \item 主负责人：1 号；
+    \item 测试与答辩材料：8 号；
+    \item 全员参与。
+\end{itemize}
+
+\subsection{必须做的事情}
+
+\begin{enumerate}[label=\arabic*.]
+    \item 全链路联调；
+    \item 接口字段核对；
+    \item 权限验证；
+    \item 状态推进验证；
+    \item 异常规则验证；
+    \item 演示脚本排练；
+    \item 截图与录像备份；
+    \item 系统初始化数据准备；
+    \item 常见报错预案准备。
+\end{enumerate}
+
+\subsection{联调顺序}
+
+建议严格按以下顺序联调：
+
+\begin{enumerate}[label=\arabic*.]
+    \item 管理员注册并审核多个角色账号；
+    \item 农户创建一个标准批次；
+    \item 加工中心录入加工与质检信息；
+    \item 物流录入运输与温湿度信息；
+    \item 超市完成入库与上架；
+    \item 生成二维码；
+    \item 消费者扫码查询；
+    \item 监管员按批次号检索并标记异常；
+    \item 再测试一条失败路径，如越权或跳步调用。
+\end{enumerate}
+
+\subsection{测试清单}
+
+\begin{longtable}{p{3.0cm} p{8.0cm} p{3.5cm}}
+\toprule
+测试类型 & 测试内容 & 目标 \\
+\midrule
+功能测试 & 批次创建、阶段录入、状态推进、二维码查询 & 确保主闭环跑通 \\
+权限测试 & 非法角色调用、未审核用户调用、越权页面访问 & 确保权限隔离 \\
+数据测试 & 链上字段、数据库索引、文件哈希一致性 & 确保数据正确 \\
+异常测试 & 温度异常、过期商品、质检不合格场景 & 确保监管功能可演示 \\
+接口测试 & 核心 API 成功率、错误提示、参数校验 & 确保后端稳定 \\
+演示测试 & 按答辩脚本连续操作一遍 & 确保现场不翻车 \\
+\bottomrule
+\end{longtable}
+
+\subsection{演示脚本建议}
+
+建议固定一条标准演示链路，不要现场临时想：
+
+\begin{enumerate}[label=\arabic*.]
+    \item 管理员审核账号；
+    \item 农户创建“草莓批次 A”；
+    \item 加工中心提交清洗、包装与质检；
+    \item 物流录入运输数据并模拟 1 次温度波动；
+    \item 超市入库上架并生成二维码；
+    \item 消费者扫码查看全链路信息；
+    \item 监管员按批次号检索并看到异常高亮；
+    \item 解释为什么这套系统比普通数据库更适合多机构追责。
+\end{enumerate}
+
+\subsection{阶段产物}
+
+\begin{itemize}
+    \item 稳定版系统；
+    \item 测试报告；
+    \item 演示脚本；
+    \item 截图、录屏、备用素材；
+    \item 常见问题与现场应对清单。
+\end{itemize}
+
+\subsection{验收标准}
+
+\begin{enumerate}[label=\arabic*.]
+    \item 能连续完成一次全流程演示；
+    \item 所有核心截图齐全；
+    \item 至少准备一份录屏作为兜底方案；
+    \item 每个组员都知道自己答辩时说什么、演示时点什么。
+\end{enumerate}
+
+\section{1 号总控同学的推进方案}
+
+\subsection{1 号的角色定位}
+
+1 号不是“什么都亲自写”的人，而是“把所有模块按正确顺序串起来”的人。1 号的核心价值在于：
+
+\begin{enumerate}[label=\arabic*.]
+    \item 控边界；
+    \item 冻接口；
+    \item 抓进度；
+    \item 拉联调；
+    \item 管演示；
+    \item 能答辩。
+\end{enumerate}
+
+\subsection{1 号每阶段必须盯住的事}
+
+\begin{longtable}{p{2.1cm} p{10.8cm}}
+\toprule
+阶段 & 1 号必须做的事情 \\
+\midrule
+阶段 0 & 组织冻结会议，输出字段表、接口表、分工表 \\
+阶段 1 & 验收链环境是否能在自己机器复现，不接受“只在 2 号机能跑” \\
+阶段 2 & 审核合约是否真的符合状态机，不允许跳步与越权 \\
+阶段 3 & 统一后端接口命名、权限规则和错误码 \\
+阶段 4 & 组织农户、加工、物流、超市四模块串联联调 \\
+阶段 5 & 检查页面是否统一、是否符合业务链路顺序 \\
+阶段 6 & 重点盯消费者页和监管页，因为这是高分页面 \\
+阶段 7 & 固定演示脚本、准备备份截图与录屏、安排答辩分工 \\
+\bottomrule
+\end{longtable}
+
+\subsection{1 号的每日推进法}
+
+建议 1 号每天都做以下 5 件事：
+
+\begin{enumerate}[label=\arabic*.]
+    \item 查看昨天提交的代码和文档；
+    \item 确认今天每个人的交付物；
+    \item 晚上拉一次简短同步，解决接口冲突；
+    \item 把新问题记录到 \texttt{docs/issue-list.md}；
+    \item 每两天至少跑一遍完整主链路。
+\end{enumerate}
+
+\section{各角色交付物清单}
+
+\begin{longtable}{p{1.2cm} p{4.0cm} p{7.2cm}}
+\toprule
+成员 & 主责方向 & 最终必须提交的交付物 \\
+\midrule
+1 号 & 总体架构、联调、主答辩 & 冻结文档、集成版本、演示脚本、总答辩讲稿 \\
+2 号 & 链环境、合约、上链设计 & 链部署文档、合约代码、部署脚本、交易测试结果 \\
+3 号 & 登录、权限、管理员审核 & 后端骨架、认证鉴权、审核接口、数据库脚本 \\
+4 号 & 农户模块 & 农户接口、农户页面联调结果、批次创建流程 \\
+5 号 & 加工质检模块 & 加工接口、质检上传、报告哈希上链 \\
+6 号 & 物流与超市模块 & 物流接口、零售接口、二维码生成链路 \\
+7 号 & 业务操作前端 & 农户、加工、物流、超市页面与公共组件 \\
+8 号 & 消费者页、监管页、测试与材料 & 消费者查询页、监管页、测试报告、PPT截图素材 \\
+\bottomrule
+\end{longtable}
+
+\section{风险与应对}
+
+\subsection{风险一：链环境不稳定}
+
+应对方式：优先保住一套最稳定的本地环境；不要频繁更换链目录；部署脚本写好后尽量不再大改。
+
+\subsection{风险二：合约字段频繁改动}
+
+应对方式：阶段 0 冻结字段；后续修改必须由 1 号统一批准；禁止前后端各自理解字段。
+
+\subsection{风险三：前后端联调对不上}
+
+应对方式：所有接口先在 Postman 过一遍，再给前端接；前端一旦发现字段不对，第一时间回填到接口文档。
+
+\subsection{风险四：消费者页和监管页做得太晚}
+
+应对方式：核心闭环刚打通就立刻开做这两页，不要把全部时间花在业务端表单上。
+
+\subsection{风险五：现场演示报错}
+
+应对方式：准备三套兜底材料：初始化数据库脚本、固定演示数据、录屏备份。
+
+\section{最终建议与结论}
+
+从后续真实开发角度看，最重要的不是“写一个特别炫的系统”，而是“按正确顺序做出一个真正能跑通的系统”。因此，本项目后续推进必须始终围绕三句话：
+
+\begin{enumerate}[label=\arabic*.]
+    \item 先冻结，再开发；
+    \item 先闭环，再增强；
+    \item 先稳定，再展示。
+\end{enumerate}
+
+只要严格按本文给出的阶段路线推进，团队就能较稳地做出一个具备以下特征的课程项目系统：业务闭环清楚、区块链价值明确、角色划分合理、页面展示完整、监管追踪有亮点、答辩时讲得清楚、现场也跑得出来。
+
+\appendix
+
+\section{附录 A：建议的系统启动顺序}
+
+建议日常调试和答辩当天都按以下顺序启动系统：
+
+\begin{enumerate}[label=\arabic*.]
+    \item 启动 MySQL；
+    \item 启动 FISCO BCOS 链节点；
+    \item 如需使用，启动区块链浏览器或 WeBASE；
+    \item 执行合约地址配置检查；
+    \item 启动后端服务；
+    \item 导入初始化数据；
+    \item 启动前端；
+    \item 用管理员账号先登录检查；
+    \item 再依次测试农户、加工、物流、超市、消费者、监管页面。
+\end{enumerate}
+
+\section{附录 B：课程版最小可用闭环清单}
+
+课程版最小可用闭环建议只盯住下面 10 个动作：
+
+\begin{enumerate}[label=\arabic*.]
+    \item 管理员审核账号；
+    \item 农户创建批次；
+    \item 农户提交种植信息；
+    \item 加工中心录入加工信息；
+    \item 加工中心上传质检报告；
+    \item 物流录入运输信息；
+    \item 超市入库并上架；
+    \item 系统生成二维码；
+    \item 消费者扫码查询；
+    \item 监管员检索并标记异常。
+\end{enumerate}
+
+只要这 10 步稳定跑通，系统就已经具备了完整答辩价值。其他增强项，如图表大屏、物联网接入、多群组、多品类、移动端适配，都应放在最小闭环之后再决定是否扩展。
+
+\end{document}

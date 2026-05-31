@@ -10,8 +10,8 @@
 
     <section class="bg-blue-50 rounded-xl p-4 border border-blue-100 flex gap-4 text-sm">
       <div><span class="text-slate-500">批次号：</span><span class="font-mono font-semibold">{{ batchId }}</span></div>
-      <div><span class="text-slate-500">产品：</span><span>{{ productName }}</span></div>
-      <div><span class="text-slate-500">销售状态：</span><span class="text-emerald-700 font-semibold">在售</span></div>
+      <div><span class="text-slate-500">产品：</span><span>{{ batch?.productName || '--' }}</span></div>
+      <div><span class="text-slate-500">销售状态：</span><span class="text-emerald-700 font-semibold">{{ batch?.saleStatus || '--' }}</span></div>
     </section>
 
     <div class="grid grid-cols-12 gap-5">
@@ -32,13 +32,13 @@
         <h2 class="text-lg font-semibold text-slate-800 mb-4">溯源页面预览</h2>
         <div class="bg-slate-50 rounded-lg p-4 text-xs text-slate-600 space-y-2">
           <p><span class="font-semibold">批次号：</span>{{ batchId }}</p>
-          <p><span class="font-semibold">产品：</span>{{ productName }}</p>
-          <p><span class="font-semibold">产地：</span>{{ origin }}</p>
-          <p><span class="font-semibold">生产日期：</span>2026-04-15</p>
-          <p><span class="font-semibold">加工方：</span>有机食品加工中心</p>
-          <p><span class="font-semibold">物流方：</span>冷链物流A</p>
-          <p><span class="font-semibold">超市：</span>有机超市旗舰店</p>
-          <p class="text-emerald-600 font-semibold mt-3">链上存证验证: ✅ 通过</p>
+          <p><span class="font-semibold">产品：</span>{{ batch?.productName || '--' }}</p>
+          <p><span class="font-semibold">产地：</span>{{ batch?.origin || '--' }}</p>
+          <p><span class="font-semibold">生产日期：</span>{{ batch?.harvestDate || batch?.createdAt || '--' }}</p>
+          <p><span class="font-semibold">加工方：</span>{{ batch?.processOperator || batch?.processType || '--' }}</p>
+          <p><span class="font-semibold">物流方：</span>{{ logisticsLabel || '--' }}</p>
+          <p><span class="font-semibold">超市：</span>{{ batch?.storeLocation || '--' }}</p>
+          <p class="text-emerald-600 font-semibold mt-3">链上存证验证: {{ chainVerified ? '✅ 通过' : '⏳ 待确认' }}</p>
         </div>
         <div class="mt-4 p-3 bg-emerald-50 border border-emerald-100 rounded-lg text-xs text-emerald-700">
           此批次的溯源二维码已生成，消费者扫码后可查看全链路溯源信息。
@@ -51,16 +51,27 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
+import { useRetailStore } from '../../stores'
 import QRCode from 'qrcode'
 
 const route = useRoute()
+const store = useRetailStore()
 const qrcodeRef = ref(null)
 
-const batchId = computed(() => route.params.batchId || 'SC20240521001')
-const productName = ref('有机葡萄')
-const origin = ref('新疆吐鲁番')
+const batchId = computed(() => route.params.batchId || '')
+const batch = computed(() => store.currentBatch)
+const loading = computed(() => store.loading)
 
 const traceUrl = computed(() => `${window.location.origin}/trace/${batchId.value}`)
+
+const logisticsLabel = computed(() => {
+  const info = batch.value?.vehicleInfo || ''
+  return info.split('|')[0].trim() || info || '--'
+})
+
+const chainVerified = computed(() => {
+  return !!(batch.value?.transactionHash || batch.value?.logisticsTxHash)
+})
 
 async function renderQrcode() {
   if (!qrcodeRef.value) return
@@ -85,7 +96,10 @@ function copyLink() {
   navigator.clipboard.writeText(traceUrl.value).then(() => window.alert('链接已复制到剪贴板'))
 }
 
-onMounted(() => {
+onMounted(async () => {
+  if (batchId.value) {
+    await store.loadBatchDetail(batchId.value)
+  }
   renderQrcode()
 })
 </script>

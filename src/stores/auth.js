@@ -8,6 +8,7 @@ export const useAuthStore = defineStore('auth', () => {
   const user = ref(JSON.parse(localStorage.getItem('user') || '{}'))
   const loading = ref(false)
   const error = ref('')
+  const lastRegistration = ref(JSON.parse(localStorage.getItem('lastRegistration') || 'null'))
 
   const isLoggedIn = computed(() => Boolean(token.value && user.value?.role))
   const role = computed(() => user.value?.role || '')
@@ -21,6 +22,7 @@ export const useAuthStore = defineStore('auth', () => {
   const refreshFromStorage = () => {
     token.value = localStorage.getItem('token') || ''
     user.value = JSON.parse(localStorage.getItem('user') || '{}')
+    lastRegistration.value = JSON.parse(localStorage.getItem('lastRegistration') || 'null')
   }
 
   const clear = () => {
@@ -28,6 +30,8 @@ export const useAuthStore = defineStore('auth', () => {
     user.value = {}
     localStorage.removeItem('token')
     localStorage.removeItem('user')
+    localStorage.removeItem('auth_explicit')
+    localStorage.removeItem('lastRegistration')
   }
 
   const login = async (payload) => {
@@ -52,7 +56,14 @@ export const useAuthStore = defineStore('auth', () => {
     loading.value = true
     error.value = ''
     try {
-      return await authApi.register(payload)
+      const result = await authApi.register(payload)
+      lastRegistration.value = {
+        role: payload.role || '',
+        organization: payload.organization || '',
+        submittedAt: new Date().toLocaleString(),
+      }
+      localStorage.setItem('lastRegistration', JSON.stringify(lastRegistration.value))
+      return result
     } catch (err) {
       error.value = err?.message || '注册失败'
       throw err
@@ -70,6 +81,7 @@ export const useAuthStore = defineStore('auth', () => {
     user,
     loading,
     error,
+    lastRegistration,
     isLoggedIn,
     role,
     landing,

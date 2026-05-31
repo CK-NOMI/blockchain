@@ -85,16 +85,24 @@
             </thead>
             <tbody>
               <tr v-for="(node, idx) in nodes" :key="idx" class="border-t border-slate-100">
-                <td class="px-4 py-3 text-slate-700">{{ node.time }}</td>
-                <td class="px-4 py-3 text-slate-700">{{ node.location }}</td>
-                <td class="px-4 py-3" :class="node.temp < threshold.minTemp || node.temp > threshold.maxTemp ? 'text-rose-600 font-semibold' : 'text-slate-700'">
-                  {{ node.temp }}
-                </td>
-                <td class="px-4 py-3" :class="node.humidity < threshold.minHumidity || node.humidity > threshold.maxHumidity ? 'text-rose-600 font-semibold' : 'text-slate-700'">
-                  {{ node.humidity }}
+                <td class="px-4 py-3">
+                  <input v-model="node.time" type="text" class="w-full px-2 py-1 border border-slate-200 rounded text-sm" />
                 </td>
                 <td class="px-4 py-3">
-                  <span class="px-2 py-1 rounded-full text-xs font-semibold" :class="nodeTypeClass(node.type)">{{ node.type }}</span>
+                  <input v-model="node.location" type="text" placeholder="输入地点" class="w-full px-2 py-1 border border-slate-200 rounded text-sm" />
+                </td>
+                <td class="px-4 py-3">
+                  <input v-model.number="node.temp" type="number" step="0.1" class="w-20 px-2 py-1 border border-slate-200 rounded text-sm" :class="node.temp < threshold.minTemp || node.temp > threshold.maxTemp ? 'text-rose-600 font-semibold' : 'text-slate-700'" />
+                </td>
+                <td class="px-4 py-3">
+                  <input v-model.number="node.humidity" type="number" step="1" class="w-20 px-2 py-1 border border-slate-200 rounded text-sm" :class="node.humidity < threshold.minHumidity || node.humidity > threshold.maxHumidity ? 'text-rose-600 font-semibold' : 'text-slate-700'" />
+                </td>
+                <td class="px-4 py-3">
+                  <select v-model="node.type" class="px-2 py-1 border border-slate-200 rounded text-sm bg-white">
+                    <option value="出发">出发</option>
+                    <option value="途中">途中</option>
+                    <option value="到达">到达</option>
+                  </select>
                 </td>
                 <td class="px-4 py-3">
                   <button class="text-xs text-rose-600 font-semibold" @click="removeNode(idx)">删除</button>
@@ -126,33 +134,62 @@
 </template>
 
 <script setup>
-import { computed, reactive, ref } from 'vue'
+import { onMounted, computed, reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useLogisticsStore } from '../../stores'
+import { batchApi } from '../../services/api'
 
 const route = useRoute()
 const router = useRouter()
 const store = useLogisticsStore()
 
-const batchId = computed(() => route.params.batchId || 'SC20240521001')
+const batchId = computed(() => route.params.batchId || '')
 const submitting = ref(false)
 const txHash = ref('')
 
 const threshold = reactive({ minTemp: 2, maxTemp: 8, minHumidity: 40, maxHumidity: 80 })
-const currentTemp = ref(5.2)
-const currentHumidity = ref(62)
+const currentTemp = ref(0)
+const currentHumidity = ref(0)
 
-const nodes = ref([
-  { time: '2026-04-22 09:20', location: '加工中心冷库', temp: 4.5, humidity: 55, type: '出发' },
-  { time: '2026-04-22 11:30', location: 'G30高速服务区A', temp: 6.0, humidity: 60, type: '途中' },
-  { time: '2026-04-22 15:45', location: '配送中心B', temp: 7.8, humidity: 68, type: '途中' },
-])
+const nodes = ref([])
 
 const tempAlert = computed(() => currentTemp.value < threshold.minTemp || currentTemp.value > threshold.maxTemp)
 const humidityAlert = computed(() => currentHumidity.value < threshold.minHumidity || currentHumidity.value > threshold.maxHumidity)
 const abnormalCount = computed(() => nodes.value.filter(n =>
   n.temp < threshold.minTemp || n.temp > threshold.maxTemp || n.humidity < threshold.minHumidity || n.humidity > threshold.maxHumidity
 ).length)
+
+onMounted(async () => {
+  if (!batchId.value) return
+  try {
+    const res = await batchApi.getBatchDetail(batchId.value)
+    const d = res?.data || res
+    if (!d || !d.productName) return
+
+    // 回显温湿度节点数据
+    if (d.tempHumidity) {
+      try {
+        const parsed = JSON.parse(d.tempHumidity)
+        if (parsed.threshold) {
+          if (parsed.threshold.minTemp !== undefined) threshold.minTemp = parsed.threshold.minTemp
+          if (parsed.threshold.maxTemp !== undefined) threshold.maxTemp = parsed.threshold.maxTemp
+          if (parsed.threshold.minHumidity !== undefined) threshold.minHumidity = parsed.threshold.minHumidity
+          if (parsed.threshold.maxHumidity !== undefined) threshold.maxHumidity = parsed.threshold.maxHumidity
+        }
+        if (Array.isArray(parsed.nodes)) {
+          nodes.value = parsed.nodes
+          // 更新当前温湿度为最新节点值
+          if (parsed.nodes.length) {
+            const last = parsed.nodes[parsed.nodes.length - 1]
+            currentTemp.value = last.temp
+            currentHumidity.value = last.humidity
+          }
+        }
+      } catch { /* JSON 解析失败忽略 */ }
+    }
+    if (d.logisticsTxHash) txHash.value = d.logisticsTxHash
+  } catch { /* ignore */ }
+})
 
 function nodeTypeClass(type) {
   if (type === '出发') return 'bg-blue-100 text-blue-700'

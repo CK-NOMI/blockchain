@@ -1,1 +1,367 @@
-[{"constant":false,"inputs":[{"name":"_batchId","type":"bytes32"},{"name":"_exceptionType","type":"string"},{"name":"_evidenceHash","type":"string"}],"name":"flagBatchException","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"","type":"bytes32"}],"name":"auditRecords","outputs":[{"name":"batchId","type":"bytes32"},{"name":"exceptionType","type":"string"},{"name":"evidenceHash","type":"string"},{"name":"regulator","type":"address"},{"name":"timestamp","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[{"name":"_roleManagerAddress","type":"address"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"name":"batchId","type":"bytes32"},{"indexed":false,"name":"exceptionType","type":"string"},{"indexed":true,"name":"regulator","type":"address"}],"name":"BatchFlagged","type":"event"}]
+[
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "_batchId",
+        "type": "bytes32"
+      }
+    ],
+    "name": "batchAbnormal",
+    "outputs": [
+      {
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "_batchId",
+        "type": "bytes32"
+      }
+    ],
+    "name": "isBatchAbnormal",
+    "outputs": [
+      {
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_batchId",
+        "type": "bytes32"
+      },
+      {
+        "name": "_reason",
+        "type": "string"
+      },
+      {
+        "name": "_evidenceHash",
+        "type": "string"
+      }
+    ],
+    "name": "markAbnormal",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_batchId",
+        "type": "bytes32"
+      }
+    ],
+    "name": "clearAbnormal",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_batchId",
+        "type": "bytes32"
+      },
+      {
+        "name": "_auditType",
+        "type": "string"
+      },
+      {
+        "name": "_description",
+        "type": "string"
+      },
+      {
+        "name": "_evidenceHash",
+        "type": "string"
+      }
+    ],
+    "name": "processAudit",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_batchId",
+        "type": "bytes32"
+      },
+      {
+        "name": "_auditId",
+        "type": "uint256"
+      }
+    ],
+    "name": "resolveAudit",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_batchId",
+        "type": "bytes32"
+      },
+      {
+        "name": "_evidenceHash",
+        "type": "string"
+      },
+      {
+        "name": "_description",
+        "type": "string"
+      }
+    ],
+    "name": "appendEvidence",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "_batchId",
+        "type": "bytes32"
+      }
+    ],
+    "name": "getAuditCount",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "_batchId",
+        "type": "bytes32"
+      },
+      {
+        "name": "_index",
+        "type": "uint256"
+      }
+    ],
+    "name": "getAuditRecord",
+    "outputs": [
+      {
+        "name": "auditId",
+        "type": "uint256"
+      },
+      {
+        "name": "batchId",
+        "type": "bytes32"
+      },
+      {
+        "name": "auditType",
+        "type": "string"
+      },
+      {
+        "name": "description",
+        "type": "string"
+      },
+      {
+        "name": "evidenceHash",
+        "type": "string"
+      },
+      {
+        "name": "auditor",
+        "type": "address"
+      },
+      {
+        "name": "status",
+        "type": "uint8"
+      },
+      {
+        "name": "timestamp",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "_batchId",
+        "type": "bytes32"
+      }
+    ],
+    "name": "getEvidenceCount",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "_batchId",
+        "type": "bytes32"
+      },
+      {
+        "name": "_index",
+        "type": "uint256"
+      }
+    ],
+    "name": "getEvidenceItem",
+    "outputs": [
+      {
+        "name": "evidenceHash",
+        "type": "string"
+      },
+      {
+        "name": "description",
+        "type": "string"
+      },
+      {
+        "name": "submitter",
+        "type": "address"
+      },
+      {
+        "name": "timestamp",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "name": "_roleManagerAddress",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "name": "batchId",
+        "type": "bytes32"
+      },
+      {
+        "indexed": false,
+        "name": "reason",
+        "type": "string"
+      },
+      {
+        "indexed": true,
+        "name": "regulator",
+        "type": "address"
+      }
+    ],
+    "name": "BatchFlagged",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "name": "batchId",
+        "type": "bytes32"
+      }
+    ],
+    "name": "AbnormalCleared",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "name": "batchId",
+        "type": "bytes32"
+      },
+      {
+        "indexed": false,
+        "name": "auditId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "name": "auditor",
+        "type": "address"
+      }
+    ],
+    "name": "AuditSubmitted",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "name": "batchId",
+        "type": "bytes32"
+      },
+      {
+        "indexed": false,
+        "name": "auditId",
+        "type": "uint256"
+      }
+    ],
+    "name": "AuditResolved",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "name": "batchId",
+        "type": "bytes32"
+      },
+      {
+        "indexed": false,
+        "name": "evidenceHash",
+        "type": "string"
+      }
+    ],
+    "name": "EvidenceAppended",
+    "type": "event"
+  }
+]

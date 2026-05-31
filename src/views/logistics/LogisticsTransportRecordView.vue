@@ -19,7 +19,7 @@
         <div class="flex gap-4 text-sm">
           <div><span class="text-slate-500">批次号：</span><span class="font-mono font-semibold">{{ batchId }}</span></div>
           <div><span class="text-slate-500">产品：</span><span>{{ productName }}</span></div>
-          <div><span class="text-slate-500">当前状态：</span><span class="text-blue-700 font-semibold">PROCESS_RECORDED</span></div>
+          <div><span class="text-slate-500">当前状态：</span><span class="text-blue-700 font-semibold">{{ currentStatus || '--' }}</span></div>
         </div>
       </section>
 
@@ -115,17 +115,19 @@
 </template>
 
 <script setup>
-import { reactive, ref, computed } from 'vue'
+import { onMounted, reactive, ref, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useLogisticsStore } from '../../stores'
+import { batchApi } from '../../services/api'
 import CascadingLocationSelect from '../../components/CascadingLocationSelect.vue'
 
 const route = useRoute()
 const router = useRouter()
 const store = useLogisticsStore()
 
-const batchId = computed(() => route.params.batchId || 'SC20240521001')
-const productName = ref('有机葡萄')
+const batchId = computed(() => route.params.batchId || '')
+const productName = ref('')
+const currentStatus = ref('')
 const submitting = ref(false)
 const txHash = ref('')
 const error = ref('')
@@ -143,6 +145,48 @@ const form = reactive({
   destCity: '',
   departTime: '',
   arriveTime: '',
+})
+
+onMounted(async () => {
+  if (!batchId.value) return
+  try {
+    const res = await batchApi.getBatchDetail(batchId.value)
+    const d = res?.data || res
+    if (!d || !d.productName) return
+    productName.value = d.productName
+
+    // 回显物流运输信息
+    if (d.vehicleInfo) {
+      const parts = d.vehicleInfo.split(' | ')
+      if (parts[0]) form.vehicleType = parts[0]
+      if (parts[1]) form.licensePlate = parts[1]
+      if (parts[2]) form.driverName = parts[2].replace(/^司机:/, '')
+    }
+    if (d.routeInfo) {
+      // "福建省 漳州市 → 江西省 宜春市 | 2026-05-11T13:15 ~ 2026-05-27T13:16"
+      const routeParts = d.routeInfo.split(' | ')
+      if (routeParts[0]) {
+        const locs = routeParts[0].split(' → ')
+        if (locs[0]) {
+          const originParts = locs[0].split(' ')
+          form.originProvince = originParts[0] || ''
+          form.originCity = originParts.slice(1).join('') || ''
+        }
+        if (locs[1]) {
+          const destParts = locs[1].split(' ')
+          form.destProvince = destParts[0] || ''
+          form.destCity = destParts.slice(1).join('') || ''
+        }
+      }
+      if (routeParts[1]) {
+        const times = routeParts[1].split(' ~ ')
+        if (times[0]) form.departTime = times[0]
+        if (times[1]) form.arriveTime = times[1]
+      }
+    }
+    if (d.logisticsTxHash) txHash.value = d.logisticsTxHash
+    if (d.status) currentStatus.value = d.status
+  } catch { /* ignore */ }
 })
 
 function saveDraft() {

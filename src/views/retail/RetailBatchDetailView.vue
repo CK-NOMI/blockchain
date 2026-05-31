@@ -23,7 +23,7 @@
           <div v-if="!timeline.length" class="text-center py-6 text-slate-400">暂无溯源记录</div>
           <ol v-else class="relative border-l-2 border-slate-200 ml-3 space-y-5">
             <li v-for="(item, i) in timeline" :key="i" class="pl-6 relative">
-              <span class="absolute -left-[9px] top-1 w-4 h-4 rounded-full border-2 border-white" :class="timelineDot(item.type)"></span>
+              <span class="absolute -left-[9px] top-1 w-4 h-4 rounded-full border-2 border-white" :class="timelineDot(item.type || item.stage)"></span>
               <div class="text-xs text-slate-400">{{ item.time || item.timestamp }}</div>
               <div class="text-sm text-slate-700 font-semibold">{{ item.type || item.stage }}</div>
               <div class="text-xs text-slate-500">{{ item.detail || item.description }}</div>
@@ -68,14 +68,8 @@ const batchId = computed(() => route.params.batchId || '')
 const batch = computed(() => store.currentBatch)
 const timeline = computed(() => store.timeline || [])
 
-function timelineDot(type) {
-  const t = String(type || '').toLowerCase()
-  if (t.includes('farm') || t.includes('农事') || t.includes('生产')) return 'bg-green-500'
-  if (t.includes('process') || t.includes('加工')) return 'bg-blue-500'
-  if (t.includes('logistics') || t.includes('物流') || t.includes('transport') || t.includes('运输')) return 'bg-amber-500'
-  if (t.includes('retail') || t.includes('零售') || t.includes('超市')) return 'bg-purple-500'
-  if (t.includes('创建')) return 'bg-emerald-500'
-  return 'bg-slate-400'
+function timelineDot() {
+  return 'bg-green-500'
 }
 
 onMounted(() => {

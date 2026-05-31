@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div class="min-h-screen bg-slate-50 flex items-center justify-center p-6 font-['Manrope',sans-serif]">
     <div class="w-full max-w-lg bg-white border border-slate-200 rounded-2xl p-8 shadow-sm text-center">
       <div class="w-16 h-16 mx-auto rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center">
@@ -9,7 +9,7 @@
         你的注册申请正在审核中，请审核通过后再登录。
       </p>
       <div class="mt-6 grid grid-cols-1 gap-2 text-left text-sm bg-slate-50 border border-slate-200 rounded-xl p-4">
-        <p><span class="text-slate-500">角色：</span>{{ role }}</p>
+        <p><span class="text-slate-500">角色：</span>{{ roleLabel }}</p>
         <p><span class="text-slate-500">机构：</span>{{ organization }}</p>
         <p><span class="text-slate-500">提交时间：</span>{{ submittedAt }}</p>
       </div>
@@ -22,13 +22,22 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '../../stores'
+import { ROLE_OPTIONS } from '../../config/auth'
 
 const router = useRouter()
-const role = ref('农户')
-const organization = ref('机构-12')
-const submittedAt = ref(new Date().toLocaleString())
+const authStore = useAuthStore()
+
+const roleLabel = computed(() => {
+  if (!authStore.lastRegistration?.role) return '--'
+  const opt = ROLE_OPTIONS.find(r => r.value === authStore.lastRegistration.role)
+  return opt?.label || authStore.lastRegistration.role
+})
+
+const organization = computed(() => authStore.lastRegistration?.organization || '--')
+const submittedAt = computed(() => authStore.lastRegistration?.submittedAt || '--')
 
 const refreshStatus = () => {
   window.alert('当前状态：审核中。')

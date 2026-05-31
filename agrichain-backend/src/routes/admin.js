@@ -4,7 +4,9 @@ import { roleGuard } from '../middleware/roleGuard.js';
 import {
   getUsers,
   approveUser,
+  rejectUser,
   suspendUser,
+  changeUserRole,
   getNodeStatus,
   getChainInfo,
   getContractConfig,
@@ -17,7 +19,9 @@ router.use(roleGuard('ADMIN'));
 
 router.get('/users', getUsers);
 router.put('/users/:addr/approve', approveUser);
+router.put('/users/:addr/reject', rejectUser);
 router.put('/users/:addr/suspend', suspendUser);
+router.put('/users/:addr/role', changeUserRole);
 router.get('/node-status', getNodeStatus);
 router.get('/chain-info', getChainInfo);
 router.get('/contract-config', getContractConfig);

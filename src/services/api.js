@@ -428,6 +428,10 @@ export const batchApi = {
       headers: { 'Content-Type': 'multipart/form-data' },
     })
   },
+
+  async updateReportHash(batchId, reportHash) {
+    return await http.put(`/batches/${batchId}/report-hash`, { reportHash })
+  },
 }
 
 export const traceApi = {

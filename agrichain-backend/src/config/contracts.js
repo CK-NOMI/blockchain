@@ -1,32 +1,32 @@
-// 4号农户模块专用：加载2号交付的已部署合约 ABI 和地址
-// 与旧 contracts.js 隔离，不影响其他模块
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-function loadV2ABI(name) {
-  const abiPath = path.resolve(__dirname, `../contracts/abis/${name}.abi`);
+function loadABI(name) {
+  const abiPath = path.resolve(__dirname, `../../../contract_build_info/${name}.abi`);
   if (fs.existsSync(abiPath)) {
     return JSON.parse(fs.readFileSync(abiPath, 'utf8'));
   }
   return [];
 }
 
-const contractsV2 = {
-  RoleManagerV2: {
+// 4号原 contractsV2.js（RoleManagerV2 / TraceManagerV2 / AuditManagerV2）与此文件
+// ABI 和地址完全相同，已合并至此，V2 后缀不再使用。
+const contractsConfig = {
+  RoleManager: {
     address: process.env.ROLE_MANAGER_ADDRESS || '',
-    abi: loadV2ABI('RoleManager'),
+    abi: loadABI('RoleManager'),
   },
-  TraceManagerV2: {
+  TraceManager: {
     address: process.env.TRACE_MANAGER_ADDRESS || '',
-    abi: loadV2ABI('TraceManager'),
+    abi: loadABI('TraceManager'),
   },
-  AuditManagerV2: {
+  AuditManager: {
     address: process.env.AUDIT_MANAGER_ADDRESS || '',
-    abi: loadV2ABI('AuditManager'),
+    abi: loadABI('AuditManager'),
   },
 };
 
-export default contractsV2;
+export default contractsConfig;

@@ -214,10 +214,20 @@ const batchExists = ref(true)
 onMounted(async () => {
   if (!batchId) return
   try {
-    await batchApi.getBatchDetail(batchId)
+    const res = await batchApi.getBatchDetail(batchId)
+    const d = res?.data || res
+    if (d && d.principalName) {
+      // 已存在农事记录，回填表单
+      form.plantDate = d.plantDate || ''
+      form.sowingDate = d.sowingDate || ''
+      form.harvestDate = d.harvestDate || ''
+      form.fertilizerRecord = d.fertilizerRecord || ''
+      form.pesticideRecord = d.pesticideRecord || ''
+      form.principalName = d.principalName || ''
+    }
   } catch {
     batchExists.value = false
-    errorMsg.value = '批次不存在，请先在“我的批次”中选择已创建的真实批次'
+    errorMsg.value = '批次不存在，请先在”我的批次”中选择已创建的真实批次'
   }
 })
 
@@ -281,7 +291,7 @@ async function handleSubmit() {
 
     const result = await batchApi.addFarmRecord(batchId, payload)
     successInfo.value = {
-      txHash: result.txHash || '',
+      txHash: result.transactionHash || '',
       blockNumber: result.blockNumber ?? '',
     }
   } catch (err) {

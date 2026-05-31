@@ -7,8 +7,12 @@ import { fileURLToPath } from 'url';
 import fs from 'fs';
 
 import config from './config/index.js';
+import fiscoConfig from './config/fisco.js';
 import logger from './utils/logger.js';
 
+import { ethers } from 'ethers';
+import { sequelize } from './models/index.js';
+import { initUsers } from './services/userStore.js';
 import authRoutes from './routes/auth.js';
 import batchRoutes from './routes/batches.js';
 import traceRoutes from './routes/trace.js';
@@ -64,6 +68,41 @@ app.use((_req, res) => {
 // 错误处理
 app.use(errorHandler);
 
+// 数据库初始化 + 种子用户（先完成，引导循环依赖此完成）
+const dbInit = (async () => {
+  try {
+    await sequelize.sync();
+    logger.info('数据库表已同步');
+    await initUsers();
+  } catch (err) {
+    logger.warn({ error: err.message }, '数据库初始化失败，部分功能不可用');
+  }
+})();
+
+// 启动时只导入部署者密钥（供 fiscoClient.callContract 签名用），用户密钥在各户登录时按需导入
+(async () => {
+  await dbInit;
+  const WEBASE = fiscoConfig.webaseFront.url;
+  try {
+    const health = await fetch(`${WEBASE}/${fiscoConfig.webaseFront.groupId}/web3/blockNumber`);
+    if (!health.ok) throw new Error(`HTTP ${health.status}`);
+    logger.info('WeBASE-Front 已就绪');
+
+    const deployerPk = fiscoConfig.fisco.systemPrivateKey;
+    if (deployerPk) {
+      const deployerWallet = new ethers.Wallet(deployerPk);
+      try {
+        await fetch(`${WEBASE}/privateKey/import?privateKey=${deployerPk}&userName=deployer_admin`, { method: 'GET' });
+        logger.info(`[bootstrap] 部署者密钥已导入 WeBASE: ${deployerWallet.address}`);
+      } catch (e) {
+        logger.warn(`[bootstrap] 部署者密钥导入失败: ${e.message}`);
+      }
+    }
+  } catch (e) {
+    logger.warn(`WeBASE-Front 未就绪（${e.message}），用户链上引导延后至登录时`);
+  }
+})();
+
 app.listen(config.port, () => {
   logger.info(`AgriChain backend running on http://127.0.0.1:${config.port}`);
   logger.info(`Environment: ${config.nodeEnv}`);
@@ -77,6 +116,8 @@ app.listen(config.port, () => {
   }).catch((err) => {
     logger.warn({ error: err.message }, 'chain self-check skipped');
   });
+  logger.info(`WeBASE-Front: ${fiscoConfig.webaseFront.url}`);
+
 });
 
 export default app;
