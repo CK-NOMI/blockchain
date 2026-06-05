@@ -20,7 +20,7 @@
 
     <section class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
       <div class="flex items-center justify-between mb-4">
-        <h2 class="text-lg font-bold text-slate-900">待运输任务</h2>
+        <h2 class="text-lg font-bold text-slate-900">运输相关批次</h2>
         <button class="text-sm text-blue-600 font-semibold" @click="$router.push('/logistics/pending')">查看全部</button>
       </div>
       <div class="overflow-x-auto">
@@ -39,17 +39,18 @@
               <td colspan="5" class="px-4 py-8 text-center text-slate-400">加载中...</td>
             </tr>
             <tr v-else-if="!rows.length" class="border-t border-slate-100">
-              <td colspan="5" class="px-4 py-8 text-center text-slate-400">暂无待运输批次</td>
+              <td colspan="5" class="px-4 py-8 text-center text-slate-400">暂无运输相关批次</td>
             </tr>
             <tr v-for="row in rows" :key="row.id" class="border-t border-slate-100">
               <td class="px-4 py-3 font-mono text-xs">{{ row.id }}</td>
               <td class="px-4 py-3 text-slate-700">{{ row.product }}</td>
               <td class="px-4 py-3 text-slate-500">{{ row.owner || '--' }}</td>
               <td class="px-4 py-3">
-                <span class="px-2 py-1 rounded-full text-xs font-semibold" :class="statusClass(row.status)">{{ row.status }}</span>
+                <span class="px-2 py-1 rounded-full text-xs font-semibold" :class="statusClass(row.status)">{{ row.statusLabel || row.status }}</span>
               </td>
               <td class="px-4 py-3">
-                <button class="px-3 py-1.5 text-xs font-semibold bg-blue-600 text-white rounded-md" @click="acceptTask(row)">接收任务</button>
+                <button v-if="Number(row.statusCode ?? row.chainStatusCode) === 2" class="px-3 py-1.5 text-xs font-semibold bg-blue-600 text-white rounded-md" @click="acceptTask(row)">接收任务</button>
+                <button v-else class="px-3 py-1.5 text-xs font-semibold border border-slate-300 text-slate-700 rounded-md" @click="$router.push(`/logistics/batch-detail/${row.batchId || row.id}`)">详情</button>
               </td>
             </tr>
           </tbody>
@@ -71,9 +72,9 @@ const loading = computed(() => store.loading)
 const rows = computed(() => store.pendingBatches || [])
 
 const stats = computed(() => [
-  { label: '待运输', value: rows.value.filter(r => r.status === '待处理' || r.status === 'Processed').length },
-  { label: '运输中', value: rows.value.filter(r => r.status === '运输中' || r.status === 'Transporting').length },
-  { label: '已送达', value: rows.value.filter(r => r.status === '已送达' || r.status === 'Delivered').length },
+  { label: '待运输', value: rows.value.filter(r => Number(r.statusCode ?? r.chainStatusCode) === 2).length },
+  { label: '已运输', value: rows.value.filter(r => Number(r.statusCode ?? r.chainStatusCode) >= 3).length },
+  { label: '后续完成', value: rows.value.filter(r => Number(r.statusCode ?? r.chainStatusCode) >= 4).length },
   { label: '今日上链', value: '--' },
 ])
 

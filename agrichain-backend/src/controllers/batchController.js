@@ -40,6 +40,12 @@ const STATE_LABELS = [
   { status: '加工记录已提交', code: 'ProcessRecorded', cls: 'bg-emerald-100 text-emerald-700' },
   { status: '物流记录已提交', code: 'LogisticsRecorded', cls: 'bg-emerald-100 text-emerald-700' },
   { status: '零售记录已提交', code: 'RetailRecorded', cls: 'bg-emerald-100 text-emerald-700' },
+  { status: '已过期', code: 'Expired', cls: 'bg-rose-100 text-rose-700' },
+  { status: '已售出', code: 'Sold', cls: 'bg-slate-100 text-slate-700' },
+  { status: '已入库', code: 'Stored', cls: 'bg-blue-100 text-blue-700' },
+  { status: '已上架', code: 'OnSale', cls: 'bg-emerald-100 text-emerald-700' },
+  { status: '已售罄', code: 'SoldOut', cls: 'bg-slate-100 text-slate-700' },
+  { status: '异常', code: 'Abnormal', cls: 'bg-rose-100 text-rose-700' },
 ];
 function stateInfo(s) {
   const label = STATE_LABELS[s] || STATE_LABELS[0];
@@ -78,8 +84,7 @@ function formatTimeline(timeline = []) {
 }
 
 function formatDashboardRow(batch) {
-  return {
-    id: batch.id || batch.batchId,
+  return {    batchId: batch.batchId || batch.id,
     product: batch.product || batch.productName || '',
     origin: batch.origin || '',
     owner: batch.owner || batch.farmer || '',

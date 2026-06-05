@@ -457,10 +457,13 @@ export const traceApi = {
 export const adminApi = {
   async getUsers(params) { return await http.get('/admin/users', { params }) },
   async approveUser(addr) { return await http.put(`/admin/users/${addr}/approve`) },
+  async rejectUser(addr, reason) { return await http.put(`/admin/users/${addr}/reject`, { reason }) },
   async suspendUser(addr) { return await http.put(`/admin/users/${addr}/suspend`) },
+  async changeUserRole(addr, role) { return await http.put(`/admin/users/${addr}/role`, { role }) },
   async getNodeStatus() { return await http.get('/admin/node-status') },
   async getChainInfo() { return await http.get('/admin/chain-info') },
   async getContractConfig() { return await http.get('/admin/contract-config') },
+  async getLogs() { return await http.get('/admin/logs') },
 }
 
 export const auditApi = {

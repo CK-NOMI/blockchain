@@ -9,18 +9,7 @@ import logger from '../utils/logger.js';
 
 export async function getUsers(req, res) {
   try {
-    const localUsers = await userStore.listUsers({});
-    const users = [];
-    for (const u of localUsers) {
-      users.push({
-        address: u.address,
-        username: u.username,
-        role: u.role,
-        organization: u.organization,
-        isActive: u.isActive,
-        createdAt: u.createdAt,
-      });
-    }
+    const users = await userStore.listUsers(req.query || {});
     res.json({ code: 0, data: users, summary: await userStore.getSummary(), msg: 'ok' });
   } catch (err) {
     res.json({ code: 0, data: [], summary: await userStore.getSummary(), msg: 'ok' });

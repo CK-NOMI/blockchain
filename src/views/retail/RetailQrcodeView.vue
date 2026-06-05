@@ -18,7 +18,10 @@
       <section class="col-span-12 lg:col-span-6 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm text-center">
         <h2 class="text-lg font-semibold text-slate-800 mb-4">消费者溯源码</h2>
         <div class="inline-block bg-white border-4 border-slate-900 rounded-2xl p-4 mb-4">
-          <div ref="qrcodeRef" class="w-48 h-48 mx-auto"></div>
+          <div ref="qrcodeRef" class="w-48 h-48 mx-auto flex items-center justify-center">
+            <img v-if="qrcodeDataUrl" :src="qrcodeDataUrl" alt="溯源二维码" class="w-48 h-48" />
+            <span v-else class="text-xs text-slate-400">二维码生成中...</span>
+          </div>
         </div>
         <p class="text-xs text-slate-500 mt-2">扫描二维码查看完整溯源信息</p>
         <p class="text-[10px] text-slate-400 font-mono mt-1">{{ traceUrl }}</p>
@@ -57,6 +60,7 @@ import QRCode from 'qrcode'
 const route = useRoute()
 const store = useRetailStore()
 const qrcodeRef = ref(null)
+const qrcodeDataUrl = ref('')
 
 const batchId = computed(() => route.params.batchId || '')
 const batch = computed(() => store.currentBatch)
@@ -74,22 +78,19 @@ const chainVerified = computed(() => {
 })
 
 async function renderQrcode() {
-  if (!qrcodeRef.value) return
   try {
-    QRCode.toCanvas(qrcodeRef.value, traceUrl.value, { width: 192, margin: 0 })
+    qrcodeDataUrl.value = await QRCode.toDataURL(traceUrl.value, { width: 192, margin: 0, errorCorrectionLevel: 'M' })
   } catch {
-    qrcodeRef.value.innerHTML = '<p class="text-slate-400 text-xs">二维码加载失败</p>'
+    qrcodeDataUrl.value = ''
   }
 }
 
 function downloadQrcode() {
-  const canvas = qrcodeRef.value?.querySelector?.('canvas') || qrcodeRef.value
-  if (canvas) {
-    const link = document.createElement('a')
-    link.download = `trace-${batchId.value}.png`
-    link.href = canvas.toDataURL('image/png')
-    link.click()
-  }
+  if (!qrcodeDataUrl.value) return
+  const link = document.createElement('a')
+  link.download = `trace-${batchId.value}.png`
+  link.href = qrcodeDataUrl.value
+  link.click()
 }
 
 function copyLink() {

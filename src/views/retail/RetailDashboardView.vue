@@ -20,7 +20,7 @@
 
     <section class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
       <div class="flex items-center justify-between mb-4">
-        <h2 class="text-lg font-bold text-slate-900">在售商品</h2>
+        <h2 class="text-lg font-bold text-slate-900">零售相关批次</h2>
         <button class="text-sm text-blue-600 font-semibold" @click="$router.push(`/retail/sale-status/${rows[0]?.batchId || rows[0]?.id || ''}`)">销售管理</button>
       </div>
       <div class="overflow-x-auto">
@@ -39,7 +39,7 @@
               <td colspan="5" class="px-4 py-8 text-center text-slate-400">加载中...</td>
             </tr>
             <tr v-else-if="!rows.length" class="border-t border-slate-100">
-              <td colspan="5" class="px-4 py-8 text-center text-slate-400">暂无在售批次</td>
+              <td colspan="5" class="px-4 py-8 text-center text-slate-400">暂无零售相关批次</td>
             </tr>
             <tr v-for="row in rows" :key="row.id || row.batchId" class="border-t border-slate-100">
               <td class="px-4 py-3 font-mono text-xs">{{ row.batchId || row.id }}</td>
@@ -69,9 +69,9 @@ const store = useRetailStore()
 const rows = computed(() => store.pendingBatches || [])
 
 const stats = computed(() => [
-  { label: '待入库', value: rows.value.filter(r => (r.status || '').includes('Delivered') || (r.status || '').includes('已送达')).length },
-  { label: '在售', value: rows.value.filter(r => (r.saleStatus || r.status || '').includes('OnSale') || (r.saleStatus || r.status || '').includes('在售')).length },
-  { label: '已售罄', value: rows.value.filter(r => (r.saleStatus || r.status || '').includes('SoldOut') || (r.saleStatus || r.status || '').includes('售罄')).length },
+  { label: '待入库', value: rows.value.filter(r => Number(r.statusCode ?? r.chainStatusCode) === 3).length },
+  { label: '已入库', value: rows.value.filter(r => [4, 7].includes(Number(r.statusCode ?? r.chainStatusCode))).length },
+  { label: '在售/售罄', value: rows.value.filter(r => [8, 9].includes(Number(r.statusCode ?? r.chainStatusCode))).length },
   { label: '今日入库', value: '--' },
 ])
 

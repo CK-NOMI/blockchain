@@ -36,6 +36,33 @@ import ProcessorBatchDetailView from '../views/processor/ProcessorBatchDetailVie
 import LoginView from '../views/public/LoginView.vue'
 import RegisterView from '../views/public/RegisterView.vue'
 import PendingView from '../views/public/PendingView.vue'
+import ForbiddenView from '../views/public/ForbiddenView.vue'
+import NotFoundView from '../views/public/NotFoundView.vue'
+import LogoutView from '../views/public/LogoutView.vue'
+
+import AdminDashboardView from '../views/admin/AdminDashboardView.vue'
+import AdminUserAuditView from '../views/admin/AdminUserAuditView.vue'
+import AdminUserRoleView from '../views/admin/AdminUserRoleView.vue'
+import AdminNodeStatusView from '../views/admin/AdminNodeStatusView.vue'
+import AdminContractConfigView from '../views/admin/AdminContractConfigView.vue'
+import AdminLogsView from '../views/admin/AdminLogsView.vue'
+
+import RegulatorDashboardView from '../views/regulator/RegulatorDashboardView.vue'
+import RegulatorSearchView from '../views/regulator/RegulatorSearchView.vue'
+import RegulatorAbnormalListView from '../views/regulator/RegulatorAbnormalListView.vue'
+import RegulatorBatchDetailView from '../views/regulator/RegulatorBatchDetailView.vue'
+import RegulatorFlagView from '../views/regulator/RegulatorFlagView.vue'
+import RegulatorEvidenceView from '../views/regulator/RegulatorEvidenceView.vue'
+import RegulatorAuditView from '../views/regulator/RegulatorAuditView.vue'
+import RegulatorAuditLogsView from '../views/regulator/RegulatorAuditLogsView.vue'
+import RegulatorStatsView from '../views/regulator/RegulatorStatsView.vue'
+
+import SearchView from '../views/consumer/SearchView.vue'
+import TraceDetailView from '../views/consumer/TraceDetailView.vue'
+import TraceTimelineView from '../views/consumer/TraceTimelineView.vue'
+import TraceVerifyView from '../views/consumer/TraceVerifyView.vue'
+import TraceFeedbackView from '../views/consumer/TraceFeedbackView.vue'
+import TraceFeedbackSuccessView from '../views/consumer/TraceFeedbackSuccessView.vue'
 import { resolveLandingByRole } from '../config/auth'
 import { inferSlugByPath } from '../config/prototypeFlow'
 import { useAuthStore } from '../stores'
@@ -67,6 +94,54 @@ const routes = [
   { path: '/public/login', redirect: '/login' },
   { path: '/public/register', redirect: '/register' },
   { path: '/pending', redirect: '/public/pending' },
+  // 非 mock 模式真实页面优先路由
+  ...(!isMock ? [
+    { path: '/common/403', component: ForbiddenView, meta: { title: '无权限' } },
+    { path: '/common/404', component: NotFoundView, meta: { title: '页面不存在' } },
+    { path: '/public/logout', component: LogoutView, meta: { title: '退出确认' } },
+    { path: '/public/logout-alt', redirect: '/public/logout' },
+    {
+      path: '/admin',
+      component: AppLayout,
+      meta: { role: 'ADMIN' },
+      children: [
+        { path: '', redirect: '/admin/dashboard' },
+        { path: 'dashboard', component: AdminDashboardView, meta: { title: '平台概览' } },
+        { path: 'user-audit', component: AdminUserAuditView, meta: { title: '用户审核' } },
+        { path: 'user-role', component: AdminUserRoleView, meta: { title: '用户与角色' } },
+        { path: 'node-status', component: AdminNodeStatusView, meta: { title: '节点状态' } },
+        { path: 'contract-config', component: AdminContractConfigView, meta: { title: '合约配置' } },
+        { path: 'logs', component: AdminLogsView, meta: { title: '操作日志' } },
+      ],
+    },
+    {
+      path: '/regulator',
+      component: AppLayout,
+      meta: { role: 'REGULATOR' },
+      children: [
+        { path: '', redirect: '/regulator/dashboard' },
+        { path: 'dashboard', component: RegulatorDashboardView, meta: { title: '监管看板' } },
+        { path: 'search', component: RegulatorSearchView, meta: { title: '综合检索' } },
+        { path: 'abnormal', component: RegulatorAbnormalListView, meta: { title: '异常批次' } },
+        { path: 'batch-detail/:batchId', component: RegulatorBatchDetailView, meta: { title: '批次详情' } },
+        { path: 'flag/:batchId', component: RegulatorFlagView, meta: { title: '标记异常' } },
+        { path: 'evidence/:batchId', component: RegulatorEvidenceView, meta: { title: '证据链' } },
+        { path: 'evidence-v2/:batchId', redirect: (to) => '/regulator/evidence/' + to.params.batchId },
+        { path: 'audit/:batchId', component: RegulatorAuditView, meta: { title: '审计处理' } },
+        { path: 'audit-logs', component: RegulatorAuditLogsView, meta: { title: '审计日志' } },
+        { path: 'stats', component: RegulatorStatsView, meta: { title: '风险统计' } },
+      ],
+    },
+    { path: '/trace/search', component: SearchView, meta: { title: '消费者查询', isMobile: true } },
+    { path: '/trace/timeline/:batchId', component: TraceTimelineView, meta: { title: '溯源时间线', isMobile: true } },
+    { path: '/trace/timeline-h5/:batchId', redirect: (to) => '/trace/timeline/' + to.params.batchId },
+    { path: '/trace/verify/:batchId', component: TraceVerifyView, meta: { title: '溯源验真', isMobile: true } },
+    { path: '/trace/verify-v2/:batchId', redirect: (to) => '/trace/verify/' + to.params.batchId },
+    { path: '/trace/feedback/:batchId', component: TraceFeedbackView, meta: { title: '问题反馈', isMobile: true } },
+    { path: '/trace/feedback/success', component: TraceFeedbackSuccessView, meta: { title: '反馈成功', isMobile: true } },
+    { path: '/trace/feedback/success-v2', redirect: '/trace/feedback/success' },
+    { path: '/trace/:batchId', component: TraceDetailView, meta: { title: '溯源详情', isMobile: true } },
+  ] : []),
   { path: '/common/403', ...P('p04_pc'), meta: { title: '无权限' } },
   { path: '/common/404', ...P('p05_404_pc'), meta: { title: '页面不存在' } },
   { path: '/public/logout', ...P('p06_pc_1'), meta: { title: '退出确认' } },

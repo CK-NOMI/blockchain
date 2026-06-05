@@ -36,7 +36,7 @@
               <td class="px-4 py-3 text-slate-500">{{ row.processor || '--' }}</td>
               <td class="px-4 py-3 text-slate-500">{{ row.processedAt || row.updatedAt || '--' }}</td>
               <td class="px-4 py-3">
-                <span class="px-2 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-700">待运输</span>
+                <span class="px-2 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-700">{{ row.statusLabel || '待运输' }}</span>
               </td>
               <td class="px-4 py-3">
                 <button class="px-3 py-1.5 text-xs font-semibold bg-blue-600 text-white rounded-md" @click="acceptTask(row)">接收任务</button>
@@ -57,7 +57,7 @@ import { useLogisticsStore } from '../../stores'
 const router = useRouter()
 const store = useLogisticsStore()
 
-const rows = computed(() => store.pendingBatches || [])
+const rows = computed(() => (store.pendingBatches || []).filter((row) => Number(row.statusCode ?? row.chainStatusCode) === 2))
 
 function acceptTask(row) {
   const batchId = row.batchId || row.id

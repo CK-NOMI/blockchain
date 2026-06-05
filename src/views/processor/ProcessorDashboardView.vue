@@ -265,7 +265,7 @@ onMounted(async () => {
     const data = await batchApi.getDashboardRows('PROCESSOR')
     if (data && data.length) {
       allBatches.value = data.map((item) => ({
-        batchId: item.id,
+        batchId: item.batchId || item.id,
         productName: item.product,
         farmer: item.farmer,
         origin: item.origin,

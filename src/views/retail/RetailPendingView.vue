@@ -40,7 +40,7 @@
                 </span>
               </td>
               <td class="px-4 py-3">
-                <span class="px-2 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-700">待入库</span>
+                <span class="px-2 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-700">{{ row.statusLabel || '待入库' }}</span>
               </td>
               <td class="px-4 py-3">
                 <button class="px-3 py-1.5 text-xs font-semibold bg-blue-600 text-white rounded-md" @click="acceptTask(row)">入库验收</button>
@@ -61,7 +61,7 @@ import { useRetailStore } from '../../stores'
 const router = useRouter()
 const store = useRetailStore()
 
-const rows = computed(() => store.pendingBatches || [])
+const rows = computed(() => (store.pendingBatches || []).filter((row) => Number(row.statusCode ?? row.chainStatusCode) === 3))
 
 function acceptTask(row) {
   const batchId = row.batchId || row.id
